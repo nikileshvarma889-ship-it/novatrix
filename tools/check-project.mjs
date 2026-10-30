@@ -68,8 +68,9 @@ for (const slug of slugs.length ? slugs : listProjects()) {
         else if (f.status !== "verified") (strict ? errors : warnings).push(`${where}: fact ${fid} still ${f.status} — "${f.claim}"`);
       }
       const voDir = path.join(PUBLIC, "projects", slug, "voiceover", cut.id);
-      if (s.narration?.length && !fs.readdirSync(voDir, { withFileTypes: true }).some((d) => d.name.startsWith(`${s.id}.`)))
-        missingVo.push(s.id);
+      const hasFile = fs.existsSync(voDir) && fs.readdirSync(voDir).some((f) => f.startsWith(`${s.id}.`) && !f.endsWith(".srt"));
+      if (s.narration?.length && !hasFile) missingVo.push(s.id);
+      if (!s.narration?.length && hasFile) warnings.push(`${where}: has a voiceover file but no narration text — the file is ignored; delete it`);
     }
     if (missingVo.length) warnings.push(`${cut.id}: no voiceover yet for ${missingVo.length} scene(s): ${missingVo.join(", ")}`);
   }

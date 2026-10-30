@@ -115,6 +115,8 @@ function sentenceSpans(lines: Line[], speechStart: number, speechEnd: number, si
 function buildScene(scene: Scene, index: number, vo: AudioFile | undefined, cps: number, isLast: boolean): SceneTiming {
   const lines = scene.narration ?? [];
   const hasNarration = lines.length > 0;
+  // A leftover recording for a scene that no longer has narration is ignored.
+  if (!hasNarration) vo = undefined;
   const voFrom = sec(scene.leadIn ?? (hasNarration ? TIMING.defaultLeadIn : 0));
   const transitionFrames = isLast ? 0 : TRANSITION_FRAMES[scene.transition ?? "fade"];
 
