@@ -1,23 +1,21 @@
 import { loadFont } from "@remotion/fonts";
 import { staticFile } from "remotion";
-import { FONTS } from "./config";
 
-const faces: [string, string, string][] = [
-  [FONTS.display, "space-grotesk-latin-500-normal.woff2", "500"],
-  [FONTS.display, "space-grotesk-latin-700-normal.woff2", "700"],
-  [FONTS.body, "inter-latin-400-normal.woff2", "400"],
-  [FONTS.body, "inter-latin-600-normal.woff2", "600"],
-  [FONTS.body, "inter-latin-800-normal.woff2", "800"],
+const faces: { family: string; file: string; weight: string; style?: string }[] = [
+  { family: "Cormorant Garamond", file: "cormorant-garamond-latin-500-normal.woff2", weight: "500" },
+  { family: "Cormorant Garamond", file: "cormorant-garamond-latin-600-normal.woff2", weight: "600" },
+  { family: "Cormorant Garamond", file: "cormorant-garamond-latin-700-normal.woff2", weight: "700" },
+  { family: "Cormorant Garamond", file: "cormorant-garamond-latin-500-italic.woff2", weight: "500", style: "italic" },
+  { family: "Inter", file: "inter-latin-400-normal.woff2", weight: "400" },
+  { family: "Inter", file: "inter-latin-600-normal.woff2", weight: "600" },
+  { family: "Noto Sans Telugu", file: "noto-sans-telugu-telugu-500-normal.woff2", weight: "500" },
 ];
 
 let loaded = false;
 export function ensureFonts() {
   if (loaded) return;
   loaded = true;
-  for (const [family, file, weight] of faces) {
-    loadFont({ family, url: staticFile(`fonts/${file}`), weight, format: "woff2" });
+  for (const f of faces) {
+    loadFont({ family: f.family, url: staticFile(`fonts/${f.file}`), weight: f.weight, style: f.style ?? "normal", format: "woff2" });
   }
 }
-
-export const displayFont = `'${FONTS.display}', 'Inter', sans-serif`;
-export const bodyFont = `'${FONTS.body}', sans-serif`;

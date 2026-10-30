@@ -1,47 +1,53 @@
 #!/usr/bin/env node
-// Optional: builds a robotic "scratch" voiceover with espeak-ng so you can
-// check pacing and subtitle sync before recording the real narration.
-// Writes public/voiceover/<segment>.wav, but never overwrites your own files.
-// Remove them with: npm run scratch-voiceover -- --clean
+// Builds a robotic "scratch" narration with espeak-ng, in the project's
+// narration language, to check pacing and subtitle sync before the real
+// voice is recorded. It is NOT for publishing.
+// Never overwrites real recordings; remove with --clean.
+// Usage: node tools/scratch-voiceover.mjs <slug> [--clean]
 import { execFileSync, spawnSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
-import { fileURLToPath } from "node:url";
+import { PUBLIC, loadProject } from "./lib.mjs";
 
-const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const dir = path.join(root, "public/voiceover");
-const marker = path.join(dir, ".scratch.json");
-const narration = JSON.parse(fs.readFileSync(path.join(root, "src/content/narration.json"), "utf8"));
+const slug = process.argv[2];
+if (!slug) {
+  console.error("Usage: npm run scratch-voiceover -- <slug> [--clean]");
+  process.exit(1);
+}
+const { project, cuts } = loadProject(slug);
+const base = path.join(PUBLIC, "projects", slug, "voiceover");
+const marker = path.join(base, ".scratch.json");
 const scratch = fs.existsSync(marker) ? JSON.parse(fs.readFileSync(marker, "utf8")) : [];
 
 if (process.argv.includes("--clean")) {
-  for (const f of scratch) fs.rmSync(path.join(dir, f), { force: true });
+  for (const f of scratch) fs.rmSync(path.join(base, f), { force: true });
   fs.rmSync(marker, { force: true });
-  console.log(`Removed ${scratch.length} scratch voiceover files.`);
+  console.log(`Removed ${scratch.length} scratch narration files.`);
   process.exit(0);
 }
-
 if (spawnSync("espeak-ng", ["--version"]).status !== 0) {
-  console.error("espeak-ng is not installed (e.g. `sudo apt install espeak-ng` or `brew install espeak-ng`).");
+  console.error("espeak-ng is not installed (apt install espeak-ng / brew install espeak-ng).");
   process.exit(1);
 }
 
-fs.mkdirSync(dir, { recursive: true });
-const existing = fs.readdirSync(dir);
 const written = new Set(scratch);
-for (const [id, sentences] of Object.entries(narration)) {
-  const mine = existing.find((f) => f.toLowerCase().replace(/^\d+[-_ ]*/, "").startsWith(id) && !scratch.includes(f));
-  if (mine) {
-    console.log(`  ${id}: keeping your file ${mine}`);
-    continue;
+for (const cut of cuts) {
+  const dir = path.join(base, cut.id);
+  fs.mkdirSync(dir, { recursive: true });
+  for (const s of cut.scenes) {
+    if (!s.narration?.length) continue;
+    const file = `${s.id}.wav`;
+    const relFile = `${cut.id}/${file}`;
+    const own = fs.readdirSync(dir).find((f) => f.startsWith(`${s.id}.`) && !scratch.includes(`${cut.id}/${f}`));
+    if (own) continue;
+    const raw = path.join(dir, `.${s.id}.raw.wav`);
+    // Sentences separated by a short pause so pause detection has something to find.
+    const text = s.narration.map((l) => l.say).join(" ... ");
+    execFileSync("espeak-ng", ["-v", project.narrationLanguage, "-s", "140", "-w", raw, text]);
+    execFileSync("ffmpeg", ["-y", "-v", "error", "-i", raw, "-af", "adelay=150|150,apad=pad_dur=0.2,loudnorm=I=-16:TP=-1.5", "-ar", "44100", path.join(dir, file)]);
+    fs.rmSync(raw);
+    written.add(relFile);
   }
-  const file = `${id}.wav`;
-  const raw = path.join(dir, `.${id}.raw.wav`);
-  execFileSync("espeak-ng", ["-v", "en-us+m3", "-s", "160", "-g", "8", "-w", raw, sentences.join(" ")]);
-  // Pad 0.2s of silence at both ends and normalise loudness.
-  execFileSync("ffmpeg", ["-y", "-v", "error", "-i", raw, "-af", "adelay=200|200,apad=pad_dur=0.2,loudnorm=I=-16:TP=-1.5", "-ar", "44100", path.join(dir, file)]);
-  fs.rmSync(raw);
-  written.add(file);
-  console.log(`  ${id}: wrote ${file}`);
 }
 fs.writeFileSync(marker, JSON.stringify([...written], null, 2));
+console.log(`Scratch narration (${project.narrationLanguage}) written for ${written.size} scenes in public/projects/${slug}/voiceover/.`);

@@ -1,0 +1,144 @@
+{
+  "id": "short",
+  "format": "vertical",
+  "title": "33 Men. 69 Days. Buried Alive. (Short)",
+  "scenes": [
+    {
+      "id": "s-hook",
+      "type": "footage",
+      "visual": "tunnel-dark",
+      "motion": "push-in",
+      "leadIn": 0.3,
+      "transition": "cut",
+      "sfx": [
+        {
+          "id": "impact",
+          "at": 0.1
+        }
+      ],
+      "facts": [
+        "F01",
+        "F02"
+      ],
+      "narration": [
+        {
+          "say": "2010లో, 33 మంది కార్మికులు భూమికి 700 మీటర్ల లోతులో సజీవంగా సమాధి అయ్యారు.",
+          "sub": "In 2010, 33 miners were buried alive, 700 metres underground."
+        }
+      ]
+    },
+    {
+      "id": "s-collapse",
+      "type": "footage",
+      "visual": "dust-falling",
+      "motion": "still",
+      "transition": "fade",
+      "facts": [
+        "F01",
+        "F03"
+      ],
+      "sfx": [
+        {
+          "id": "rumble",
+          "at": 0,
+          "volume": 0.6
+        }
+      ],
+      "narration": [
+        {
+          "say": "చిలీలోని శాన్ హోసే గని కూలిపోయింది.",
+          "sub": "The San José mine in Chile had collapsed."
+        },
+        {
+          "say": "ఆహారం, నీరు చాలా తక్కువ. బయటకు దారి లేదు.",
+          "sub": "Very little food and water. No way out."
+        }
+      ]
+    },
+    {
+      "id": "s-silence",
+      "type": "footage",
+      "visual": "camp-hope",
+      "motion": "pan-right",
+      "transition": "fade",
+      "facts": [
+        "F05"
+      ],
+      "narration": [
+        {
+          "say": "17 రోజుల పాటు, వారు బతికే ఉన్నారో లేదో ఎవరికీ తెలియదు.",
+          "sub": "For 17 days, nobody knew if they were alive."
+        }
+      ]
+    },
+    {
+      "id": "s-note",
+      "type": "quote",
+      "quote": "Estamos bien en el refugio los 33.",
+      "translation": "We are well in the shelter, the 33 of us.",
+      "attribution": "22 August 2010",
+      "visual": "the-note",
+      "motion": "still",
+      "transition": "fade",
+      "facts": [
+        "F05"
+      ],
+      "narration": [
+        {
+          "say": "అప్పుడు, ఒక డ్రిల్ ఒక సందేశంతో పైకి వచ్చింది.",
+          "sub": "Then a drill came back up with a message."
+        },
+        {
+          "say": "మేము 33 మందిమి క్షేమంగా ఉన్నాం.",
+          "sub": "\"We are well in the shelter, the 33 of us.\""
+        }
+      ]
+    },
+    {
+      "id": "s-capsule",
+      "type": "footage",
+      "visual": "fenix-capsule",
+      "motion": "rise",
+      "transition": "fade",
+      "facts": [
+        "F10",
+        "F12"
+      ],
+      "narration": [
+        {
+          "say": "ఫీనిక్స్ అనే క్యాప్సూల్, వారిని ఒక్కొక్కరుగా పైకి తీసుకొచ్చింది.",
+          "sub": "A capsule called Phoenix brought them up, one by one."
+        }
+      ]
+    },
+    {
+      "id": "s-end",
+      "type": "stat",
+      "value": "69 days",
+      "label": "All 33 rescued alive",
+      "transition": "fade",
+      "facts": [
+        "F12",
+        "F13"
+      ],
+      "narration": [
+        {
+          "say": "69 రోజుల తర్వాత, 33 మందీ ప్రాణాలతో బయటపడ్డారు.",
+          "sub": "After 69 days, all 33 came out alive."
+        }
+      ]
+    },
+    {
+      "id": "s-outro",
+      "type": "brand-outro",
+      "tail": 2,
+      "transition": "fade",
+      "narration": [
+        {
+          "say": "పూర్తి కథ కోసం THE UNTOLD చూడండి.",
+          "sub": "Watch the full story on THE UNTOLD."
+        }
+      ]
+    }
+  ]
+}

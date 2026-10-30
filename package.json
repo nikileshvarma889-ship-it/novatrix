@@ -1,16 +1,18 @@
 {
-  "name": "novatrix-video-001",
+  "name": "the-untold",
   "version": "1.0.0",
   "private": true,
-  "description": "NOVATRIX video 001 — 7 FREE AI Tools That Feel Illegal to Know in 2026 (Remotion project)",
+  "description": "THE UNTOLD \u2014 cinematic documentary production system (Remotion)",
   "scripts": {
+    "studio": "node tools/scan-media.mjs && remotion studio",
     "media": "node tools/scan-media.mjs",
-    "studio": "npm run media && remotion studio",
-    "render": "npm run media && remotion render Novatrix out/novatrix-001-7-free-ai-tools.mp4 --crf=18",
-    "render:draft": "npm run media && remotion render Novatrix out/draft.mp4 --scale=0.5 --crf=28",
-    "thumbnail": "npm run media && remotion still Thumbnail out/thumbnail.png",
-    "placeholder-music": "node tools/placeholder-music.mjs",
+    "check": "node tools/check-project.mjs",
+    "render": "node tools/render.mjs",
+    "credits": "node tools/credits.mjs",
+    "new-project": "node tools/new-project.mjs",
     "scratch-voiceover": "node tools/scratch-voiceover.mjs",
+    "generate-sfx": "node tools/generate-sfx.mjs",
+    "placeholder-music": "node tools/placeholder-music.mjs",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
@@ -22,8 +24,9 @@
     "remotion": "^4.0.539"
   },
   "devDependencies": {
+    "@fontsource/cormorant-garamond": "^5.1.0",
     "@fontsource/inter": "^5.1.0",
-    "@fontsource/space-grotesk": "^5.1.0",
+    "@fontsource/noto-sans-telugu": "^5.1.0",
     "@types/node": "^22.9.0",
     "@types/react": "^18.3.12",
     "typescript": "^5.6.3"

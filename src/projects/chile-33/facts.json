@@ -1,0 +1,171 @@
+[
+  {
+    "id": "F01",
+    "claim": "On 5 August 2010 (around 14:00 local time) a collapse at the San José copper-gold mine near Copiapó, Chile, trapped 33 miners.",
+    "status": "verified",
+    "sources": [
+      {
+        "title": "Global Voices, 23 Aug 2010",
+        "url": "https://globalvoices.org/2010/08/23/chile-33-trapped-miners-are-alive/"
+      },
+      {
+        "title": "Smithsonian Magazine — The capsule that saved the Chilean miners",
+        "url": "https://www.smithsonianmag.com/innovation/the-capsule-that-saved-the-chilean-miners-5620851/"
+      }
+    ]
+  },
+  {
+    "id": "F02",
+    "claim": "The miners were trapped roughly 700 metres (about 2,300 ft) below the surface.",
+    "status": "verified",
+    "sources": [
+      {
+        "title": "Cronología del milagro en Chile (EJU, Aug 2010) — 'a 700 metros'",
+        "url": "https://eju.tv/2010/08/cronologa-del-milagro-en-chile-estn-vivos-los-33-mineros-atrapados-a-700-metros/"
+      }
+    ],
+    "note": "Sources give 688–720 m. Say 'approximately 700 metres'."
+  },
+  {
+    "id": "F03",
+    "claim": "The refuge held only very limited emergency food and water, which the men rationed.",
+    "status": "verified",
+    "sources": [
+      {
+        "title": "Global Voices, 23 Aug 2010 (food for 48 hours)",
+        "url": "https://globalvoices.org/2010/08/23/chile-33-trapped-miners-are-alive/"
+      }
+    ],
+    "note": "Do not quote specific ration sizes (e.g. 'two spoonfuls of tuna') without a source."
+  },
+  {
+    "id": "F04",
+    "claim": "The mine remained unstable after the collapse, making entry through the mine itself dangerous.",
+    "status": "needs-source",
+    "sources": [],
+    "note": "Widely reported; add a source before publishing."
+  },
+  {
+    "id": "F05",
+    "claim": "On 22 August 2010, day 17, a probe drill reached the men; a note attached to it read 'Estamos bien en el refugio los 33'.",
+    "status": "verified",
+    "sources": [
+      {
+        "title": "Spokesman-Review: 33 miners found alive in Chile after 17 days",
+        "url": "https://spokesman.com/stories/2010/aug/23/miners-found-alive-in-chile"
+      },
+      {
+        "title": "13.cl: La nota que cambió la historia",
+        "url": "https://www.13.cl/rec/articulos/la-nota-que-cambio-la-historia-en-la-mina-san-jose-estamos-bien-en-el-refugio-los-33"
+      }
+    ]
+  },
+  {
+    "id": "F06",
+    "claim": "Families gathered and camped outside the mine while they waited.",
+    "status": "needs-source",
+    "sources": [],
+    "note": "Known as Campamento Esperanza (Camp Hope). Add a source."
+  },
+  {
+    "id": "F07",
+    "claim": "Food, water, medicine and communication equipment were sent down through small boreholes.",
+    "status": "needs-source",
+    "sources": [],
+    "note": "Widely reported ('palomas'). Add a source."
+  },
+  {
+    "id": "F08",
+    "claim": "NASA specialists advised the Chilean government during the rescue (medical, nutritional, psychological, engineering).",
+    "status": "needs-source",
+    "sources": [
+      {
+        "title": "Smithsonian Magazine (NASA Engineering and Safety Center was called in)",
+        "url": "https://www.smithsonianmag.com/innovation/the-capsule-that-saved-the-chilean-miners-5620851/"
+      }
+    ],
+    "note": "Engineering role confirmed; confirm the medical/nutrition/psychological advice with a NASA source."
+  },
+  {
+    "id": "F09",
+    "claim": "The Plan B drill (Schramm T130) broke through to the miners on 9 October 2010.",
+    "status": "verified",
+    "sources": [
+      {
+        "title": "Interesting Engineering — Improbable rescue of Los 33",
+        "url": "https://interestingengineering.com/culture/improbable-rescue-of-los-33-chilean-miners-trapped-2300-feet-underground"
+      }
+    ]
+  },
+  {
+    "id": "F10",
+    "claim": "The rescue capsule Fénix 2 ('Phoenix') was built by the Chilean Navy shipyard ASMAR and carried the men up one at a time.",
+    "status": "verified",
+    "sources": [
+      {
+        "title": "Smithsonian Magazine",
+        "url": "https://www.smithsonianmag.com/innovation/the-capsule-that-saved-the-chilean-miners-5620851/"
+      },
+      {
+        "title": "CBS News — What's to become of the Fénix 2",
+        "url": "https://www.cbsnews.com/news/whats-to-become-of-the-fenix-2-phoenix-capsule"
+      }
+    ]
+  },
+  {
+    "id": "F11",
+    "claim": "The rescue began late on 12 October 2010; the first miner, Florencio Ávalos, reached the surface at 00:10 on 13 October.",
+    "status": "verified",
+    "sources": [
+      {
+        "title": "Interesting Engineering",
+        "url": "https://interestingengineering.com/culture/improbable-rescue-of-los-33-chilean-miners-trapped-2300-feet-underground"
+      }
+    ]
+  },
+  {
+    "id": "F12",
+    "claim": "The last miner, Luis Urzúa, reached the surface at 21:55 on 13 October 2010. All 33 survived.",
+    "status": "verified",
+    "sources": [
+      {
+        "title": "Interesting Engineering",
+        "url": "https://interestingengineering.com/culture/improbable-rescue-of-los-33-chilean-miners-trapped-2300-feet-underground"
+      },
+      {
+        "title": "Western Museum of Mining & Industry — Fénix II",
+        "url": "https://wmmi.org/blog-posts-archive.html/article/2022/08/03/chilean-mining-accident-and-fenix-ii-rescue-pod"
+      }
+    ]
+  },
+  {
+    "id": "F13",
+    "claim": "From collapse (5 Aug) to the last rescue (13 Oct) was 69 days.",
+    "status": "verified",
+    "sources": [
+      {
+        "title": "Date arithmetic from F01 and F12",
+        "url": ""
+      }
+    ]
+  },
+  {
+    "id": "F14",
+    "claim": "The rescue was broadcast live and followed around the world.",
+    "status": "verified",
+    "sources": [
+      {
+        "title": "AFP via search: 'followed live by millions of viewers around the world'",
+        "url": ""
+      }
+    ],
+    "note": "Do NOT say '1 billion viewers' without a source."
+  },
+  {
+    "id": "F15",
+    "claim": "The miners had no way to contact the surface before day 17.",
+    "status": "needs-source",
+    "sources": [],
+    "note": "Script says 'No phone signal'. Confirm wording."
+  }
+]

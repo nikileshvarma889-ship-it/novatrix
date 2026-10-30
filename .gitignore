@@ -1,8 +1,9 @@
 node_modules/
 out/
 .remotion/
-public/clips/.converted/
 *.log
-# Generated test media (see tools/scratch-voiceover.mjs and tools/placeholder-music.mjs)
-public/voiceover/.scratch.json
-public/music/placeholder-ambient.mp3
+# Generated media (regenerate with the npm scripts)
+public/**/footage/.converted/
+public/projects/*/voiceover/.scratch.json
+public/brand/music/placeholder-drone.mp3
+public/brand/sfx/*.wav

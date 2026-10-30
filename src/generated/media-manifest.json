@@ -1,8 +1,5 @@
 {
   "generatedAt": null,
-  "music": null,
-  "voiceover": {},
-  "clips": {},
-  "sfx": {},
-  "logo": null
+  "brand": { "music": {}, "sfx": {}, "logo": null },
+  "projects": {}
 }

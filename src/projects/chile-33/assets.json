@@ -1,0 +1,140 @@
+{
+  "desert-dusk": {
+    "file": "desert-dusk.mp4",
+    "kind": "stock",
+    "description": "Atacama desert landscape at dusk, slow aerial or wide shot",
+    "license": "Pexels / Pixabay license (free, no attribution required)",
+    "sourceUrl": "https://www.pexels.com/search/videos/atacama%20desert/"
+  },
+  "mine-entrance": {
+    "file": "mine-entrance.mp4",
+    "kind": "stock",
+    "description": "Entrance of a hillside mine, workers or trucks entering",
+    "license": "Pexels / Pixabay license",
+    "sourceUrl": "https://www.pexels.com/search/videos/mine%20tunnel/"
+  },
+  "tunnel-dark": {
+    "file": "tunnel-dark.mp4",
+    "kind": "stock",
+    "description": "Dark underground tunnel lit only by a headlamp",
+    "license": "Pexels / Pixabay license",
+    "sourceUrl": "https://www.pexels.com/search/videos/underground%20tunnel/"
+  },
+  "dust-falling": {
+    "file": "dust-falling.mp4",
+    "kind": "stock",
+    "description": "Dust and small rocks falling in darkness",
+    "license": "Pexels / Pixabay license",
+    "sourceUrl": "https://www.pexels.com/search/videos/falling%20rocks/"
+  },
+  "san-jose-site": {
+    "file": "san-jose-site.jpg",
+    "kind": "archival",
+    "description": "San José mine site, August–October 2010",
+    "credit": "Gobierno de Chile",
+    "license": "Check the license on the file page before use (Gobierno de Chile photos on Wikimedia Commons are usually CC BY 2.0)",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/Category:2010_Copiap%C3%B3_mining_accident"
+  },
+  "rescue-teams": {
+    "file": "rescue-teams.jpg",
+    "kind": "archival",
+    "description": "Rescue workers and machinery at the mine, August 2010",
+    "credit": "Gobierno de Chile",
+    "license": "Check the license on the file page before use",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/Category:2010_Copiap%C3%B3_mining_accident"
+  },
+  "camp-hope": {
+    "file": "camp-hope.jpg",
+    "kind": "archival",
+    "description": "Families' tents and flags outside the mine (Camp Hope)",
+    "credit": "Gobierno de Chile",
+    "license": "Check the license on the file page before use",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/Category:2010_Copiap%C3%B3_mining_accident"
+  },
+  "drill-rig": {
+    "file": "drill-rig.jpg",
+    "kind": "archival",
+    "description": "Drilling rig at the San José mine",
+    "credit": "Gobierno de Chile",
+    "license": "Check the license on the file page before use",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/Category:2010_Copiap%C3%B3_mining_accident"
+  },
+  "the-note": {
+    "file": "the-note.jpg",
+    "kind": "archival",
+    "description": "The note 'Estamos bien en el refugio los 33' held up after being recovered",
+    "credit": "Gobierno de Chile",
+    "license": "Check the license on the file page before use",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/Category:2010_Copiap%C3%B3_mining_accident"
+  },
+  "news-world": {
+    "file": "news-world.mp4",
+    "kind": "stock",
+    "description": "Generic newsroom screens / people watching news (no real broadcaster logos)",
+    "license": "Pexels / Pixabay license",
+    "sourceUrl": "https://www.pexels.com/search/videos/news/"
+  },
+  "nasa-team": {
+    "file": "nasa-team.jpg",
+    "kind": "archival",
+    "description": "NASA team members advising in Chile, 2010",
+    "credit": "NASA",
+    "license": "NASA media are generally public domain — check the item's page",
+    "sourceUrl": "https://images.nasa.gov/"
+  },
+  "boreholes": {
+    "file": "boreholes.jpg",
+    "kind": "archival",
+    "description": "Supply tubes ('palomas') being lowered through a borehole",
+    "credit": "Gobierno de Chile",
+    "license": "Check the license on the file page before use",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/Category:2010_Copiap%C3%B3_mining_accident"
+  },
+  "fenix-capsule": {
+    "file": "fenix-capsule.jpg",
+    "kind": "archival",
+    "description": "The Fénix 2 rescue capsule at the surface",
+    "credit": "Gobierno de Chile",
+    "license": "Check the license on the file page before use",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/Category:Fénix_2"
+  },
+  "rescue-night": {
+    "file": "rescue-night.jpg",
+    "kind": "archival",
+    "description": "Rescue wheel and capsule at night, 12–13 October 2010",
+    "credit": "Gobierno de Chile",
+    "license": "Check the license on the file page before use",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/Category:2010_Copiap%C3%B3_mining_accident"
+  },
+  "miner-surfaces": {
+    "file": "miner-surfaces.jpg",
+    "kind": "archival",
+    "description": "A rescued miner emerging from the capsule, 13 October 2010",
+    "credit": "Gobierno de Chile",
+    "license": "Check the license on the file page before use",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/Category:2010_Copiap%C3%B3_mining_accident"
+  },
+  "families-reunite": {
+    "file": "families-reunite.jpg",
+    "kind": "archival",
+    "description": "Families embracing rescued miners",
+    "credit": "Gobierno de Chile",
+    "license": "Check the license on the file page before use",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/Category:2010_Copiap%C3%B3_mining_accident"
+  },
+  "celebration": {
+    "file": "celebration.jpg",
+    "kind": "archival",
+    "description": "Celebration at the mine / Chilean flags after the final rescue",
+    "credit": "Gobierno de Chile",
+    "license": "Check the license on the file page before use",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/Category:2010_Copiap%C3%B3_mining_accident"
+  },
+  "sunrise-desert": {
+    "file": "sunrise-desert.mp4",
+    "kind": "stock",
+    "description": "Sunrise over desert mountains — hopeful closing image",
+    "license": "Pexels / Pixabay license",
+    "sourceUrl": "https://www.pexels.com/search/videos/desert%20sunrise/"
+  }
+}
