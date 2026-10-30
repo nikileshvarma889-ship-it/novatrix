@@ -58,7 +58,7 @@
     {
       "id": "s-silence",
       "type": "footage",
-      "visual": "drill-rig",
+      "visual": "camp-hope",
       "motion": "push-in",
       "transition": "fade",
       "facts": [
@@ -73,15 +73,20 @@
     },
     {
       "id": "s-note",
-      "type": "quote",
-      "quote": "Estamos bien en el refugio los 33.",
-      "translation": "We are well in the shelter, the 33 of us.",
-      "attribution": "22 August 2010",
+      "type": "footage",
       "visual": "the-note",
-      "motion": "still",
+      "motion": "push-in",
+      "caption": "22 August 2010",
       "transition": "fade",
       "facts": [
         "F05"
+      ],
+      "sfx": [
+        {
+          "id": "impact",
+          "at": 0.6,
+          "volume": 0.5
+        }
       ],
       "narration": [
         {
@@ -126,7 +131,9 @@
           "say": "69 రోజుల తర్వాత, 33 మందీ ప్రాణాలతో బయటపడ్డారు.",
           "sub": "After 69 days, all 33 came out alive."
         }
-      ]
+      ],
+      "visual": "celebration",
+      "motion": "push-in"
     },
     {
       "id": "s-outro",

@@ -367,22 +367,19 @@
       ]
     },
     {
-      "id": "the-note",
-      "type": "quote",
-      "quote": "Estamos bien en el refugio los 33.",
-      "translation": "We are well in the shelter, the 33 of us.",
-      "attribution": "Note recovered from the probe drill · 22 August 2010",
+      "id": "the-note-photo",
+      "type": "footage",
       "visual": "the-note",
-      "motion": "still",
-      "tail": 1.5,
-      "transition": "dip-to-black",
+      "motion": "push-in",
+      "caption": "Recovered from the probe drill · 22 August 2010",
+      "transition": "slow-dissolve",
       "facts": [
         "F05"
       ],
       "sfx": [
         {
           "id": "impact",
-          "at": 1.0,
+          "at": 0.8,
           "volume": 0.5
         }
       ],
@@ -394,7 +391,22 @@
         {
           "say": "Estamos bien en el refugio los 33.",
           "sub": "\"Estamos bien en el refugio los 33.\""
-        },
+        }
+      ],
+      "tail": 0.6
+    },
+    {
+      "id": "the-note",
+      "type": "quote",
+      "quote": "Estamos bien en el refugio los 33.",
+      "translation": "We are well in the shelter, the 33 of us.",
+      "attribution": "Note recovered from the probe drill · 22 August 2010",
+      "tail": 1.5,
+      "transition": "dip-to-black",
+      "facts": [
+        "F05"
+      ],
+      "narration": [
         {
           "say": "అంటే, మేము 33 మందిమి షెల్టర్‌లో క్షేమంగా ఉన్నాం.",
           "sub": "In English: \"We are well in the shelter, the 33 of us.\""
@@ -597,7 +609,7 @@
       "date": "12 October 2010",
       "place": "San José Mine",
       "detail": "Operation San Lorenzo begins",
-      "visual": "rescue-night",
+      "visual": "fenix-capsule",
       "motion": "push-in",
       "transition": "slow-dissolve",
       "facts": [
@@ -617,8 +629,8 @@
     {
       "id": "rescue-capsule",
       "type": "footage",
-      "visual": "fenix-capsule",
-      "motion": "pull-out",
+      "visual": "miner-waves",
+      "motion": "push-in",
       "transition": "slow-dissolve",
       "facts": [
         "F10",
@@ -674,8 +686,8 @@
       "date": "13 October 2010",
       "place": "21:55 local time",
       "detail": "The last miner reaches the surface",
-      "visual": "families-reunite",
-      "motion": "push-in",
+      "visual": "rescue-final-group",
+      "motion": "pull-out",
       "transition": "slow-dissolve",
       "facts": [
         "F12"
@@ -701,7 +713,9 @@
           "say": "33 మంది కార్మికులూ ప్రాణాలతో బయటపడ్డారు.",
           "sub": "All 33 miners had been rescued."
         }
-      ]
+      ],
+      "visual": "families-reunite",
+      "motion": "push-in"
     },
     {
       "id": "rescue-world",

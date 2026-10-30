@@ -12,3 +12,8 @@ Config.setOverwriteOutput(true);
 if (process.env.REMOTION_BROWSER_EXECUTABLE) {
   Config.setBrowserExecutable(process.env.REMOTION_BROWSER_EXECUTABLE);
 }
+
+// Optional: REMOTION_CONCURRENCY=4 npm run render -- <slug>
+if (process.env.REMOTION_CONCURRENCY) {
+  Config.setConcurrency(parseInt(process.env.REMOTION_CONCURRENCY, 10));
+}

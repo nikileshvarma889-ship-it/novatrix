@@ -53,7 +53,14 @@ export const Footage: React.FC<{
     <AbsoluteFill style={{ overflow: "hidden", backgroundColor: COLORS.black }}>
       {file ? (
         <AbsoluteFill style={{ transform: motionTransform(motion, p), transformOrigin: position }}>
-          {file.type === "image" ? (
+          {file.type === "image" && vertical && asset?.fitVertical === "contain" ? (
+            <>
+              <Img src={staticFile(file.file)} style={{ ...media, filter: "blur(40px) brightness(0.35)", transform: "scale(1.2)" }} />
+              <AbsoluteFill style={{ justifyContent: "center", marginTop: -240 * u }}>
+                <Img src={staticFile(file.file)} style={{ width: "100%", height: "auto", boxShadow: "0 30px 80px rgba(0,0,0,0.7)" }} />
+              </AbsoluteFill>
+            </>
+          ) : file.type === "image" ? (
             <Img src={staticFile(file.file)} style={media} />
           ) : (
             <Loop durationInFrames={Math.max(1, Math.floor((file.duration ?? 1) * VIDEO.fps))}>
@@ -110,6 +117,8 @@ export const Footage: React.FC<{
         </>
       )}
       <AbsoluteFill style={{ backgroundColor: `rgba(0,0,0,${dim})` }} />
+      {/* Keeps labels and captions legible over bright images. */}
+      <AbsoluteFill style={{ background: `linear-gradient(180deg, rgba(0,0,0,0.6) 0%, transparent ${vertical ? 14 : 20}%)` }} />
       {asset && file ? <ProvenanceTag asset={asset} /> : null}
     </AbsoluteFill>
   );

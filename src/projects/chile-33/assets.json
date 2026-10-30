@@ -52,10 +52,13 @@
   "camp-hope": {
     "file": "camp-hope.jpg",
     "kind": "archival",
-    "description": "Families' tents and flags outside the mine (Camp Hope)",
-    "credit": "Gobierno de Chile",
-    "license": "Check the license on the file page before use",
-    "sourceUrl": "https://commons.wikimedia.org/wiki/Category:2010_Copiap%C3%B3_mining_accident"
+    "description": "Families hold a candlelight vigil at the mine",
+    "credit": "Unknown — verify",
+    "license": "UNVERIFIED — supplied by the producer as a phone screenshot; find the original source and license before publishing",
+    "focus": [
+      0.4,
+      0.5
+    ]
   },
   "drill-rig": {
     "file": "drill-rig.jpg",
@@ -71,10 +74,14 @@
   "the-note": {
     "file": "the-note.jpg",
     "kind": "archival",
-    "description": "The note 'Estamos bien en el refugio los 33' held up after being recovered",
-    "credit": "Gobierno de Chile",
-    "license": "Check the license on the file page before use",
-    "sourceUrl": "https://commons.wikimedia.org/wiki/Category:2010_Copiap%C3%B3_mining_accident"
+    "description": "The handwritten note: 'Estamos bien en el refugio los 33'",
+    "credit": "Unknown — verify",
+    "license": "UNVERIFIED — supplied by the producer as a phone screenshot; find the original source and license before publishing",
+    "focus": [
+      0.5,
+      0.5
+    ],
+    "fitVertical": "contain"
   },
   "news-world": {
     "file": "news-world.mp4",
@@ -132,18 +139,24 @@
   "families-reunite": {
     "file": "families-reunite.jpg",
     "kind": "archival",
-    "description": "Families embracing rescued miners",
-    "credit": "Gobierno de Chile",
-    "license": "Check the license on the file page before use",
-    "sourceUrl": "https://commons.wikimedia.org/wiki/Category:2010_Copiap%C3%B3_mining_accident"
+    "description": "A rescued miner embraced at the surface; rescuers and a child look on",
+    "credit": "Unknown — verify",
+    "license": "UNVERIFIED — supplied by the producer as a phone screenshot; find the original source and license before publishing",
+    "focus": [
+      0.45,
+      0.4
+    ]
   },
   "celebration": {
     "file": "celebration.jpg",
     "kind": "archival",
-    "description": "Celebration at the mine / Chilean flags after the final rescue",
-    "credit": "Gobierno de Chile",
-    "license": "Check the license on the file page before use",
-    "sourceUrl": "https://commons.wikimedia.org/wiki/Category:2010_Copiap%C3%B3_mining_accident"
+    "description": "A rescued miner raises his fist as rescuers and officials cheer",
+    "credit": "Unknown — verify",
+    "license": "UNVERIFIED — supplied by the producer as a phone screenshot; find the original source and license before publishing",
+    "focus": [
+      0.55,
+      0.4
+    ]
   },
   "sunrise-desert": {
     "file": "sunrise-desert.mp4",
@@ -151,5 +164,27 @@
     "description": "Sunrise over desert mountains — hopeful closing image",
     "license": "Pexels / Pixabay license",
     "sourceUrl": "https://www.pexels.com/search/videos/desert%20sunrise/"
+  },
+  "miner-waves": {
+    "file": "miner-waves.jpg",
+    "kind": "archival",
+    "description": "A rescued miner waves beside the Fénix 2 capsule in daylight, 13 October 2010",
+    "credit": "Unknown — verify",
+    "license": "UNVERIFIED — supplied by the producer as a phone screenshot; find the original source and license before publishing",
+    "focus": [
+      0.3,
+      0.45
+    ]
+  },
+  "rescue-final-group": {
+    "file": "rescue-final-group.jpg",
+    "kind": "archival",
+    "description": "Rescuers, officials and families gathered beside the Fénix 2 capsule at night",
+    "credit": "Unknown — verify",
+    "license": "UNVERIFIED — supplied by the producer as a phone screenshot; find the original source and license before publishing",
+    "focus": [
+      0.4,
+      0.5
+    ]
   }
 }

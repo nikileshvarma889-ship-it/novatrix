@@ -23,6 +23,9 @@ export type Asset = {
   sourceUrl?: string;
   /** Focal point (0–1) used when cropping, e.g. for 9:16. */
   focus?: [number, number];
+  /** "contain" shows the whole image over a blurred fill instead of cropping.
+   *  Use for wide documents/photos that must stay legible in 9:16. */
+  fitVertical?: "cover" | "contain";
   /** Override the automatic provenance label ("" hides it). */
   label?: string;
 };

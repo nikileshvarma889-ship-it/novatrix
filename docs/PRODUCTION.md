@@ -42,21 +42,28 @@ npm run check -- chile-33 --strict
 
 ### Photos supplied by the producer (phone screenshots)
 
-Five reference photos were cropped from phone screenshots and are in use. Each is labelled "Archive photograph · Unknown — verify" on screen until its source is confirmed. `--strict` refuses to render until then.
+Eleven reference photos were cropped from phone screenshots and are in use. Each is labelled "Archive photograph · Unknown — verify" on screen until its source is confirmed. `--strict` refuses to render until then.
 
 | File | Shows | Used in |
 |---|---|---|
 | `san-jose-site.jpg` | Rescue workers and vehicles at the mine entrance | collapse-date, s-collapse |
 | `rescue-teams.jpg` | Rescue team underground with ropes and headlamps | collapse-rescuers |
 | `drill-rig.jpg` | Crew handling drill pipe at a rig | silence-drilling, fight-drill, s-silence |
-| `fenix-capsule.jpg` | The Fénix 2 capsule with rescuers and officials | fight-capsule, rescue-capsule, s-capsule |
+| `fenix-capsule.jpg` | The Fénix 2 capsule with rescuers and officials | fight-capsule, rescue-date, s-capsule |
 | `miner-surfaces.jpg` | A rescued miner being embraced | rescue-feeling |
+| `the-note.jpg` | The handwritten note "Estamos bien en el refugio los 33" | the-note-photo, s-note (shown whole in 9:16) |
+| `camp-hope.jpg` | Families holding a candlelight vigil | silence-families, s-silence |
+| `miner-waves.jpg` | A rescued miner waving beside the capsule in daylight | rescue-capsule |
+| `rescue-final-group.jpg` | Rescuers, officials and families beside Fénix 2 at night | rescue-last |
+| `families-reunite.jpg` | A rescued miner embraced at the surface | rescued (33 / 33) |
+| `celebration.jpg` | A rescued miner raising his fist as others cheer | rescue-world, s-end |
 
 For each photo:
 1. Find the original (a reverse image search works well). Many rescue photos come from the Chilean government (often CC BY 2.0); others are agency photos (AP, Reuters, Getty), which you cannot use without a paid license.
 2. Fill in `credit`, `license` and `sourceUrl` in `assets.json`.
 3. Replace the file with the original full-resolution image. The screenshots are about 1074 px wide and look soft at 1080p.
-4. Confirm the location and date of `rescue-teams.jpg`. The narration presents it as rescuers trying to get inside the mine.
+4. Do not name people in these photos on screen or in narration unless a captioned source confirms who they are.
+5. Confirm the location and date of `rescue-teams.jpg`. The narration presents it as rescuers trying to get inside the mine.
 
 These files are git-ignored, because the repository is public and their rights are unknown. Keep your own copies.
 
