@@ -1,0 +1,31 @@
+{
+  "name": "novatrix-video-001",
+  "version": "1.0.0",
+  "private": true,
+  "description": "NOVATRIX video 001 — 7 FREE AI Tools That Feel Illegal to Know in 2026 (Remotion project)",
+  "scripts": {
+    "media": "node tools/scan-media.mjs",
+    "studio": "npm run media && remotion studio",
+    "render": "npm run media && remotion render Novatrix out/novatrix-001-7-free-ai-tools.mp4",
+    "render:draft": "npm run media && remotion render Novatrix out/draft.mp4 --scale=0.5 --crf=28",
+    "thumbnail": "npm run media && remotion still Thumbnail out/thumbnail.png",
+    "placeholder-music": "node tools/placeholder-music.mjs",
+    "scratch-voiceover": "node tools/scratch-voiceover.mjs",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@remotion/cli": "^4.0.539",
+    "@remotion/fonts": "^4.0.539",
+    "@remotion/transitions": "^4.0.539",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "remotion": "^4.0.539"
+  },
+  "devDependencies": {
+    "@fontsource/inter": "^5.1.0",
+    "@fontsource/space-grotesk": "^5.1.0",
+    "@types/node": "^22.9.0",
+    "@types/react": "^18.3.12",
+    "typescript": "^5.6.3"
+  }
+}
