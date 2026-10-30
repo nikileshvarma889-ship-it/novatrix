@@ -77,7 +77,19 @@ const BackgroundMusic: React.FC = () => {
     });
     return level * fadeIn * fadeOut;
   };
-  return <Audio src={staticFile(MEDIA.music.file)} loop volume={volume} />;
+  // Loop by stacking copies instead of <Audio loop>: a looping Audio restarts
+  // the frame passed to `volume`, which would desync ducking and the fade-out.
+  const src = staticFile(MEDIA.music.file);
+  const length = Math.max(1, Math.floor(MEDIA.music.duration * fps));
+  return (
+    <>
+      {new Array(Math.ceil(TOTAL_FRAMES / length)).fill(0).map((_, i) => (
+        <Sequence key={i} from={i * length} durationInFrames={length} layout="none">
+          <Audio src={src} volume={(f) => volume(i * length + f)} />
+        </Sequence>
+      ))}
+    </>
+  );
 };
 
 /** Optional whoosh on every transition (public/sfx/whoosh.mp3). */

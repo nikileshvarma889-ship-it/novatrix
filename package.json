@@ -6,7 +6,7 @@
   "scripts": {
     "media": "node tools/scan-media.mjs",
     "studio": "npm run media && remotion studio",
-    "render": "npm run media && remotion render Novatrix out/novatrix-001-7-free-ai-tools.mp4",
+    "render": "npm run media && remotion render Novatrix out/novatrix-001-7-free-ai-tools.mp4 --crf=18",
     "render:draft": "npm run media && remotion render Novatrix out/draft.mp4 --scale=0.5 --crf=28",
     "thumbnail": "npm run media && remotion still Thumbnail out/thumbnail.png",
     "placeholder-music": "node tools/placeholder-music.mjs",
