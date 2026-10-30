@@ -41,7 +41,7 @@ const imports = ["Project", "Long", "Short", "Assets", "Facts"]
 index = index.replace("\nexport type ProjectBundle", `\n${imports}\n\nexport type ProjectBundle`);
 index = index.replace(
   "  // new-project:insert",
-  `  {\n    project: ${id}Project as Project,\n    cuts: [${id}Long as Cut, ${id}Short as Cut],\n    assets: ${id}Assets as Record<string, Asset>,\n    facts: ${id}Facts as Fact[],\n  },\n  // new-project:insert`,
+  `  {\n    project: ${id}Project as unknown as Project,\n    cuts: [${id}Long as unknown as Cut, ${id}Short as unknown as Cut],\n    assets: ${id}Assets as unknown as Record<string, Asset>,\n    facts: ${id}Facts as unknown as Fact[],\n  },\n  // new-project:insert`,
 );
 fs.writeFileSync(indexPath, index);
 console.log(`Created src/projects/${slug}/ and public/projects/${slug}/. Compositions: ${slug}-long, ${slug}-short`);

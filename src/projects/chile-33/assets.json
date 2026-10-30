@@ -30,18 +30,24 @@
   "san-jose-site": {
     "file": "san-jose-site.jpg",
     "kind": "archival",
-    "description": "San José mine site, August–October 2010",
-    "credit": "Gobierno de Chile",
-    "license": "Check the license on the file page before use (Gobierno de Chile photos on Wikimedia Commons are usually CC BY 2.0)",
-    "sourceUrl": "https://commons.wikimedia.org/wiki/Category:2010_Copiap%C3%B3_mining_accident"
+    "description": "Rescue workers and vehicles gathered at the San José mine entrance",
+    "credit": "Unknown — verify",
+    "license": "UNVERIFIED — supplied by the producer as a phone screenshot; find the original source and license before publishing",
+    "focus": [
+      0.45,
+      0.4
+    ]
   },
   "rescue-teams": {
     "file": "rescue-teams.jpg",
     "kind": "archival",
-    "description": "Rescue workers and machinery at the mine, August 2010",
-    "credit": "Gobierno de Chile",
-    "license": "Check the license on the file page before use",
-    "sourceUrl": "https://commons.wikimedia.org/wiki/Category:2010_Copiap%C3%B3_mining_accident"
+    "description": "Rescue team working underground with ropes and headlamps (confirm location and date)",
+    "credit": "Unknown — verify",
+    "license": "UNVERIFIED — supplied by the producer as a phone screenshot; find the original source and license before publishing",
+    "focus": [
+      0.5,
+      0.45
+    ]
   },
   "camp-hope": {
     "file": "camp-hope.jpg",
@@ -54,10 +60,13 @@
   "drill-rig": {
     "file": "drill-rig.jpg",
     "kind": "archival",
-    "description": "Drilling rig at the San José mine",
-    "credit": "Gobierno de Chile",
-    "license": "Check the license on the file page before use",
-    "sourceUrl": "https://commons.wikimedia.org/wiki/Category:2010_Copiap%C3%B3_mining_accident"
+    "description": "Drilling crew handling drill pipe at a rig at the mine site",
+    "credit": "Unknown — verify",
+    "license": "UNVERIFIED — supplied by the producer as a phone screenshot; find the original source and license before publishing",
+    "focus": [
+      0.5,
+      0.55
+    ]
   },
   "the-note": {
     "file": "the-note.jpg",
@@ -93,10 +102,13 @@
   "fenix-capsule": {
     "file": "fenix-capsule.jpg",
     "kind": "archival",
-    "description": "The Fénix 2 rescue capsule at the surface",
-    "credit": "Gobierno de Chile",
-    "license": "Check the license on the file page before use",
-    "sourceUrl": "https://commons.wikimedia.org/wiki/Category:Fénix_2"
+    "description": "The Fénix 2 capsule at the rescue platform, rescuers and officials around it (night, October 2010)",
+    "credit": "Unknown — verify",
+    "license": "UNVERIFIED — supplied by the producer as a phone screenshot; find the original source and license before publishing",
+    "focus": [
+      0.42,
+      0.5
+    ]
   },
   "rescue-night": {
     "file": "rescue-night.jpg",
@@ -109,10 +121,13 @@
   "miner-surfaces": {
     "file": "miner-surfaces.jpg",
     "kind": "archival",
-    "description": "A rescued miner emerging from the capsule, 13 October 2010",
-    "credit": "Gobierno de Chile",
-    "license": "Check the license on the file page before use",
-    "sourceUrl": "https://commons.wikimedia.org/wiki/Category:2010_Copiap%C3%B3_mining_accident"
+    "description": "A rescued miner embraced on reaching the surface, surrounded by rescuers",
+    "credit": "Unknown — verify",
+    "license": "UNVERIFIED — supplied by the producer as a phone screenshot; find the original source and license before publishing",
+    "focus": [
+      0.48,
+      0.45
+    ]
   },
   "families-reunite": {
     "file": "families-reunite.jpg",

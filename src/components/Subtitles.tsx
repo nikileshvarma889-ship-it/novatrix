@@ -33,6 +33,17 @@ export const Subtitles: React.FC<{ cues: Cue[] }> = ({ cues }) => {
     >
       <div
         style={{
+          position: "absolute",
+          left: "10%",
+          right: "10%",
+          top: -40 * u,
+          bottom: -40 * u,
+          background: "radial-gradient(ellipse 50% 50% at 50% 50%, rgba(0,0,0,0.55), transparent 80%)",
+        }}
+      />
+      <div
+        style={{
+          position: "relative",
           textAlign: "center",
           fontFamily: FONTS.sans,
           fontWeight: 600,

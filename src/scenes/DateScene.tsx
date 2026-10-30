@@ -21,7 +21,14 @@ export const DateScene: React.FC<{
   const { vertical, u } = useFormat();
   return (
     <AbsoluteFill>
-      <Background slug={slug} visual={visual} asset={asset} motion={motion} seed={id} dim={0.55} />
+      <Background slug={slug} visual={visual} asset={asset} motion={motion} seed={id} dim={0.45} />
+      <AbsoluteFill
+        style={{
+          background: vertical
+            ? "radial-gradient(ellipse 90% 40% at 50% 38%, rgba(0,0,0,0.7), transparent 75%)"
+            : "linear-gradient(90deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.45) 45%, transparent 75%)",
+        }}
+      />
       <AbsoluteFill
         style={{
           justifyContent: "center",

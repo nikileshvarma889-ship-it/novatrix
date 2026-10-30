@@ -16,10 +16,10 @@ export type ProjectBundle = {
 
 export const PROJECTS: ProjectBundle[] = [
   {
-    project: chile33Project as Project,
-    cuts: [chile33Long as Cut, chile33Short as Cut],
-    assets: chile33Assets as Record<string, Asset>,
-    facts: chile33Facts as Fact[],
+    project: chile33Project as unknown as Project,
+    cuts: [chile33Long as unknown as Cut, chile33Short as unknown as Cut],
+    assets: chile33Assets as unknown as Record<string, Asset>,
+    facts: chile33Facts as unknown as Fact[],
   },
   // new-project:insert
 ];

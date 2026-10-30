@@ -35,6 +35,8 @@ for (const slug of slugs.length ? slugs : listProjects()) {
     if (a.kind && !KINDS.includes(a.kind)) errors.push(`asset ${id}: unknown kind "${a.kind}"`);
     if (["archival", "stock"].includes(a.kind) && !a.license) errors.push(`asset ${id}: ${a.kind} footage needs a license`);
     if (a.kind === "archival" && !a.credit) errors.push(`asset ${id}: archival footage needs a credit`);
+    if (/UNVERIFIED/i.test(a.license ?? "") || /unknown/i.test(a.credit ?? ""))
+      (strict ? errors : warnings).push(`asset ${id}: source/license not verified yet — ${a.file}`);
     if (["reconstruction", "ai-generated"].includes(a.kind) && a.label === "")
       errors.push(`asset ${id}: ${a.kind} imagery must stay labelled on screen`);
     if (!fs.existsSync(path.join(PUBLIC, "projects", slug, "footage", a.file))) missingFootage.add(`${a.file}  (${a.kind}: ${a.description})`);

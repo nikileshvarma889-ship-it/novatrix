@@ -617,7 +617,7 @@
     {
       "id": "rescue-capsule",
       "type": "footage",
-      "visual": "rescue-night",
+      "visual": "fenix-capsule",
       "motion": "pull-out",
       "transition": "slow-dissolve",
       "facts": [

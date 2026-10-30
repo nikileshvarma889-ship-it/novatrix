@@ -30,8 +30,8 @@
     {
       "id": "s-collapse",
       "type": "footage",
-      "visual": "dust-falling",
-      "motion": "still",
+      "visual": "san-jose-site",
+      "motion": "push-in",
       "transition": "fade",
       "facts": [
         "F01",
@@ -58,8 +58,8 @@
     {
       "id": "s-silence",
       "type": "footage",
-      "visual": "camp-hope",
-      "motion": "pan-right",
+      "visual": "drill-rig",
+      "motion": "push-in",
       "transition": "fade",
       "facts": [
         "F05"

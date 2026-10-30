@@ -7,3 +7,9 @@ public/**/footage/.converted/
 public/projects/*/voiceover/.scratch.json
 public/brand/music/placeholder-drone.mp3
 public/brand/sfx/*.wav
+# Footage and narration are large and often third-party: keep them out of git
+public/projects/*/footage/*
+public/projects/*/voiceover/**/*.wav
+public/projects/*/voiceover/**/*.mp3
+public/projects/*/music/*
+!public/projects/*/**/.gitkeep

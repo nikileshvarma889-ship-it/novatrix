@@ -40,6 +40,26 @@ npm run check -- chile-33 --strict
 - **Never** present stock, AI or staged images as archival. Set their `kind` honestly; the label is then automatic.
 - **Avoid** TV-network footage, other YouTubers' clips, and stills from the film *The 33* (2015). These are copyrighted.
 
+### Photos supplied by the producer (phone screenshots)
+
+Five reference photos were cropped from phone screenshots and are in use. Each is labelled "Archive photograph · Unknown — verify" on screen until its source is confirmed. `--strict` refuses to render until then.
+
+| File | Shows | Used in |
+|---|---|---|
+| `san-jose-site.jpg` | Rescue workers and vehicles at the mine entrance | collapse-date, s-collapse |
+| `rescue-teams.jpg` | Rescue team underground with ropes and headlamps | collapse-rescuers |
+| `drill-rig.jpg` | Crew handling drill pipe at a rig | silence-drilling, fight-drill, s-silence |
+| `fenix-capsule.jpg` | The Fénix 2 capsule with rescuers and officials | fight-capsule, rescue-capsule, s-capsule |
+| `miner-surfaces.jpg` | A rescued miner being embraced | rescue-feeling |
+
+For each photo:
+1. Find the original (a reverse image search works well). Many rescue photos come from the Chilean government (often CC BY 2.0); others are agency photos (AP, Reuters, Getty), which you cannot use without a paid license.
+2. Fill in `credit`, `license` and `sourceUrl` in `assets.json`.
+3. Replace the file with the original full-resolution image. The screenshots are about 1074 px wide and look soft at 1080p.
+4. Confirm the location and date of `rescue-teams.jpg`. The narration presents it as rescuers trying to get inside the mine.
+
+These files are git-ignored, because the repository is public and their rights are unknown. Keep your own copies.
+
 Photos: 3000 px or wider looks best with the slow camera moves. For 9:16, set `"focus": [x, y]` (0–1) on an asset to choose the crop centre.
 
 ## 3. Narration (Telugu)
