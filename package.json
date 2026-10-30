@@ -13,7 +13,8 @@
     "scratch-voiceover": "node tools/scratch-voiceover.mjs",
     "generate-sfx": "node tools/generate-sfx.mjs",
     "placeholder-music": "node tools/placeholder-music.mjs",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "node tools/scan-media.mjs && tsc --noEmit",
+    "postinstall": "node tools/scan-media.mjs"
   },
   "dependencies": {
     "@remotion/cli": "^4.0.539",
