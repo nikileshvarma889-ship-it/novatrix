@@ -22,8 +22,7 @@
       ],
       "narration": [
         {
-          "say": "2010లో, 33 మంది కార్మికులు భూమికి 700 మీటర్ల లోతులో సజీవంగా సమాధి అయ్యారు.",
-          "sub": "In 2010, 33 miners were buried alive, 700 metres underground."
+          "say": "In 2010, 33 miners were buried alive, 700 metres underground."
         }
       ]
     },
@@ -46,12 +45,11 @@
       ],
       "narration": [
         {
-          "say": "చిలీలోని శాన్ హోసే గని కూలిపోయింది.",
+          "say": "The San Hosay mine in Chile had collapsed.",
           "sub": "The San José mine in Chile had collapsed."
         },
         {
-          "say": "ఆహారం, నీరు చాలా తక్కువ. బయటకు దారి లేదు.",
-          "sub": "Very little food and water. No way out."
+          "say": "Very little food and water. No way out."
         }
       ]
     },
@@ -66,8 +64,7 @@
       ],
       "narration": [
         {
-          "say": "17 రోజుల పాటు, వారు బతికే ఉన్నారో లేదో ఎవరికీ తెలియదు.",
-          "sub": "For 17 days, nobody knew if they were alive."
+          "say": "For 17 days, nobody knew if they were alive."
         }
       ]
     },
@@ -90,11 +87,10 @@
       ],
       "narration": [
         {
-          "say": "అప్పుడు, ఒక డ్రిల్ ఒక సందేశంతో పైకి వచ్చింది.",
-          "sub": "Then a drill came back up with a message."
+          "say": "Then a drill came back up with a message."
         },
         {
-          "say": "మేము 33 మందిమి క్షేమంగా ఉన్నాం.",
+          "say": "We are well in the shelter, the 33 of us.",
           "sub": "\"We are well in the shelter, the 33 of us.\""
         }
       ]
@@ -111,8 +107,7 @@
       ],
       "narration": [
         {
-          "say": "ఫీనిక్స్ అనే క్యాప్సూల్, వారిని ఒక్కొక్కరుగా పైకి తీసుకొచ్చింది.",
-          "sub": "A capsule called Phoenix brought them up, one by one."
+          "say": "A capsule called Phoenix brought them up, one by one."
         }
       ]
     },
@@ -128,8 +123,7 @@
       ],
       "narration": [
         {
-          "say": "69 రోజుల తర్వాత, 33 మందీ ప్రాణాలతో బయటపడ్డారు.",
-          "sub": "After 69 days, all 33 came out alive."
+          "say": "After 69 days, all 33 came out alive."
         }
       ],
       "visual": "celebration",
@@ -142,8 +136,7 @@
       "transition": "fade",
       "narration": [
         {
-          "say": "పూర్తి కథ కోసం THE UNTOLD చూడండి.",
-          "sub": "Watch the full story on THE UNTOLD."
+          "say": "Watch the full story on THE UNTOLD."
         }
       ]
     }

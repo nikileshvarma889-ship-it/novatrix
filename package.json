@@ -14,7 +14,8 @@
     "generate-sfx": "node tools/generate-sfx.mjs",
     "placeholder-music": "node tools/placeholder-music.mjs",
     "typecheck": "node tools/scan-media.mjs && tsc --noEmit",
-    "postinstall": "node tools/scan-media.mjs"
+    "postinstall": "node tools/scan-media.mjs",
+    "ai-voiceover": "node tools/ai-voiceover.mjs"
   },
   "dependencies": {
     "@remotion/cli": "^4.0.539",

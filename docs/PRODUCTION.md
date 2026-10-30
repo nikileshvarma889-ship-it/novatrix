@@ -69,17 +69,26 @@ These files are git-ignored, because the repository is public and their rights a
 
 Photos: 3000 px or wider looks best with the slow camera moves. For 9:16, set `"focus": [x, y]` (0–1) on an asset to choose the crop centre.
 
-## 3. Narration (Telugu)
+## 3. Narration (English)
 
-- Record one file per scene, named after the scene id:
-  - long cut: `public/projects/chile-33/voiceover/long/open-01.wav`
-  - Short: `voiceover/short/s-hook.wav`
-- Read the `say` text from `long.json` exactly. Leave a clear pause (≈0.4 s) between sentences, which helps the subtitle alignment.
-- Recording: quiet room, 48 kHz WAV, peaks around −6 dB.
-- A native Telugu speaker should review the translations before recording. They are written for natural narration, not word-for-word.
-- Pronunciations to settle: San José (శాన్ హోసే), Fénix (ఫీనిక్స్), the Spanish note.
-  - The script has the narrator read the note in Spanish and then translate it. Drop the Spanish line if you prefer.
-- AI voices: only use a service whose license allows commercial YouTube use, and check its Telugu quality. Disclose synthetic narration if YouTube requires it.
+You have two options.
+
+**A. Record it yourself.** Record one file per scene, named after the scene id:
+- long cut: `public/projects/chile-33/voiceover/long/open-01.wav`
+- Short: `voiceover/short/s-hook.wav`
+
+Read the `say` text from `long.json` and `short.json`. Leave a clear pause (≈0.4 s) between sentences, which helps the subtitle alignment. Record in a quiet room, as a 48 kHz WAV, with peaks around −6 dB. Your recordings always take priority over the AI voice.
+
+**B. AI voice (used for the current render).**
+
+```bash
+npm run ai-voiceover -- chile-33
+```
+
+- The voice is Piper, LibriTTS speaker 7134: male, low, clear, at about 2.8 words/second (`--pace 1.25`).
+- License: CC BY 4.0. The credit is in `project.json` → `voiceCredit` and in `description.txt`.
+- Pronunciation fixes go in `say`. For example, "San José" is written "San Hosay".
+- For transparency, the description states that the narration is AI-generated.
 
 ## 4. Music and sound
 

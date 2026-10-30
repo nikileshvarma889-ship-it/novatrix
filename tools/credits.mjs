@@ -28,6 +28,7 @@ for (const slug of process.argv[2] ? [process.argv[2]] : listProjects()) {
   section("ILLUSTRATIONS", byKind("illustration"));
   section("DRAMATIZATIONS", byKind("reconstruction"));
   section("AI-GENERATED ILLUSTRATIONS", byKind("ai-generated"));
+  if (project.voiceCredit) out.push("NARRATION", `• ${project.voiceCredit}`, "");
   out.push("THE UNTOLD — Some Stories Deserve to Be Heard.");
   const dir = path.join(ROOT, "out", slug);
   fs.mkdirSync(dir, { recursive: true });

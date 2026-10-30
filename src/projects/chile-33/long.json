@@ -40,12 +40,10 @@
       "transition": "slow-dissolve",
       "narration": [
         {
-          "say": "ఒక సాధారణ రోజు, మీరు పనికి వెళ్తున్నారని ఊహించుకోండి.",
-          "sub": "Imagine going to work one ordinary day."
+          "say": "Imagine going to work one ordinary day."
         },
         {
-          "say": "భూమికి వందల మీటర్ల లోతులో ఉన్న ఒక గనిలోకి మీరు వెళ్తారు.",
-          "sub": "You enter a mine, hundreds of metres beneath the ground."
+          "say": "You enter a mine, hundreds of metres beneath the ground."
         }
       ]
     },
@@ -68,16 +66,15 @@
       ],
       "narration": [
         {
-          "say": "అకస్మాత్తుగా…",
+          "say": "Suddenly...",
           "sub": "Suddenly…"
         },
         {
-          "say": "ఢాం!",
+          "say": "Boom.",
           "sub": "BOOM!"
         },
         {
-          "say": "కొండ కూలిపోతుంది.",
-          "sub": "The mountain collapses."
+          "say": "The mountain collapses."
         }
       ]
     },
@@ -89,20 +86,16 @@
       "transition": "fade",
       "narration": [
         {
-          "say": "బయటకు వెళ్లే దారి మూసుకుపోతుంది.",
-          "sub": "The entrance is blocked."
+          "say": "The entrance is blocked."
         },
         {
-          "say": "లైట్లు ఆరిపోతాయి.",
-          "sub": "The lights go out."
+          "say": "The lights go out."
         },
         {
-          "say": "అప్పుడు మీకు ఒక భయంకరమైన నిజం అర్థమవుతుంది.",
-          "sub": "And you realise something terrifying."
+          "say": "And you realise something terrifying."
         },
         {
-          "say": "మీరు భూమి లోపల చిక్కుకుపోయారు.",
-          "sub": "You are trapped underground."
+          "say": "You are trapped underground."
         }
       ]
     },
@@ -117,12 +110,10 @@
       ],
       "narration": [
         {
-          "say": "ఫోన్ సిగ్నల్ లేదు. బయటకు దారి లేదు.",
-          "sub": "No phone signal. No way out."
+          "say": "No phone signal. No way out."
         },
         {
-          "say": "ఎవరైనా మిమ్మల్ని కనుగొంటారనే ఆశ కూడా దాదాపు లేదు.",
-          "sub": "And almost no hope of being found."
+          "say": "And almost no hope of being found."
         }
       ]
     },
@@ -137,16 +128,13 @@
       ],
       "narration": [
         {
-          "say": "ఇది సినిమా కాదు.",
-          "sub": "This isn't a movie."
+          "say": "This isn't a movie."
         },
         {
-          "say": "చిలీలో 33 మంది నిజమైన మనుషులకు ఇది జరిగింది.",
-          "sub": "This happened to 33 real men in Chile."
+          "say": "This happened to 33 real men in Chile."
         },
         {
-          "say": "వారి కథ ప్రపంచం మొత్తాన్ని నివ్వెరపరిచింది.",
-          "sub": "And their story would shock the entire world."
+          "say": "And their story would shock the entire world."
         }
       ]
     },
@@ -205,11 +193,10 @@
       ],
       "narration": [
         {
-          "say": "ఆగస్టు 5, 2010.",
-          "sub": "August 5th, 2010."
+          "say": "August 5th, 2010."
         },
         {
-          "say": "చిలీలోని శాన్ హోసే రాగి, బంగారు గనిలో భారీగా రాళ్లు కూలిపడి, 33 మంది కార్మికులు భూమి లోతుల్లో చిక్కుకుపోయారు.",
+          "say": "At the San Hosay copper and gold mine in Chile, a massive rock collapse trapped 33 miners deep underground.",
           "sub": "At the San José copper and gold mine in Chile, a massive rock collapse trapped 33 miners deep underground."
         }
       ]
@@ -225,8 +212,7 @@
       ],
       "narration": [
         {
-          "say": "వారు భూ ఉపరితలానికి సుమారు 700 మీటర్ల లోతులో ఉన్నారు.",
-          "sub": "They were approximately 700 metres below the surface."
+          "say": "They were approximately 700 metres below the surface."
         }
       ]
     },
@@ -241,16 +227,13 @@
       ],
       "narration": [
         {
-          "say": "పైన, సహాయక బృందాలు లోపలికి దారి కనుగొనేందుకు పరుగులు తీశాయి.",
-          "sub": "Above them, rescue teams rushed to find a way inside."
+          "say": "Above them, rescue teams rushed to find a way inside."
         },
         {
-          "say": "కానీ గని ఇంకా స్థిరంగా లేదు.",
-          "sub": "But the mine was unstable."
+          "say": "But the mine was unstable."
         },
         {
-          "say": "మళ్లీ కూలితే, రక్షించడానికి వెళ్లినవారి ప్రాణాలు కూడా పోవచ్చు.",
-          "sub": "Another collapse could kill the rescuers too."
+          "say": "Another collapse could kill the rescuers too."
         }
       ]
     },
@@ -265,20 +248,16 @@
       ],
       "narration": [
         {
-          "say": "కార్మికులు బతికే ఉన్నారు, కానీ వారి దగ్గర ఆహారం, నీరు చాలా తక్కువగా ఉన్నాయి.",
-          "sub": "The miners were alive, but they had very limited food and water."
+          "say": "The miners were alive, but they had very limited food and water."
         },
         {
-          "say": "మిగిలిన సరుకులను వారు ఎంతో జాగ్రత్తగా పంచుకున్నారు.",
-          "sub": "They divided their remaining supplies carefully."
+          "say": "They divided their remaining supplies carefully."
         },
         {
-          "say": "ప్రతి రోజూ ఆకలి, చీకటి, భయంతో పోరాటంగా మారింది.",
-          "sub": "Every day became a fight against hunger, darkness and fear."
+          "say": "Every day became a fight against hunger, darkness and fear."
         },
         {
-          "say": "వారు ఇంకా బతికే ఉన్నారో లేదో పైన ఎవరికీ తెలియదు.",
-          "sub": "And nobody above ground knew if they were still alive."
+          "say": "And nobody above ground knew if they were still alive."
         }
       ]
     },
@@ -308,12 +287,10 @@
       ],
       "narration": [
         {
-          "say": "17 రోజుల పాటు ప్రపంచం ఎదురుచూసింది.",
-          "sub": "For 17 long days, the world waited."
+          "say": "For 17 long days, the world waited."
         },
         {
-          "say": "ఒక అద్భుతం జరగాలని ఆశిస్తూ, కుటుంబాలు గని బయట గుమిగూడాయి.",
-          "sub": "Families gathered outside the mine, hoping for a miracle."
+          "say": "Families gathered outside the mine, hoping for a miracle."
         }
       ]
     },
@@ -332,12 +309,10 @@
       ],
       "narration": [
         {
-          "say": "చిక్కుకున్నవారిని కనిపెట్టేందుకు సహాయక బృందాలు భూమి లోతుల్లోకి డ్రిల్లింగ్ చేశాయి.",
-          "sub": "Rescue teams drilled deep into the earth, trying to locate the trapped men."
+          "say": "Rescue teams drilled deep into the earth, trying to locate the trapped men."
         },
         {
-          "say": "కానీ వారిని కనుగొనడం, కొండలో సూది వెతకడం లాంటిదే.",
-          "sub": "But finding them was like searching for a needle in a mountain."
+          "say": "But finding them was like searching for a needle in a mountain."
         }
       ]
     },
@@ -353,16 +328,13 @@
       ],
       "narration": [
         {
-          "say": "అప్పుడు, ఆగస్టు 22న, ఒక అసాధారణ సంఘటన జరిగింది.",
-          "sub": "Then, on August 22nd, something extraordinary happened."
+          "say": "Then, on August 22nd, something extraordinary happened."
         },
         {
-          "say": "ఒక డ్రిల్ భూగర్భంలోని ఒక చిన్న ప్రదేశానికి చేరుకుంది.",
-          "sub": "A rescue drill reached a small underground area."
+          "say": "A rescue drill reached a small underground area."
         },
         {
-          "say": "డ్రిల్‌ను పైకి లాగినప్పుడు, దానికి కట్టి ఉన్న ఒక సందేశం కనిపించింది.",
-          "sub": "When the drill was pulled back, rescuers discovered a message attached to it."
+          "say": "When the drill was pulled back, rescuers discovered a message attached to it."
         }
       ]
     },
@@ -385,12 +357,11 @@
       ],
       "narration": [
         {
-          "say": "అందులో ఇలా ఉంది:",
-          "sub": "It read:"
+          "say": "It read:"
         },
         {
-          "say": "Estamos bien en el refugio los 33.",
-          "sub": "\"Estamos bien en el refugio los 33.\""
+          "say": "We are well in the shelter, the 33 of us.",
+          "sub": "\"We are well in the shelter, the 33 of us.\""
         }
       ],
       "tail": 0.6
@@ -401,17 +372,12 @@
       "quote": "Estamos bien en el refugio los 33.",
       "translation": "We are well in the shelter, the 33 of us.",
       "attribution": "Note recovered from the probe drill · 22 August 2010",
-      "tail": 1.5,
+      "tail": 0,
       "transition": "dip-to-black",
       "facts": [
         "F05"
       ],
-      "narration": [
-        {
-          "say": "అంటే, మేము 33 మందిమి షెల్టర్‌లో క్షేమంగా ఉన్నాం.",
-          "sub": "In English: \"We are well in the shelter, the 33 of us.\""
-        }
-      ]
+      "minSeconds": 5
     },
     {
       "id": "alive",
@@ -424,12 +390,10 @@
       ],
       "narration": [
         {
-          "say": "వారు బతికే ఉన్నారు.",
-          "sub": "They were alive."
+          "say": "They were alive."
         },
         {
-          "say": "33 మందీ.",
-          "sub": "All 33 of them."
+          "say": "All 33 of them."
         }
       ]
     },
@@ -444,16 +408,13 @@
       ],
       "narration": [
         {
-          "say": "ఈ వార్త ప్రపంచమంతా వ్యాపించింది.",
-          "sub": "The news spread across the world."
+          "say": "The news spread across the world."
         },
         {
-          "say": "కానీ వారిని కనుగొనడం కేవలం ఆరంభం మాత్రమే.",
-          "sub": "But finding them was only the beginning."
+          "say": "But finding them was only the beginning."
         },
         {
-          "say": "వారిని బయటకు తీసుకురావడం ఒక పెద్ద సవాలు.",
-          "sub": "Getting them out would be an enormous challenge."
+          "say": "Getting them out would be an enormous challenge."
         }
       ]
     },
@@ -490,16 +451,13 @@
       ],
       "narration": [
         {
-          "say": "సహాయక బృందాలు రాత్రింబవళ్లు పని చేయడం మొదలుపెట్టాయి.",
-          "sub": "Rescue teams began working around the clock."
+          "say": "Rescue teams began working around the clock."
         },
         {
-          "say": "వందల మీటర్ల రాతిని తొలుచుకుంటూ ఒక సన్నని దారిని తవ్వారు.",
-          "sub": "They drilled a narrow passage through hundreds of metres of rock."
+          "say": "They drilled a narrow passage through hundreds of metres of rock."
         },
         {
-          "say": "ఇంజినీర్లు, శాస్త్రవేత్తలు, నిపుణులు కలిసి పనిచేశారు.",
-          "sub": "Engineers, scientists and specialists worked together."
+          "say": "Engineers, scientists and specialists worked together."
         }
       ]
     },
@@ -514,8 +472,7 @@
       ],
       "narration": [
         {
-          "say": "వైద్యం, పోషణ, మానసిక మద్దతు విషయాల్లో నాసా నిపుణులు కూడా సలహాలు ఇచ్చారు.",
-          "sub": "Even NASA experts provided advice on medical care, nutrition and psychological support."
+          "say": "Even NASA experts provided advice on medical care, nutrition and psychological support."
         }
       ]
     },
@@ -530,8 +487,7 @@
       ],
       "narration": [
         {
-          "say": "చిన్న రంధ్రాల ద్వారా కార్మికులకు ఆహారం, నీరు, మందులు, సమాచార పరికరాలు పంపారు.",
-          "sub": "The miners received food, water, medicine and communication equipment through small boreholes."
+          "say": "The miners received food, water, medicine and communication equipment through small boreholes."
         }
       ]
     },
@@ -546,12 +502,10 @@
       "transition": "fade",
       "narration": [
         {
-          "say": "కానీ అతి పెద్ద ప్రశ్న అలాగే ఉంది:",
-          "sub": "But the biggest question remained:"
+          "say": "But the biggest question remained:"
         },
         {
-          "say": "అంత సన్నని దారి గుండా 33 మంది ఎలా బయటకు రాగలరు?",
-          "sub": "How could 33 men escape through such a narrow opening?"
+          "say": "How could 33 men escape through such a narrow opening?"
         }
       ]
     },
@@ -567,24 +521,20 @@
       ],
       "narration": [
         {
-          "say": "దానికి సమాధానం, ప్రత్యేకంగా రూపొందించిన ఒక రెస్క్యూ క్యాప్సూల్.",
-          "sub": "The answer was a specially designed rescue capsule."
+          "say": "The answer was a specially designed rescue capsule."
         },
         {
-          "say": "దాని పేరు ఫీనిక్స్.",
-          "sub": "It was called Fénix — Phoenix."
+          "say": "It was called Phoenix.",
+          "sub": "It was called Fénix (Phoenix)."
         },
         {
-          "say": "అది భూమి లోతుల్లోకి వెళ్లి, ఒక్కొక్కరినీ పైకి తీసుకొచ్చి, మళ్లీ తర్వాతి వ్యక్తి కోసం కిందకు వెళ్తుంది.",
-          "sub": "A capsule that would travel deep underground, bring one miner up at a time, and return for the next."
+          "say": "A capsule that would travel deep underground, bring one miner up at a time, and return for the next."
         },
         {
-          "say": "కానీ ఈ ప్రమాదాన్ని ఎవరూ తేలికగా తీసుకోలేదు.",
-          "sub": "But nobody could take the risk lightly."
+          "say": "But nobody could take the risk lightly."
         },
         {
-          "say": "ఒక్క పొరపాటు జరిగినా, ఘోరం జరిగేది.",
-          "sub": "One mistake could be disastrous."
+          "say": "One mistake could be disastrous."
         }
       ]
     },
@@ -617,12 +567,10 @@
       ],
       "narration": [
         {
-          "say": "అక్టోబర్ 12, 2010.",
-          "sub": "October 12th, 2010."
+          "say": "October 12th, 2010."
         },
         {
-          "say": "రెండు నెలలకు పైగా భూగర్భంలో గడిపిన తర్వాత, రెస్క్యూ ఆపరేషన్ మొదలైంది.",
-          "sub": "After more than two months underground, the rescue operation began."
+          "say": "After more than two months underground, the rescue operation began."
         }
       ]
     },
@@ -638,16 +586,13 @@
       ],
       "narration": [
         {
-          "say": "ఫీనిక్స్ క్యాప్సూల్ గనిలోకి దిగింది.",
-          "sub": "The Phoenix capsule descended into the mine."
+          "say": "The Phoenix capsule descended into the mine."
         },
         {
-          "say": "ఒక్కొక్కరుగా కార్మికులు అందులోకి ఎక్కారు.",
-          "sub": "One by one, the miners entered it."
+          "say": "One by one, the miners entered it."
         },
         {
-          "say": "నెమ్మదిగా, వారు భూ ఉపరితలానికి తిరిగి రావడం మొదలైంది.",
-          "sub": "And slowly, they began returning to the surface."
+          "say": "And slowly, they began returning to the surface."
         }
       ]
     },
@@ -659,24 +604,20 @@
       "transition": "slow-dissolve",
       "narration": [
         {
-          "say": "ఆ అనుభూతిని ఊహించుకోండి.",
-          "sub": "Imagine the feeling."
+          "say": "Imagine the feeling."
         },
         {
-          "say": "రెండు నెలలకు పైగా చీకటిలో గడిపిన తర్వాత…",
+          "say": "After more than two months in darkness...",
           "sub": "After more than two months in darkness…"
         },
         {
-          "say": "మళ్లీ సూర్యకాంతిని చూడటం.",
-          "sub": "Seeing daylight again."
+          "say": "Seeing daylight again."
         },
         {
-          "say": "మీ కుటుంబాన్ని చూడటం.",
-          "sub": "Seeing your family."
+          "say": "Seeing your family."
         },
         {
-          "say": "స్వచ్ఛమైన గాలిని పీల్చడం.",
-          "sub": "Breathing fresh air."
+          "say": "Breathing fresh air."
         }
       ]
     },
@@ -694,8 +635,7 @@
       ],
       "narration": [
         {
-          "say": "అక్టోబర్ 13న, చివరి కార్మికుడు సురక్షితంగా పైకి వచ్చాడు.",
-          "sub": "On October 13th, the final miner was brought safely to the surface."
+          "say": "On October 13th, the final miner was brought safely to the surface."
         }
       ]
     },
@@ -710,8 +650,7 @@
       ],
       "narration": [
         {
-          "say": "33 మంది కార్మికులూ ప్రాణాలతో బయటపడ్డారు.",
-          "sub": "All 33 miners had been rescued."
+          "say": "All 33 miners had been rescued."
         }
       ],
       "visual": "families-reunite",
@@ -728,12 +667,10 @@
       ],
       "narration": [
         {
-          "say": "ప్రపంచం సంబరాలు చేసుకుంది.",
-          "sub": "The world celebrated."
+          "say": "The world celebrated."
         },
         {
-          "say": "చరిత్రలోనే అత్యంత దారుణమైన గని ప్రమాదాల్లో ఒకటిగా మారగల విపత్తు, ఒక అసాధారణ రెస్క్యూగా మారింది.",
-          "sub": "A disaster that could have become one of the worst mining tragedies in history had turned into an extraordinary rescue."
+          "say": "A disaster that could have become one of the worst mining tragedies in history had turned into an extraordinary rescue."
         }
       ]
     },
@@ -751,16 +688,13 @@
       ],
       "narration": [
         {
-          "say": "ముప్పై మూడు మంది.",
-          "sub": "Thirty-three men."
+          "say": "Thirty-three men."
         },
         {
-          "say": "అరవై తొమ్మిది రోజులు.",
-          "sub": "Sixty-nine days."
+          "say": "Sixty-nine days."
         },
         {
-          "say": "ప్రపంచానికి ఆశను ఇచ్చిన ఒకే ఒక్క సందేశం.",
-          "sub": "One message that gave the world hope."
+          "say": "One message that gave the world hope."
         }
       ]
     },
@@ -772,20 +706,17 @@
       "transition": "dip-to-black",
       "narration": [
         {
-          "say": "వారు బతికి బయటపడటం, కేవలం గని నుంచి తప్పించుకున్న కథ కాదు.",
-          "sub": "Their survival was not just a story about escaping a mine."
+          "say": "Their survival was not just a story about escaping a mine."
         },
         {
-          "say": "అది ధైర్యం, జట్టుకృషి, సైన్స్, ఎప్పటికీ ఓటమిని ఒప్పుకోని పట్టుదల కథ.",
-          "sub": "It was a story about courage, teamwork, science and never giving up."
+          "say": "It was a story about courage, teamwork, science and never giving up."
         },
         {
-          "say": "ఎందుకంటే కొన్నిసార్లు, కథ ముగిసిపోయిందని ప్రపంచం మొత్తం అనుకున్నప్పుడు కూడా…",
+          "say": "Because sometimes, even when the entire world thinks a story is over...",
           "sub": "Because sometimes, even when the entire world thinks a story is over…"
         },
         {
-          "say": "అత్యంత అద్భుతమైన అధ్యాయం ఇంకా రాయబడాల్సి ఉంటుంది.",
-          "sub": "The most incredible chapter is still waiting to be written."
+          "say": "The most incredible chapter is still waiting to be written."
         }
       ]
     },
@@ -796,12 +727,10 @@
       "transition": "fade",
       "narration": [
         {
-          "say": "ఇది ది అన్‌టోల్డ్.",
-          "sub": "This is THE UNTOLD."
+          "say": "This is THE UNTOLD."
         },
         {
-          "say": "కొన్ని కథలు తప్పక వినిపించాలి.",
-          "sub": "Some stories deserve to be heard."
+          "say": "Some stories deserve to be heard."
         }
       ]
     }

@@ -105,4 +105,6 @@ export type Project = {
   category: "survival" | "mystery" | "history" | "business" | "true-story";
   /** Short disclaimer shown at the start, e.g. about reconstructions. */
   disclaimer?: string;
+  /** Credit line for the narration voice (required for licensed AI voices). */
+  voiceCredit?: string;
 };

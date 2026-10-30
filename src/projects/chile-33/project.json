@@ -3,7 +3,8 @@
   "title": "33 Men. 69 Days. Buried Alive.",
   "subtitle": "The 2010 Chilean miners' rescue",
   "category": "survival",
-  "narrationLanguage": "te",
+  "narrationLanguage": "en",
   "subtitleLanguage": "en",
-  "disclaimer": "This film combines archival photographs of the 2010 rescue with representative footage and illustrations. Anything that does not show the actual event is labelled on screen."
+  "disclaimer": "This film combines archival photographs of the 2010 rescue with representative footage and illustrations. Anything that does not show the actual event is labelled on screen.",
+  "voiceCredit": "Narration: AI voice generated with Piper TTS (LibriTTS \"high\" voice, speaker 7134), trained on the LibriTTS corpus, CC BY 4.0 — https://www.openslr.org/60/"
 }

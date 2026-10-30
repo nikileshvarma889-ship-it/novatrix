@@ -99,17 +99,24 @@ Each scene in `long.json` / `short.json` has an `id`, a `type`, optional `narrat
 
 ### Narration and subtitles
 
-Narration is written line by line:
+Narration is written line by line in each cut:
 
 ```json
-{ "say": "ఆగస్టు 5, 2010.", "sub": "August 5th, 2010." }
+{ "say": "At the San Hosay copper and gold mine…", "sub": "At the San José copper and gold mine…" }
 ```
 
-- `say` is exactly what the narrator speaks. For *33 Men* that is **Telugu** (`narrationLanguage: "te"`).
-- `sub` is the on-screen subtitle. **English** subtitles serve the international audience (`subtitleLanguage: "en"`).
+- `say` is exactly what the narrator speaks. Spell names phonetically here if needed.
+- `sub` is the on-screen subtitle. Leave it out when it matches `say`.
+- *33 Men* is narrated and subtitled in **English** (`narrationLanguage` / `subtitleLanguage` in `project.json`). Other languages work the same way: `say` in the spoken language, `sub` in the subtitle language.
 - When a voiceover file exists, the scene stretches to fit it. FFmpeg finds the pauses between sentences, and each subtitle is aligned to its sentence.
 - For exact timing, add `<scene-id>.srt` next to the audio file. Its times start at 0 for that clip.
 - Music is automatically lowered under the voice and comes up between scenes.
+
+#### AI narration voice
+
+`npm run ai-voiceover -- <slug>` voices every scene with a Piper neural voice running on your CPU, which is useful when you can't record. It never overwrites your own recordings, and `--clean` removes what it generated.
+
+The default is LibriTTS speaker 7134: a low, clear male voice, licensed **CC BY 4.0**, so commercial use is allowed with credit. The credit goes in `voiceCredit` in `project.json` and is printed into the YouTube description. Setup steps are at the top of `tools/ai-voiceover.mjs`.
 
 ### Footage and honesty rules
 
@@ -151,7 +158,7 @@ This creates the JSON files, the media folders and the `tunguska-long` / `tungus
 npm run scratch-voiceover -- chile-33
 ```
 
-This creates a robotic espeak-ng narration in the project's language, only for checking pacing and subtitle sync. It never overwrites real recordings. Remove it before the final render:
+This creates a robotic espeak-ng narration, only for quick pacing checks (use `ai-voiceover` for a natural voice). It never overwrites real recordings. Remove it before the final render:
 
 ```bash
 npm run scratch-voiceover -- chile-33 --clean
@@ -170,4 +177,4 @@ npm run scratch-voiceover -- chile-33 --clean
 | `src/config.ts` | Volumes, timing defaults, provenance label wording |
 | `tools/` | FFmpeg media scanner, project checker, renderer, credits, scaffolding, SFX/music generators |
 
-See [`docs/PRODUCTION.md`](docs/PRODUCTION.md) for the full production checklist, including where to find copyright-safe footage and how to record the Telugu narration.
+See [`docs/PRODUCTION.md`](docs/PRODUCTION.md) for the full production checklist, including where to find copyright-safe footage and how to record or generate the narration.
