@@ -1,0 +1,31 @@
+{
+  "name": "poppilo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "POPPILO — preschool 3D animation (Remotion + Three.js)",
+  "scripts": {
+    "studio": "remotion studio",
+    "audio": "node tools/build-audio.mjs",
+    "preview": "remotion render LittleAnimalParade out/preview.mp4 --scale=0.5 --crf=26",
+    "render": "remotion render LittleAnimalParade out/the-little-animal-parade.mp4 --crf=18",
+    "thumbnail": "remotion still Thumbnail out/thumbnail.png",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@react-three/fiber": "^8.17.10",
+    "@remotion/cli": "^4.0.539",
+    "@remotion/fonts": "^4.0.539",
+    "@remotion/three": "^4.0.539",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "remotion": "^4.0.539",
+    "three": "^0.169.0"
+  },
+  "devDependencies": {
+    "@fontsource/fredoka": "^5.1.0",
+    "@types/node": "^22.9.0",
+    "@types/react": "^18.3.12",
+    "@types/three": "^0.169.0",
+    "typescript": "^5.6.3"
+  }
+}

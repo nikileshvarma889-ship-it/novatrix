@@ -1,0 +1,46 @@
+{
+  "title": "The Little Animal Parade",
+  "bpm": 120,
+  "lengthSeconds": 52,
+  "singerVoice": { "model": "en-us-libritts-high", "speaker": 100, "formantShift": 1.14 },
+  "chords": ["C","F","G", "C","C", "F","G", "C","Am", "F","C", "C","G", "F","C", "C","F","Am","G","C","G", "F","C", "F","G", "C"],
+  "lines": [
+    { "bar": 3,  "singers": ["bubu"], "text": "Hello, hello, come and play!",
+      "notes": [["hello",["G4",0.5],["E4",1]], ["hello",["G4",0.5],["E4",1]], ["come",["C5",1]], ["and",["B4",1]], ["play",["G4",2]]] },
+    { "bar": 5,  "singers": ["bubu","lulu"], "text": "Bubu, Lulu, dance today!",
+      "notes": [["boo",["A4",0.5]], ["boo",["A4",1]], ["loo",["G4",0.5]], ["loo",["G4",1]], ["dance",["F4",1]], ["today",["E4",1],["D4",2]]] },
+    { "bar": 7,  "singers": ["bubu","lulu"], "text": "Jump up high, turn around,",
+      "notes": [["jump",["E4",1]], ["up",["G4",1]], ["high",["C5",2]], ["turn",["B4",1]], ["around",["A4",1],["G4",1.5]]] },
+    { "bar": 9,  "singers": ["bubu","lulu"], "text": "Happy friends are all around!",
+      "notes": [["happy",["A4",0.5],["A4",0.5]], ["friends",["G4",1]], ["are",["E4",1]], ["all",["D4",1]], ["around",["E4",1],["C4",2]]] },
+    { "bar": 11, "singers": ["bubu","lulu","toto"], "text": "Clap your hands, one, two, three,",
+      "notes": [["clap",["E4",1]], ["your",["E4",0.5]], ["hands",["G4",1.5]], ["one",["C5",1]], ["two",["C5",1]], ["three",["C5",2]]] },
+    { "bar": 13, "singers": ["bubu","lulu","toto"], "text": "Come and dance along with me!",
+      "notes": [["come",["A4",0.5]], ["and",["A4",0.5]], ["dance",["B4",1]], ["along",["A4",0.5],["G4",1.5]], ["with",["E4",1]], ["me",["C5",2]]] },
+    { "bar": 21, "singers": ["bubu","lulu","toto"], "text": "Wave goodbye, the day is through,",
+      "notes": [["wave",["G4",1]], ["goodbye",["E4",0.5],["G4",1.5]], ["the",["A4",0.5]], ["day",["G4",1]], ["is",["E4",0.5]], ["through",["D4",2]]] },
+    { "bar": 23, "singers": ["bubu","lulu","toto"], "text": "See you soon from POPPILO!",
+      "notes": [["see",["E4",0.5]], ["you",["F4",0.5]], ["soon",["G4",1]], ["from",["A4",1]], ["pop",["C5",1]], ["pea",["E5",1]], ["low",["C5",2.5]]] }
+  ],
+  "hooks": [
+    { "bar": 1, "notes": [["G5",0.5],["E5",1],["G5",0.5],["E5",1],["C6",1],["B5",1],["G5",2]] },
+    { "bar": 15, "notes": [["E5",1],["G5",1],["C6",2],["B5",1],["A5",1],["G5",2]] },
+    { "bar": 17, "notes": [["A5",0.5],["A5",0.5],["G5",1],["E5",1],["D5",1],["E5",1],["C5",2]] },
+    { "bar": 19, "notes": [["E5",1],["E5",0.5],["G5",1.5],["C6",1],["C6",1],["C6",2]] }
+  ],
+  "sfx": [
+    { "t": 0.9, "id": "step" }, { "t": 1.4, "id": "step" }, { "t": 1.9, "id": "step" }, { "t": 2.4, "id": "step" },
+    { "t": 2.9, "id": "step" }, { "t": 3.4, "id": "step" }, { "t": 3.9, "id": "step" }, { "t": 4.4, "id": "step" },
+    { "t": 5.3, "id": "sparkle", "gain": 0.5 },
+    { "t": 10.25, "id": "boing" }, { "t": 11.05, "id": "boing" }, { "t": 11.85, "id": "boing" },
+    { "t": 12.8, "id": "boing", "gain": 0.7 },
+    { "t": 14.5, "id": "boing" }, { "t": 15.5, "id": "boing" }, { "t": 16.0, "id": "whoosh" },
+    { "t": 19.3, "id": "whoosh" }, { "t": 21.6, "id": "sparkle", "gain": 0.5 },
+    { "t": 22.0, "id": "clap" }, { "t": 22.75, "id": "clap" }, { "t": 23.5, "id": "clap" }, { "t": 24.0, "id": "clap" }, { "t": 24.5, "id": "clap" },
+    { "t": 30.0, "id": "yay" }, { "t": 34.0, "id": "whoosh", "gain": 0.6 }, { "t": 38.0, "id": "whoosh", "gain": 0.6 },
+    { "t": 46.0, "id": "sparkle" },
+    { "t": 46.3, "id": "pop" }, { "t": 46.45, "id": "pop" }, { "t": 46.6, "id": "pop" }, { "t": 46.75, "id": "pop" },
+    { "t": 46.9, "id": "pop" }, { "t": 47.05, "id": "pop" }, { "t": 47.2, "id": "pop" },
+    { "t": 50.0, "id": "yay" }, { "t": 50.1, "id": "sparkle" }
+  ]
+}
