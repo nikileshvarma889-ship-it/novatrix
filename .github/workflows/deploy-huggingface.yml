@@ -42,7 +42,7 @@ jobs:
       - name: Create the database and the Space
         id: deploy
         run: |
-          pip install -q "huggingface_hub>=0.30" requests
+          pip install -q "huggingface_hub>=0.30" requests "psycopg[binary]>=3.2"
           python - <<'PY'
           import base64, os, secrets, sys, time, requests
           from huggingface_hub import HfApi
@@ -110,6 +110,17 @@ jobs:
           api.add_space_secret(repo_id, "GEMINI_API_KEY", os.environ["GEMINI_API_KEY"])
           # The encryption key protects saved tokens: set it whenever nothing is encrypted yet
           # (new Space or brand-new database), and never replace it afterwards.
+          # Nothing is encrypted until someone has signed up, so a database without accounts is "new".
+          if not new_db:
+              import psycopg
+              try:
+                  with psycopg.connect(uri, connect_timeout=20) as c:
+                      has = c.execute("select to_regclass('public.users') is not null").fetchone()[0]
+                      users = c.execute("select count(*) from users").fetchone()[0] if has else 0
+                  new_db = users == 0
+                  print(f"Accounts in the database: {users}")
+              except Exception as e:
+                  print(f"Could not inspect the database ({type(e).__name__}); keeping the existing key")
           if not existed or new_db:
               api.add_space_secret(repo_id, "ENCRYPTION_KEY", base64.b64encode(secrets.token_bytes(32)).decode())
               print("Set a new ENCRYPTION_KEY")
