@@ -1,0 +1,129 @@
+name: Deploy free server (Hugging Face + Neon)
+
+# One-click setup of the free Reelwise server. Needs three repository secrets:
+#   HF_TOKEN        Hugging Face access token with "Write" permission (huggingface.co/settings/tokens)
+#   NEON_API_KEY    Neon API key (console.neon.tech -> Account settings -> API keys)
+#   GEMINI_API_KEY  Google AI Studio key (aistudio.google.com -> Get API key)
+# It creates (or reuses) a Neon database and a public Docker Space named "reelwise",
+# sets the Space secrets, waits until it is running and checks /api/health.
+on:
+  workflow_dispatch:
+  # Also runs when deploy/huggingface/DEPLOY changes (manual runs only work from the default branch).
+  push:
+    paths: ["deploy/huggingface/DEPLOY"]
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 50
+    env:
+      HF_TOKEN: ${{ secrets.HF_TOKEN }}
+      NEON_API_KEY: ${{ secrets.NEON_API_KEY }}
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      SPACE_NAME: reelwise
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check the secrets are present
+        run: |
+          missing=""
+          [ -n "$HF_TOKEN" ] || missing="$missing HF_TOKEN"
+          [ -n "$NEON_API_KEY" ] || missing="$missing NEON_API_KEY"
+          [ -n "$GEMINI_API_KEY" ] || missing="$missing GEMINI_API_KEY"
+          if [ -n "$missing" ]; then echo "::error::Add these repository secrets first:$missing"; exit 1; fi
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Create the database and the Space
+        id: deploy
+        run: |
+          pip install -q "huggingface_hub>=0.30" requests
+          python - <<'PY'
+          import base64, os, secrets, sys, time, requests
+          from huggingface_hub import HfApi
+
+          def fail(msg):
+              print(f"::error::{msg}"); sys.exit(1)
+
+          # ---- Neon: reuse a project called "reelwise" or create one ----
+          neon = requests.Session()
+          neon.headers.update({"Authorization": f"Bearer {os.environ['NEON_API_KEY']}", "Accept": "application/json"})
+          r = neon.get("https://console.neon.tech/api/v2/projects", params={"limit": 100})
+          if r.status_code == 401: fail("The Neon API key was rejected. Create a new one in Neon -> Account settings -> API keys.")
+          r.raise_for_status()
+          proj = next((p for p in r.json().get("projects", []) if p["name"] == "reelwise"), None)
+          if proj is None:
+              r = neon.post("https://console.neon.tech/api/v2/projects", json={"project": {"name": "reelwise", "region_id": "aws-ap-southeast-1", "pg_version": 16}})
+              if not r.ok: fail(f"Could not create the Neon database: {r.status_code} {r.text[:300]}")
+              body = r.json(); proj = body["project"]
+              uri = body["connection_uris"][0]["connection_uri"]
+              print("Created Neon database 'reelwise' (Singapore)")
+          else:
+              branches = neon.get(f"https://console.neon.tech/api/v2/projects/{proj['id']}/branches").json()["branches"]
+              branch = next(b for b in branches if b.get("default") or b.get("primary"))
+              dbs = neon.get(f"https://console.neon.tech/api/v2/projects/{proj['id']}/branches/{branch['id']}/databases").json()["databases"]
+              d = dbs[0]
+              r = neon.get(f"https://console.neon.tech/api/v2/projects/{proj['id']}/connection_uri", params={"database_name": d["name"], "role_name": d["owner_name"]})
+              r.raise_for_status(); uri = r.json()["uri"]
+              print("Reusing Neon database 'reelwise'")
+          print(f"::add-mask::{uri}")
+
+          # ---- Hugging Face Space ----
+          api = HfApi(token=os.environ["HF_TOKEN"])
+          try:
+              who = api.whoami()
+          except Exception:
+              fail("The Hugging Face token was rejected. Create a token with 'Write' permission at huggingface.co/settings/tokens.")
+          user = who["name"]
+          repo_id = f"{user}/{os.environ['SPACE_NAME']}"
+          sub = f"{user}-{os.environ['SPACE_NAME']}".lower().replace("_", "-").replace(".", "-")
+          url = f"https://{sub}.hf.space"
+          existed = api.repo_exists(repo_id, repo_type="space")
+          api.create_repo(repo_id, repo_type="space", space_sdk="docker", private=False, exist_ok=True)
+
+          dockerfile = open("deploy/huggingface/Dockerfile").read().replace("https://lnikileshvarma-reelwise.hf.space", url)
+          readme = "---\ntitle: Reelwise\nemoji: 🎬\ncolorFrom: indigo\ncolorTo: purple\nsdk: docker\napp_port: 7860\npinned: false\n---\n\nReelwise server (AI social video studio).\n"
+          api.upload_file(path_or_fileobj=dockerfile.encode(), path_in_repo="Dockerfile", repo_id=repo_id, repo_type="space", commit_message="Reelwise server")
+          api.upload_file(path_or_fileobj=readme.encode(), path_in_repo="README.md", repo_id=repo_id, repo_type="space", commit_message="Space settings")
+
+          api.add_space_secret(repo_id, "DATABASE_URL", uri)
+          api.add_space_secret(repo_id, "GEMINI_API_KEY", os.environ["GEMINI_API_KEY"])
+          # The encryption key protects saved tokens: set it once and never replace it.
+          if not existed:
+              api.add_space_secret(repo_id, "ENCRYPTION_KEY", base64.b64encode(secrets.token_bytes(32)).decode())
+          else:
+              print("Space existed: keeping its ENCRYPTION_KEY")
+          api.restart_space(repo_id, factory_reboot=True)
+          print(f"Space: https://huggingface.co/spaces/{repo_id}")
+          print(f"Server address: {url}")
+          with open(os.environ["GITHUB_OUTPUT"], "a") as f:
+              f.write(f"url={url}\nrepo_id={repo_id}\n")
+
+          # ---- Wait for the build ----
+          for i in range(160):
+              stage = api.get_space_runtime(repo_id).stage
+              if i % 4 == 0: print(f"Space status: {stage}")
+              if stage == "RUNNING": break
+              if stage in ("BUILD_ERROR", "RUNTIME_ERROR", "CONFIG_ERROR"):
+                  fail(f"The Space stopped with {stage}. Open https://huggingface.co/spaces/{repo_id} -> Logs.")
+              time.sleep(15)
+          else:
+              fail("The Space is still building after 40 minutes. Check its Logs on Hugging Face.")
+          PY
+
+      - name: Check the live server
+        env:
+          URL: ${{ steps.deploy.outputs.url }}
+        run: |
+          for i in $(seq 1 40); do
+            if curl -fs "$URL/api/health" | grep -q '"ok":true'; then
+              echo "Live: $URL"; echo "### Reelwise is live: $URL" >> "$GITHUB_STEP_SUMMARY"; exit 0
+            fi
+            sleep 10
+          done
+          echo "::error::The Space is running but $URL/api/health did not answer OK."; exit 1
