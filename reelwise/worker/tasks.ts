@@ -153,7 +153,7 @@ export async function publishKitJob(p: P) {
   } catch (e) {
     const msg = e instanceof AiNotConfigured ? "Add a Claude API key in Settings → AI so Claude can write the title, description, hashtags and cover." : (e as Error).message.slice(0, 500);
     await fail(msg);
-    if (!(e instanceof AiNotConfigured)) throw e;
+    if (!(e instanceof AiNotConfigured)) throw e; // the worker skips retries for permanent AI errors
   }
 }
 

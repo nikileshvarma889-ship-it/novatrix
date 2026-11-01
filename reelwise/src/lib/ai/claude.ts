@@ -8,12 +8,32 @@ import { decrypt } from "../crypto";
 
 export const MODEL = "claude-opus-5-5";
 
-/** An AI failure with a message the user can act on. */
-export class AiError extends Error {}
+/** An AI failure with a message the user can act on. `permanent` = retrying will not help. */
+export class AiError extends Error {
+  constructor(message: string, readonly permanent = true) {
+    super(message);
+  }
+}
 export class AiNotConfigured extends AiError {
   constructor() {
     super("No Claude API key is configured. Add one in Settings → AI (or set ANTHROPIC_API_KEY on the server).");
   }
+}
+
+/** Turns API errors into plain messages, and says whether a retry can succeed. */
+export function explainAiError(e: unknown): AiError | null {
+  if (e instanceof AiError) return e;
+  // Connection errors are a subclass of APIError, so check them first.
+  if (e instanceof Anthropic.APIConnectionError) return new AiError("Could not reach the Claude API. Check the server's internet access.", false);
+  if (!(e instanceof Anthropic.APIError)) return null;
+  const detail = (e.error as { error?: { message?: string } } | undefined)?.error?.message ?? e.message;
+  if (/credit balance is too low|billing/i.test(detail))
+    return new AiError("Your Anthropic account has no credit left. Add credits at console.anthropic.com → Plans & Billing, then press Try again.");
+  if (e instanceof Anthropic.AuthenticationError) return new AiError("The Claude API key was rejected. Check it in Settings → AI.");
+  if (e instanceof Anthropic.PermissionDeniedError) return new AiError(`This Claude API key is not allowed to do that: ${detail}`);
+  if (e instanceof Anthropic.RateLimitError) return new AiError("Claude is rate-limiting this key. It will retry automatically in a minute.", false);
+  if (e.status === 529 || (e.status ?? 0) >= 500) return new AiError("Claude is temporarily overloaded. It will retry automatically.", false);
+  return new AiError(`Claude could not handle this request: ${detail}`);
 }
 
 export async function clientFor(workspaceId: string) {
@@ -43,11 +63,7 @@ export async function generate<T extends ZodType>(workspaceId: string, opts: { s
     if (!res.parsed_output) throw new AiError("Claude returned an unexpected format. Please try again.");
     return res.parsed_output as z.infer<T>;
   } catch (e) {
-    if (e instanceof Anthropic.AuthenticationError) throw new AiError("The Claude API key was rejected. Check it in Settings → AI.");
-    if (e instanceof Anthropic.RateLimitError) throw new AiError("Claude is rate-limiting this key. Please retry in a minute.");
-    if (e instanceof Anthropic.APIError) throw new AiError(`Claude API error (${e.status}): ${e.message}`);
-    if (e instanceof Anthropic.APIConnectionError) throw new AiError("Could not reach the Claude API. Check the server's internet access.");
-    throw e;
+    throw explainAiError(e) ?? e;
   }
 }
 

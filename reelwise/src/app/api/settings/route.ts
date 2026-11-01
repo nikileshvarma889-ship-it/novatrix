@@ -1,5 +1,6 @@
 import { z } from "zod/v4";
 import Anthropic from "@anthropic-ai/sdk";
+import { explainAiError } from "@/lib/ai/claude";
 import { route, json, body, HttpError } from "@/lib/http";
 import { sql } from "@/lib/db";
 import { encrypt } from "@/lib/crypto";
@@ -32,11 +33,14 @@ export const PUT = route({ min: "owner", limit: [10, 60_000] }, async ({ req, us
   const d = await body(req, Put);
   if (d.claudeKey) {
     // Verify before saving so users get immediate feedback.
+    // A one-token request also catches keys whose account has no credit (listing models does not).
     try {
-      await new Anthropic({ apiKey: d.claudeKey }).models.list({ limit: 1 });
+      await new Anthropic({ apiKey: d.claudeKey }).messages.create({ model: "claude-haiku-5-5", max_tokens: 1, messages: [{ role: "user", content: "hi" }] });
     } catch (e) {
       if (e instanceof Anthropic.AuthenticationError) throw new HttpError(400, "That Claude API key was rejected by Anthropic.");
-      if (!(e instanceof Anthropic.APIConnectionError)) throw new HttpError(400, `Could not verify the key: ${(e as Error).message}`);
+      const ai = explainAiError(e);
+      // Connection problems and overloads don't mean the key is bad: save it anyway.
+      if (ai?.permanent) throw new HttpError(400, ai.message);
     }
   }
   await sql`insert into workspace_settings (workspace_id) values (${user.workspaceId}) on conflict do nothing`;

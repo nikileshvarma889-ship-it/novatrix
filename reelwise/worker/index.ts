@@ -2,6 +2,7 @@
 import os from "node:os";
 import { sql } from "../src/lib/db";
 import { claim, complete, enqueue, fail, JobType } from "../src/lib/jobs";
+import { AiError } from "../src/lib/ai/claude";
 import { autopilotJob, publishJob, publishKitJob, recycleJob, refreshTokensJob, renderJob, scriptJob, syncAnalyticsJob, syncInboxJob } from "./tasks";
 
 const id = `${os.hostname()}-${process.pid}`;
@@ -36,7 +37,9 @@ async function loop(name: string, types: JobType[]) {
       await complete(job.id);
       console.log(`[${name}] ${job.type} #${job.id} done in ${((Date.now() - t0) / 1000).toFixed(1)}s`);
     } catch (e) {
-      const retry = await fail(job.id, e, job.attempts, job.max_attempts);
+      // Permanent AI failures (no credit, bad key, refusal) are not retried.
+      const permanent = e instanceof AiError && e.permanent;
+      const retry = await fail(job.id, e, permanent ? job.max_attempts : job.attempts, job.max_attempts);
       console.error(`[${name}] ${job.type} #${job.id} failed (${retry ? "will retry" : "gave up"}):`, (e as Error).message);
     }
     const every = RECURRING.find(([t]) => t === job.type)?.[1];
