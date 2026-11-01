@@ -1,7 +1,7 @@
 // Postgres-backed job queue (FOR UPDATE SKIP LOCKED) — no extra infrastructure.
 import { sql } from "./db";
 
-export type JobType = "render_video" | "script_video" | "publish" | "autopilot_tick" | "sync_analytics" | "sync_inbox" | "recycle_video" | "refresh_tokens";
+export type JobType = "publish_kit" | "render_video" | "script_video" | "publish" | "autopilot_tick" | "sync_analytics" | "sync_inbox" | "recycle_video" | "refresh_tokens";
 
 export async function enqueue(type: JobType, payload: Record<string, unknown>, runAt?: Date, maxAttempts = 3) {
   const [row] = await sql`insert into jobs (type, payload, run_at, max_attempts)

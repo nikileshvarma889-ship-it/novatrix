@@ -130,7 +130,7 @@ export default function CreatePage() {
         <Card className="lg:col-span-2">
           <div className="mb-3 flex items-center gap-2 font-display text-lg font-bold"><Sparkles className="h-5 w-5 text-lilac-500" /> How it works</div>
           <ol className="space-y-3 text-sm text-ink-soft">
-            {["Claude reads your instruction and the selected brand's guidelines.", "It writes the script, scenes, voiceover, captions and hashtags.", "The engine builds the scenes — 3D (Three.js) or motion graphics — adds voice, music, subtitles, logo, intro and outro.", "You watch a fast preview, edit anything, then approve and choose where and when to publish.", "On approval a full-quality 1080p version is rendered and published only to the accounts you chose."].map((s, i) => (
+            {["Claude reads your instruction and the selected brand's guidelines.", "It writes the script, scenes and voiceover.", "The engine builds the scenes — 3D (Three.js) or motion graphics — adds voice, music, subtitles, logo, intro and outro.", "Claude then watches the finished preview and writes the YouTube title, description, caption and hashtags, and designs the cover.", "You watch it, edit anything, then approve and choose where and when to publish.", "On approval a full-quality 1080p version is rendered and published only to the accounts you chose."].map((s, i) => (
               <li key={i} className="flex gap-3"><span className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-brand-100 text-xs font-bold text-brand-600">{i + 1}</span>{s}</li>
             ))}
           </ol>

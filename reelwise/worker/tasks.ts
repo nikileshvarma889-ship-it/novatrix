@@ -7,12 +7,14 @@ import { notify } from "../src/lib/audit";
 import { absPath, registerFile } from "../src/lib/storage";
 import { postText, scriptVideo } from "../src/lib/videos";
 import { generate, brandBrief } from "../src/lib/ai/claude";
-import { IdeasSchema } from "../src/lib/ai/schemas";
+import { IdeasSchema, PublishKitSchema, type Storyboard } from "../src/lib/ai/schemas";
+import { PUBLISH_KIT_SYSTEM } from "../src/lib/ai/prompts";
+import { AiNotConfigured } from "../src/lib/ai/claude";
 import { accountWithToken, markError } from "../src/lib/social/accounts";
 import { PlatformError } from "../src/lib/social/errors";
 import * as meta from "../src/lib/social/meta";
 import * as google from "../src/lib/social/google";
-import { renderVideo } from "./render";
+import { coverOffsetMs, renderCover, renderVideo, type Timeline } from "./render";
 import { ffprobeDuration } from "./audio";
 
 type P = Record<string, unknown>;
@@ -35,13 +37,123 @@ export async function renderJob(p: P) {
       await sql`update videos set render_progress = ${pr}, updated_at = now() where id = ${videoId}`;
     });
     const [v] = await sql`update videos set video_media_id = ${out.videoMedia}, thumbnail_media_id = ${out.thumbMedia}, render_quality = ${quality},
+        timeline = ${sql.json(out.timeline as never)},
         status = case when status = 'approved' then 'approved' else 'ready' end, render_progress = 1, updated_at = now()
-      where id = ${videoId} returning workspace_id, title, autopilot_rule_id, status`;
+      where id = ${videoId} returning workspace_id, title, autopilot_rule_id, status, publish_kit`;
+    // Claude writes the title, description, caption, hashtags and designs the cover from the finished video,
+    // unless the user has already edited them by hand.
+    const kit = v.publish_kit as { edited?: boolean } | null;
+    if (quality === "draft" && !kit?.edited) await queuePublishKit(videoId, {});
     if (quality === "draft")
       await notify(v.workspace_id, v.autopilot_rule_id ? "Auto Pilot video ready for your approval" : "Your video preview is ready", v.title, `/create/${videoId}`);
   } catch (e) {
     await sql`update videos set status = 'failed', error = ${(e as Error).message.slice(0, 1000)}, updated_at = now() where id = ${videoId}`;
     throw e;
+  }
+}
+
+/** Marks the kit as being written and queues the job (the approve button waits for it). */
+export async function queuePublishKit(videoId: string, opts: { note?: string; coverOnly?: boolean }) {
+  await sql`update videos set publish_kit = coalesce(publish_kit, '{}'::jsonb) || ${sql.json({ status: "generating", error: null } as never)}::jsonb where id = ${videoId}`;
+  await enqueue("publish_kit", { videoId, ...opts }, undefined, 2);
+}
+
+const fmtTime = (s: number) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, "0")}`;
+
+/** YouTube chapters need: first at 0:00, at least 3, each at least 10 s. Returns [] when the video is too short. */
+export function buildChapters(t: Timeline | null, titles: string[]) {
+  if (!t) return [];
+  const out: { at: number; title: string }[] = [];
+  t.sceneStarts.forEach((start, i) => {
+    const title = (titles[i] ?? "").trim();
+    if (!title) return;
+    if (!out.length) out.push({ at: 0, title });
+    else if (start - out[out.length - 1].at >= 10) out.push({ at: start, title });
+  });
+  if (out.length && t.totalSec - out[out.length - 1].at < 10) out.pop();
+  return out.length >= 3 ? out : [];
+}
+
+/** One frame from the middle of each scene of the rendered video, for Claude to look at. */
+function sceneFrames(videoPath: string, t: Timeline, maxFrames = 10) {
+  const n = t.sceneStarts.length;
+  const pick = n <= maxFrames ? [...Array(n).keys()] : [...Array(maxFrames).keys()].map((k) => Math.round((k * (n - 1)) / (maxFrames - 1)));
+  const dir = fs.mkdtempSync(path.join(process.env.TMPDIR || "/tmp", "rw-frames-"));
+  try {
+    return pick.map((i) => {
+      const out = path.join(dir, `${i}.jpg`);
+      const at = t.sceneStarts[i] + (t.sceneDurations[i] ?? 2) / 2;
+      execFileSync("ffmpeg", ["-y", "-v", "error", "-ss", at.toFixed(2), "-i", videoPath, "-frames:v", "1", "-vf", "scale='if(gt(iw,ih),640,-2)':'if(gt(iw,ih),-2,640)'", "-q:v", "4", out]);
+      return { scene: i, mime: "image/jpeg", data: fs.readFileSync(out).toString("base64") };
+    });
+  } finally {
+    fs.rmSync(dir, { recursive: true, force: true });
+  }
+}
+
+/** Claude writes the publishing package and designs the cover from the finished video. */
+export async function publishKitJob(p: P) {
+  const videoId = p.videoId as string;
+  const fail = async (msg: string) => {
+    await sql`update videos set publish_kit = coalesce(publish_kit, '{}'::jsonb) || ${sql.json({ status: "failed", error: msg } as never)}::jsonb where id = ${videoId}`;
+  };
+  try {
+    const [v] = await sql`select * from videos where id = ${videoId}`;
+    if (!v) return;
+    if (p.coverOnly) {
+      const thumb = await renderCover(videoId);
+      await sql`update videos set thumbnail_media_id = ${thumb}, publish_kit = publish_kit || ${sql.json({ status: "ready", error: null } as never)}::jsonb, updated_at = now() where id = ${videoId}`;
+      return;
+    }
+    const sb = v.storyboard as Storyboard | null;
+    const t = v.timeline as Timeline | null;
+    if (!sb?.scenes?.length || !v.video_media_id || !t) return void (await fail("Render the video first."));
+    const [brand] = v.brand_id ? await sql`select * from brands where id = ${v.brand_id}` : [null];
+    const [file] = await sql`select path from media where id = ${v.video_media_id}`;
+    const frames = sceneFrames(absPath(file.path), t);
+    const script = sb.scenes
+      .map((s, i) => `Scene ${i} (${fmtTime(t.sceneStarts[i] ?? 0)}, ${(t.sceneDurations[i] ?? s.durationSec).toFixed(1)}s, ${s.kind}): on-screen "${s.heading}${s.subheading ? ` / ${s.subheading}` : ""}"${s.bullets.length ? ` bullets: ${s.bullets.join("; ")}` : ""}. Voiceover: "${s.voiceover}"`)
+      .join("\n");
+    const kit = await generate(v.workspace_id, {
+      system: PUBLISH_KIT_SYSTEM,
+      schema: PublishKitSchema,
+      effort: "medium",
+      images: frames.map((f) => ({ mime: f.mime, data: f.data })),
+      prompt: [
+        brandBrief(brand),
+        `Brand colours: ${((brand?.colors as string[]) ?? []).join(", ") || "#5b6cff, #a78bfa"}`,
+        `\nThe ${frames.length} images above are frames from the finished video, in this order: ${frames.map((f, k) => `image ${k + 1} = scene ${f.scene}`).join(", ")}. On the cover, the scene's own on-screen text is removed and your headline is placed on the frame.`,
+        `\nVideo title: ${v.title}\nAspect ratio: ${v.aspect_ratio} (${v.aspect_ratio === "9:16" ? "a Reel / YouTube Short" : "a feed video"})\nLength: ${Math.round(t.totalSec)} s\nOriginal brief: ${v.instruction ?? ""}`,
+        `\nScript:\n${script}`,
+        p.note ? `\nThe user asked for this change: ${String(p.note).slice(0, 500)}` : "",
+      ].join("\n"),
+    });
+    const n = sb.scenes.length;
+    const colors = ((brand?.colors as string[]) ?? ["#5b6cff"]).filter((c) => /^#[0-9a-f]{6}$/i.test(c));
+    const cover = {
+      ...kit.cover,
+      sceneIndex: Math.max(0, Math.min(n - 1, Math.round(kit.cover.sceneIndex))),
+      accentColor: /^#[0-9a-f]{6}$/i.test(kit.cover.accentColor) ? kit.cover.accentColor : colors[0] ?? "#5b6cff",
+      headline: kit.cover.headline.slice(0, 48),
+      subline: kit.cover.subline.slice(0, 48),
+    };
+    const seen = new Set<string>();
+    const hashtags = kit.hashtags
+      .map((h) => ({ ...h, tag: h.tag.replace(/^#+/, "").replace(/\s+/g, "").slice(0, 60) }))
+      .filter((h) => h.tag && !seen.has(h.tag.toLowerCase()) && seen.add(h.tag.toLowerCase()))
+      .slice(0, 20);
+    const chapters = buildChapters(t, kit.chapterTitles);
+    const description = [kit.youtubeDescription.trim(), chapters.length ? chapters.map((c) => `${fmtTime(c.at)} ${c.title}`).join("\n") : ""].filter(Boolean).join("\n\n");
+    const stored = { status: "generating", error: null, edited: false, cover, hashtags, chapters, notes: kit.notes, generatedAt: new Date().toISOString(), note: p.note ?? null };
+    await sql`update videos set youtube_title = ${kit.youtubeTitle.slice(0, 100)}, youtube_description = ${description.slice(0, 5000)},
+        caption = ${kit.instagramCaption.slice(0, 2200)}, hashtags = ${hashtags.map((h) => h.tag)}, thumbnail_text = ${cover.headline},
+        publish_kit = ${sql.json(stored as never)}, updated_at = now() where id = ${videoId}`;
+    const thumb = await renderCover(videoId);
+    await sql`update videos set thumbnail_media_id = ${thumb}, publish_kit = publish_kit || ${sql.json({ status: "ready" } as never)}::jsonb, updated_at = now() where id = ${videoId}`;
+  } catch (e) {
+    const msg = e instanceof AiNotConfigured ? "Add a Claude API key in Settings → AI so Claude can write the title, description, hashtags and cover." : (e as Error).message.slice(0, 500);
+    await fail(msg);
+    if (!(e instanceof AiNotConfigured)) throw e;
   }
 }
 
@@ -71,8 +183,11 @@ export async function publishJob(p: P) {
     const text = postText(v as never, account.platform);
     const filePath = absPath(file.path);
     let result: { externalId: string; url: string | null };
-    if (account.platform === "facebook") result = await meta.publishFacebookVideo(account.external_id, token, filePath, text);
-    else if (account.platform === "instagram") result = await meta.publishInstagramReel(account.external_id, token, filePath, text.description);
+    const [cover] = v.thumbnail_media_id ? await sql`select path from media where id = ${v.thumbnail_media_id}` : [];
+    const coverScene = (v.publish_kit as { cover?: { sceneIndex: number } } | null)?.cover?.sceneIndex;
+    if (account.platform === "facebook") result = await meta.publishFacebookVideo(account.external_id, token, filePath, { ...text, thumbPath: cover ? absPath(cover.path) : null });
+    else if (account.platform === "instagram")
+      result = await meta.publishInstagramReel(account.external_id, token, filePath, text.description, coverScene != null ? coverOffsetMs(v.timeline as Timeline | null, coverScene) : 0);
     else {
       result = await google.uploadVideo(token, filePath, { title: text.title, description: text.description, tags: v.hashtags, privacy: "public" });
       if (v.thumbnail_media_id) {
@@ -160,7 +275,7 @@ export async function syncAnalyticsJob() {
                     on conflict (social_account_id, day) do update set metrics = excluded.metrics, fetched_at = now()`;
         }
         const ch = await google.myChannel(token);
-        await sql`update social_accounts set meta = meta || ${sql.json({ statistics: ch.statistics ?? {} } as never)} where id = ${a.id}`;
+        await sql`update social_accounts set meta = meta || ${sql.json({ statistics: ch.statistics ?? {} } as never)}::jsonb where id = ${a.id}`;
       } else {
         const r = a.platform === "instagram" ? await meta.instagramInsights(a.external_id, token, start, end) : await meta.pageInsights(a.external_id, token, start, end);
         await sql`insert into analytics_snapshots (workspace_id, social_account_id, day, metrics) values (${a.workspace_id}, ${a.id}, ${isoDay(end)}, ${sql.json({ range: "28d", ...r } as never)})

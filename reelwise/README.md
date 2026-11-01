@@ -2,6 +2,8 @@
 
 Describe a video → Claude writes the script and storyboard → Reelwise's own engine (Remotion + Three.js + FFmpeg) renders it with voiceover, music, subtitles, logo, intro and outro → **you preview, edit and approve** → it publishes to Instagram, Facebook and YouTube through their official APIs.
 
+**Publish kit, made by Claude:** once the preview renders, Claude looks at one frame from every scene plus the script and timings, then writes the YouTube title and description (with chapters when the video is long enough), the Instagram/Facebook caption and 12–20 hashtags (grouped as broad, niche and brand), and designs the cover: which scene to use, the headline, the highlighted word, the accent colour and where the text sits. The cover becomes the YouTube thumbnail and the Facebook video thumbnail; Instagram uses that same frame as the Reel cover (`thumb_offset`). Everything is editable before approval, and hand edits are never overwritten.
+
 Videos are produced entirely by this codebase's programmatic engine. Reelwise uses no external generative-video services.
 
 ## What's inside
@@ -17,7 +19,7 @@ Videos are produced entirely by this codebase's programmatic engine. Reelwise us
 | Video engine (Remotion compositions, Three.js 3D scenes) | `video/` |
 | Background worker (render, publish, Auto Pilot, sync) | `worker/` |
 | Android app (Capacitor 7) | `mobile/` |
-| Tests | `tests/` |
+| Tests (unit, end-to-end, integration: `npx vitest run -c vitest.it.config.ts`) | `tests/` |
 
 ## Rules the code enforces
 

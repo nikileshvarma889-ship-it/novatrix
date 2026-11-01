@@ -81,11 +81,13 @@ export async function listPages(userToken: string) {
 // ---------- publishing ----------
 
 /** Upload a video to a Facebook Page and wait until Meta reports it published. */
-export async function publishFacebookVideo(pageId: string, pageToken: string, filePath: string, opts: { title: string; description: string }) {
+export async function publishFacebookVideo(pageId: string, pageToken: string, filePath: string, opts: { title: string; description: string; thumbPath?: string | null }) {
   const form = new FormData();
   form.set("title", opts.title.slice(0, 250));
   form.set("description", opts.description);
   form.set("source", new Blob([fs.readFileSync(filePath)], { type: "video/mp4" }), "video.mp4");
+  // Custom cover: Facebook accepts an image file as the video's thumbnail.
+  if (opts.thumbPath && fs.existsSync(opts.thumbPath)) form.set("thumb", new Blob([fs.readFileSync(opts.thumbPath)], { type: "image/jpeg" }), "cover.jpg");
   const res = await graph<{ id: string }>(`${pageId}/videos`, { method: "POST", token: pageToken, body: form, host: "graph-video.facebook.com" });
   // Confirm with the platform rather than assuming success.
   for (let i = 0; i < 60; i++) {
@@ -103,11 +105,12 @@ export async function publishFacebookVideo(pageId: string, pageToken: string, fi
 }
 
 /** Publish an Instagram Reel via resumable upload → container → media_publish. */
-export async function publishInstagramReel(igUserId: string, token: string, filePath: string, caption: string) {
+export async function publishInstagramReel(igUserId: string, token: string, filePath: string, caption: string, thumbOffsetMs = 0) {
   const container = await graph<{ id: string; uri: string }>(`${igUserId}/media`, {
     method: "POST",
     token,
-    params: { media_type: "REELS", upload_type: "resumable", caption: caption.slice(0, 2200), share_to_feed: "true" },
+    // thumb_offset picks the Reel's cover frame (ms) - the scene Claude chose for the cover.
+    params: { media_type: "REELS", upload_type: "resumable", caption: caption.slice(0, 2200), share_to_feed: "true", ...(thumbOffsetMs > 0 ? { thumb_offset: String(thumbOffsetMs) } : {}) },
   });
   const data = fs.readFileSync(filePath);
   const up = await fetch(container.uri, { method: "POST", headers: { Authorization: `OAuth ${token}`, offset: "0", file_size: String(data.length) }, body: data });

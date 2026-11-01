@@ -3,15 +3,20 @@ import { use, useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { ArrowLeft, CheckCircle2, Download, Pencil, RefreshCw, Send, Trash2, Wand2, XCircle } from "lucide-react";
+import { ArrowLeft, CheckCircle2, Copy, Download, ImageIcon, Pencil, Plus, RefreshCw, Send, Sparkles, Trash2, Wand2, X, XCircle } from "lucide-react";
 import { api, Card, ErrorBox, Field, Loading, Modal, Notice, Page, Spinner, StatusBadge, fmtDate, mediaUrl, useAction, useApi } from "@/components/ui";
-import type { Storyboard, Scene } from "@/lib/ai/schemas";
+import type { Storyboard, Scene, CoverDesign } from "@/lib/ai/schemas";
 
 type Pub = { id: string; platform: string; status: string; scheduled_at: string | null; published_at: string | null; external_url: string | null; error: string | null; account_name: string };
 type Video = {
   id: string; title: string; instruction: string; status: string; style: string; aspect_ratio: string; render_progress: number; render_quality: string; error: string | null;
   storyboard: Storyboard | null; caption: string; hashtags: string[]; youtube_title: string; youtube_description: string; thumbnail_text: string;
+  publish_kit: Kit | null;
   video_media_id: string | null; thumbnail_media_id: string | null; render_options: { voice?: string; music?: string; musicVolume?: number }; publications: Pub[]; approved_at: string | null;
+};
+type Kit = {
+  status?: "generating" | "ready" | "failed"; error?: string | null; edited?: boolean; cover?: CoverDesign; notes?: string; generatedAt?: string;
+  hashtags?: { tag: string; reach: "broad" | "niche" | "brand" }[]; chapters?: { at: number; title: string }[];
 };
 type Account = { id: string; platform: string; name: string; status: string };
 type Voices = { options: { id: string; label: string }[] };
@@ -115,6 +120,158 @@ function SceneCard({ scene, index, onRegenerate, onEdit, disabled }: { scene: Sc
   );
 }
 
+const REACH: Record<string, { label: string; cls: string }> = {
+  broad: { label: "Broad reach", cls: "bg-brand-50 text-brand-700 ring-brand-200" },
+  niche: { label: "Niche / community", cls: "bg-lilac-100 text-[#6a4fd6] ring-lilac-300" },
+  brand: { label: "Brand", cls: "bg-amber-50 text-amber-700 ring-amber-200" },
+};
+
+const Count = ({ n, max }: { n: number; max: number }) => <span className={`text-[11px] ${n > max ? "text-red-600" : "text-ink-faint"}`}>{n}/{max}</span>;
+
+function CopyBtn({ text }: { text: string }) {
+  const [ok, setOk] = useState(false);
+  return (
+    <button type="button" className="btn-ghost !px-2 !py-1 text-[11px]" onClick={() => navigator.clipboard?.writeText(text).then(() => { setOk(true); setTimeout(() => setOk(false), 1500); })}>
+      <Copy className="h-3 w-3" /> {ok ? "Copied" : "Copy"}
+    </button>
+  );
+}
+
+/** Title, description, caption, hashtags and cover - written and designed by Claude from the finished video. */
+function PublishKitCard({ v, reload }: { v: Video; reload: () => void }) {
+  const kit = v.publish_kit ?? {};
+  const generating = kit.status === "generating";
+  const published = v.publications.some((p) => ["publishing", "published"].includes(p.status));
+  const { busy, run } = useAction();
+  const [t, setT] = useState({ youtube_title: "", youtube_description: "", caption: "" });
+  const [tags, setTags] = useState<string[]>([]);
+  const [newTag, setNewTag] = useState("");
+  const [note, setNote] = useState("");
+  const [coverOpen, setCoverOpen] = useState(false);
+  const scenes = v.storyboard?.scenes ?? [];
+  const blank: CoverDesign = { sceneIndex: 0, headline: v.thumbnail_text || v.title, highlightWord: "", subline: "", layout: "bottom", accentColor: "#5b6cff" };
+  const [cover, setCover] = useState<CoverDesign>(kit.cover ?? blank);
+  useEffect(() => {
+    setT({ youtube_title: v.youtube_title ?? "", youtube_description: v.youtube_description ?? "", caption: v.caption ?? "" });
+    setTags(v.hashtags ?? []);
+    setCover(v.publish_kit?.cover ?? blank);
+    // reset when Claude delivers a new kit or the video changes
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [v.id, kit.generatedAt, kit.status, v.status]);
+  const reach = new Map((kit.hashtags ?? []).map((h) => [h.tag.toLowerCase(), h.reach]));
+  const grouped = (["broad", "niche", "brand", "other"] as const).map((r) => ({ r, items: tags.filter((x) => (reach.get(x.toLowerCase()) ?? "other") === r) })).filter((g) => g.items.length);
+  const ready = Boolean(v.video_media_id) && !busyStatus(v.status);
+  const ask = () => run(async () => { await api(`/api/videos/${v.id}/publish-kit`, { method: "POST", json: { note: note || undefined } }); setNote(""); reload(); }, "Claude is watching the video and writing a new version.");
+  const save = () => run(async () => { await api(`/api/videos/${v.id}`, { method: "PATCH", json: { ...t, hashtags: tags } }); reload(); }, "Saved. Your edits will be used when publishing.");
+  const saveCover = () => run(async () => { await api(`/api/videos/${v.id}/publish-kit`, { method: "PUT", json: cover }); setCoverOpen(false); reload(); }, "Updating the cover…");
+  const addTag = () => {
+    const x = newTag.replace(/^#+/, "").replace(/\s+/g, "");
+    if (x && !tags.some((y) => y.toLowerCase() === x.toLowerCase())) setTags([...tags, x]);
+    setNewTag("");
+  };
+  const hashtagLine = tags.map((x) => `#${x}`).join(" ");
+  return (
+    <Card>
+      <div className="mb-1 flex flex-wrap items-center gap-2">
+        <div className="font-display text-lg font-bold">Title, description, hashtags & cover</div>
+        {generating ? <span className="chip bg-brand-50 text-brand-700"><Spinner /> Claude is working</span>
+          : kit.status === "ready" ? <span className="chip bg-emerald-50 text-emerald-700"><Sparkles className="h-3 w-3" /> {kit.edited ? "Made by Claude, edited by you" : "Made by Claude"}</span> : null}
+      </div>
+      <p className="muted mb-4">Claude watches the finished video (one frame from every scene plus the script) and writes the YouTube title and description, the Instagram/Facebook caption and the hashtags, then designs the cover. Everything here is what gets published. Edit anything before you approve.</p>
+
+      {generating ? (
+        <div className="mb-4 flex items-center gap-3 rounded-xl bg-gradient-to-r from-brand-50 to-lilac-50 px-4 py-3 text-sm text-ink-soft">
+          <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 2, ease: "linear" }}><Sparkles className="h-5 w-5 text-brand-500" /></motion.div>
+          Claude is watching your video and writing the title, description, hashtags and cover…
+        </div>
+      ) : null}
+      {kit.status === "failed" && kit.error ? <div className="mb-4"><ErrorBox error={kit.error} /></div> : null}
+      {!ready && !generating ? <Notice>These appear automatically once the preview has rendered.</Notice> : null}
+      {kit.notes && !generating ? <p className="mb-4 rounded-xl bg-white/70 px-3 py-2 text-xs text-ink-soft"><b>Claude&apos;s angle:</b> {kit.notes}</p> : null}
+
+      <div className="grid gap-5 md:grid-cols-[1fr_220px]">
+        <fieldset className="space-y-3" disabled={generating || published}>
+          <Field label="YouTube title">
+            <input className="input" maxLength={100} value={t.youtube_title} onChange={(e) => setT({ ...t, youtube_title: e.target.value })} />
+            <div className="mt-1 flex justify-between"><Count n={t.youtube_title.length} max={100} /><CopyBtn text={t.youtube_title} /></div>
+          </Field>
+          <Field label="YouTube description">
+            <textarea className="input min-h-[130px]" value={t.youtube_description} onChange={(e) => setT({ ...t, youtube_description: e.target.value })} />
+            <div className="mt-1 flex justify-between"><Count n={t.youtube_description.length} max={5000} /><CopyBtn text={[t.youtube_description, hashtagLine].filter(Boolean).join("\n\n")} /></div>
+          </Field>
+          {kit.chapters?.length ? <p className="-mt-1 text-[11px] text-ink-faint">Includes {kit.chapters.length} YouTube chapters built from the video&apos;s real scene timings.</p> : null}
+          <Field label="Instagram / Facebook caption">
+            <textarea className="input min-h-[110px]" value={t.caption} onChange={(e) => setT({ ...t, caption: e.target.value })} />
+            <div className="mt-1 flex justify-between"><Count n={t.caption.length + hashtagLine.length + 2} max={2200} /><CopyBtn text={[t.caption, hashtagLine].filter(Boolean).join("\n\n")} /></div>
+          </Field>
+          <div>
+            <div className="label flex items-center justify-between">Hashtags <span className="font-normal normal-case text-ink-faint">{tags.length} · Instagram allows 30</span></div>
+            <div className="space-y-2">
+              {grouped.map((g) => (
+                <div key={g.r}>
+                  <div className="mb-1 text-[11px] font-semibold uppercase tracking-wide text-ink-faint">{REACH[g.r]?.label ?? "Your tags"}</div>
+                  <div className="flex flex-wrap gap-1.5">
+                    {g.items.map((x) => (
+                      <span key={x} className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-medium ring-1 ${REACH[g.r]?.cls ?? "bg-white text-ink-soft ring-ink/10"}`}>
+                        #{x}
+                        <button type="button" aria-label={`Remove #${x}`} onClick={() => setTags(tags.filter((y) => y !== x))}><X className="h-3 w-3" /></button>
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              ))}
+              <div className="flex gap-2">
+                <input className="input !py-2 text-sm" placeholder="Add a hashtag" value={newTag} onChange={(e) => setNewTag(e.target.value)} onKeyDown={(e) => e.key === "Enter" && (e.preventDefault(), addTag())} />
+                <button type="button" className="btn-outline !py-2" onClick={addTag}><Plus className="h-4 w-4" /></button>
+                <CopyBtn text={hashtagLine} />
+              </div>
+              <p className="text-[11px] text-ink-faint">Claude picks tags the way people in this niche search: broad, niche and brand. It has no live trend data, so no tag is guaranteed to go viral.</p>
+            </div>
+          </div>
+        </fieldset>
+
+        <div>
+          <div className="label">Cover</div>
+          <div className={`overflow-hidden rounded-xl bg-brand-50 shadow-soft ${v.aspect_ratio === "9:16" ? "aspect-[9/16]" : v.aspect_ratio === "1:1" ? "aspect-square" : "aspect-video"}`}>
+            {v.thumbnail_media_id ? <img key={v.thumbnail_media_id} src={mediaUrl(v.thumbnail_media_id)} alt="Cover" className={`h-full w-full object-cover ${generating ? "opacity-50" : ""}`} /> : <div className="grid h-full place-items-center text-xs text-ink-faint"><ImageIcon className="h-6 w-6" /></div>}
+          </div>
+          <p className="mt-2 text-[11px] text-ink-faint">Used as the YouTube thumbnail and the Facebook video thumbnail. Instagram uses the same frame of the video as the Reel cover.</p>
+          <button type="button" className="btn-outline mt-2 w-full !py-2 text-xs" disabled={!ready || generating || published || !scenes.length} onClick={() => setCoverOpen(!coverOpen)}><Pencil className="h-3.5 w-3.5" /> Edit cover</button>
+          {coverOpen ? (
+            <div className="mt-3 space-y-2 rounded-xl bg-white/80 p-3">
+              <Field label="Headline"><input className="input !py-2 text-sm" maxLength={48} value={cover.headline} onChange={(e) => setCover({ ...cover, headline: e.target.value })} /></Field>
+              <Field label="Highlighted word"><input className="input !py-2 text-sm" value={cover.highlightWord} onChange={(e) => setCover({ ...cover, highlightWord: e.target.value })} /></Field>
+              <Field label="Sub line"><input className="input !py-2 text-sm" maxLength={48} value={cover.subline} onChange={(e) => setCover({ ...cover, subline: e.target.value })} /></Field>
+              <Field label="Background scene">
+                <select className="input !py-2 text-sm" value={cover.sceneIndex} onChange={(e) => setCover({ ...cover, sceneIndex: Number(e.target.value) })}>
+                  {scenes.map((s, i) => <option key={i} value={i}>{i + 1}. {s.heading || s.kind}</option>)}
+                </select>
+              </Field>
+              <div className="grid grid-cols-2 gap-2">
+                <Field label="Text position">
+                  <select className="input !py-2 text-sm" value={cover.layout} onChange={(e) => setCover({ ...cover, layout: e.target.value as CoverDesign["layout"] })}>
+                    <option value="top">Top</option><option value="center">Centre</option><option value="bottom">Bottom</option>
+                  </select>
+                </Field>
+                <Field label="Accent"><input type="color" className="input h-[38px] !p-1" value={cover.accentColor} onChange={(e) => setCover({ ...cover, accentColor: e.target.value })} /></Field>
+              </div>
+              <button type="button" className="btn-primary w-full !py-2 text-xs" disabled={busy} onClick={saveCover}>{busy ? <Spinner /> : null} Update cover</button>
+            </div>
+          ) : null}
+        </div>
+      </div>
+
+      {published ? <div className="mt-4"><Notice>This video has been published, so its text and cover are locked.</Notice></div> : (
+        <div className="mt-5 flex flex-col gap-3 border-t border-ink/5 pt-4 md:flex-row md:items-center">
+          <input className="input !py-2 text-sm md:flex-1" placeholder="Optional note for Claude, e.g. “more playful”, “target Telugu audience”" value={note} onChange={(e) => setNote(e.target.value)} disabled={!ready || generating} />
+          <button className="btn-outline" disabled={busy || !ready || generating} onClick={ask}><Wand2 className="h-4 w-4" /> {kit.status ? "Rewrite with Claude" : "Write with Claude"}</button>
+          <button className="btn-primary" disabled={busy || generating} onClick={save}>Save my edits</button>
+        </div>
+      )}
+    </Card>
+  );
+}
+
 export default function VideoPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
   const router = useRouter();
@@ -122,12 +279,10 @@ export default function VideoPage({ params }: { params: Promise<{ id: string }> 
   const voices = useApi<Voices>("/api/voices");
   const [approve, setApprove] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
-  const [text, setText] = useState({ caption: "", hashtags: "", youtube_title: "", youtube_description: "", thumbnail_text: "", title: "" });
   const [instruction, setInstruction] = useState("");
   const { busy, run } = useAction();
   useEffect(() => {
     if (v) {
-      setText({ caption: v.caption, hashtags: v.hashtags.map((h) => `#${h}`).join(" "), youtube_title: v.youtube_title, youtube_description: v.youtube_description, thumbnail_text: v.thumbnail_text, title: v.title });
       setInstruction(v.instruction);
     }
     // only when the server copy changes identity
@@ -172,7 +327,7 @@ export default function VideoPage({ params }: { params: Promise<{ id: string }> 
           {v.status === "failed" ? <button className="btn-outline mt-3 w-full" disabled={busy} onClick={() => run(async () => { await api(`/api/videos/${v.id}/render`, { method: "POST" }); reload(); }, "Retrying.")}><RefreshCw className="h-4 w-4" /> Try again</button> : null}
 
           <div className="mt-4 grid grid-cols-2 gap-3">
-            <button className="btn-primary !py-3.5" disabled={working || !["ready", "approved"].includes(v.status)} onClick={() => setApprove(true)}><CheckCircle2 className="h-5 w-5" /> APPROVE & PUBLISH</button>
+            <button className="btn-primary !py-3.5" disabled={working || !["ready", "approved"].includes(v.status) || v.publish_kit?.status === "generating"} title={v.publish_kit?.status === "generating" ? "Claude is still writing the title, hashtags and cover" : undefined} onClick={() => setApprove(true)}><CheckCircle2 className="h-5 w-5" /> APPROVE & PUBLISH</button>
             <button className="btn-outline !py-3.5" disabled={working} onClick={() => setEditOpen(true)}><Pencil className="h-5 w-5" /> EDIT VIDEO</button>
           </div>
           <div className="mt-2 flex gap-2">
@@ -220,36 +375,7 @@ export default function VideoPage({ params }: { params: Promise<{ id: string }> 
               </div>
             </Card>
           ) : null}
-          <Card>
-            <div className="mb-3 font-display text-lg font-bold">Captions, hashtags & thumbnail</div>
-            <div className="grid gap-4 md:grid-cols-[1fr_200px]">
-              <div className="space-y-3">
-                <Field label="Instagram / Facebook caption"><textarea className="input min-h-[110px]" value={text.caption} onChange={(e) => setText({ ...text, caption: e.target.value })} /></Field>
-                <Field label="Hashtags"><input className="input" value={text.hashtags} onChange={(e) => setText({ ...text, hashtags: e.target.value })} /></Field>
-                <Field label="YouTube title"><input className="input" maxLength={100} value={text.youtube_title} onChange={(e) => setText({ ...text, youtube_title: e.target.value })} /></Field>
-                <Field label="YouTube description"><textarea className="input min-h-[90px]" value={text.youtube_description} onChange={(e) => setText({ ...text, youtube_description: e.target.value })} /></Field>
-              </div>
-              <div>
-                <div className="label">Thumbnail</div>
-                {v.thumbnail_media_id ? <img src={mediaUrl(v.thumbnail_media_id)} alt="Thumbnail" className="w-full rounded-xl shadow-soft" /> : <div className="grid aspect-video place-items-center rounded-xl bg-brand-50 text-xs text-ink-faint">After render</div>}
-                <Field label="Thumbnail text"><input className="input mt-2" value={text.thumbnail_text} onChange={(e) => setText({ ...text, thumbnail_text: e.target.value })} /></Field>
-              </div>
-            </div>
-            <div className="mt-4 flex justify-end">
-              <button
-                className="btn-primary"
-                disabled={busy}
-                onClick={() =>
-                  patch(
-                    { ...text, hashtags: text.hashtags.split(/[\s,]+/).map((h) => h.replace(/^#/, "")).filter(Boolean) },
-                    "Text saved.",
-                  )
-                }
-              >
-                Save text
-              </button>
-            </div>
-          </Card>
+          <PublishKitCard v={v} reload={reload} />
         </div>
       </div>
 

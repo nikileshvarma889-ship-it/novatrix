@@ -1,4 +1,4 @@
-import type { Storyboard } from "../src/lib/ai/schemas";
+import type { CoverDesign, Storyboard } from "../src/lib/ai/schemas";
 
 export type Aspect = "9:16" | "16:9" | "1:1";
 export const DIMENSIONS: Record<Aspect, { width: number; height: number }> = {
@@ -36,4 +36,6 @@ export type VideoProps = {
   cues: Cue[];
   introSec: number;
   outroSec: number;
+  /** Claude's cover design; null falls back to the first scene + thumbnail text. */
+  cover?: CoverDesign | null;
 };

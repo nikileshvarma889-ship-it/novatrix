@@ -29,7 +29,7 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci --no-audit --no-fund
 # Remotion downloads its own pinned headless Chrome.
-RUN npx remotion browser ensure
+RUN node -e "require('@remotion/renderer').ensureBrowser().then(() => console.log('Chrome ready'))"
 
 COPY . .
 RUN rm -f .env && npm run build

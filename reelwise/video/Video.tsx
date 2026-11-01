@@ -11,7 +11,7 @@ import { BrandCard, Grade, LogoBug, LowerThird, Subtitles } from "./Overlays";
 
 const T = 12; // transition frames
 
-const SceneView: React.FC<{ p: VideoProps; i: number }> = ({ p, i }) => {
+const SceneView: React.FC<{ p: VideoProps; i: number; bare?: boolean }> = ({ p, i, bare }) => {
   const f = useCurrentFrame();
   const { fps } = useVideoConfig();
   const scene = p.storyboard.scenes[i];
@@ -22,13 +22,13 @@ const SceneView: React.FC<{ p: VideoProps; i: number }> = ({ p, i }) => {
     return (
       <AbsoluteFill>
         <Comp3D t={f / fps} dur={dur} mood={scene.mood} accent={p.brand.colors[0]} accent2={p.brand.colors[1]} camera={scene.camera} characterColor={scene.characterColor} imageUrl={imageUrl} fromPlace={scene.fromPlace} toPlace={scene.toPlace} />
-        <LowerThird heading={scene.heading} subheading={scene.subheading} brand={p.brand} />
+        {bare ? null : <LowerThird heading={scene.heading} subheading={scene.subheading} brand={p.brand} />}
       </AbsoluteFill>
     );
   }
   return (
     <AbsoluteFill>
-      <PromoScene scene={scene} brand={p.brand} imageUrl={imageUrl} dur={dur} />
+      <PromoScene scene={scene} brand={p.brand} imageUrl={imageUrl} dur={dur} bare={bare} />
       <Sparkles color={p.brand.colors[1]} />
     </AbsoluteFill>
   );
@@ -75,20 +75,52 @@ export const ReelwiseVideo: React.FC<VideoProps> = (p) => {
   );
 };
 
-/** Thumbnail: first scene's visual with the thumbnail text. */
+/** Cover / thumbnail: the chosen scene's frame with Claude's headline (or the thumbnail text). */
 export const ReelwiseThumbnail: React.FC<VideoProps> = (p) => {
   const { width, height } = useVideoConfig();
   const k = Math.min(width, height) / 1080;
-  const text = p.storyboard.thumbnailText || p.storyboard.title;
+  const c = p.cover ?? null;
+  const n = p.storyboard.scenes.length;
+  const i = c ? Math.max(0, Math.min(n - 1, Math.round(c.sceneIndex))) : 0;
+  const mid = Math.round(((p.sceneDurations[i] ?? 3) * FPS) / 2);
+  const headline = (c?.headline || p.storyboard.thumbnailText || p.storyboard.title).trim();
+  const accent = c && /^#[0-9a-f]{6}$/i.test(c.accentColor) ? c.accentColor : p.brand.colors[0];
+  const hl = (c?.highlightWord ?? "").trim().toLowerCase();
+  const layout = c?.layout ?? "bottom";
+  const portrait = height > width;
+  const size = (portrait ? 132 : 118) * k * (headline.length > 22 ? 0.78 : 1);
+  const shade =
+    layout === "top" ? "linear-gradient(0deg, transparent 40%, rgba(5,8,20,.8))"
+    : layout === "center" ? "radial-gradient(ellipse at center, rgba(5,8,20,.7), rgba(5,8,20,.15) 70%)"
+    : "linear-gradient(180deg, transparent 35%, rgba(5,8,20,.82))";
   return (
     <AbsoluteFill>
-      <Sequence from={-45}>
-        <SceneView p={p} i={0} />
+      <Sequence from={-mid}>
+        <SceneView p={p} i={i} bare />
       </Sequence>
-      <AbsoluteFill style={{ background: "linear-gradient(180deg, transparent 30%, rgba(5,8,20,.75))" }} />
-      <AbsoluteFill style={{ justifyContent: "flex-end", padding: 70 * k }}>
-        <div style={{ fontFamily: p.brand.headingFont, fontWeight: 900, fontSize: 120 * k, lineHeight: 1, color: "#fff", textTransform: "uppercase", textShadow: "0 8px 30px rgba(0,0,0,.6)" }}>{text}</div>
-        <div style={{ marginTop: 24 * k, width: 180 * k, height: 14 * k, borderRadius: 9, background: p.brand.colors[0] }} />
+      <AbsoluteFill style={{ background: shade }} />
+      <AbsoluteFill
+        style={{
+          justifyContent: layout === "top" ? "flex-start" : layout === "center" ? "center" : "flex-end",
+          alignItems: layout === "center" ? "center" : "flex-start",
+          textAlign: layout === "center" ? "center" : "left",
+          padding: `${(layout === "top" ? 150 : 80) * k}px ${70 * k}px ${(portrait && layout === "bottom" ? 220 : 80) * k}px`,
+        }}
+      >
+        <div style={{ fontFamily: p.brand.headingFont, fontWeight: 900, fontSize: size, lineHeight: 1.02, color: "#fff", textTransform: "uppercase", letterSpacing: -1 * k, textShadow: "0 10px 34px rgba(0,0,0,.65)", maxWidth: "100%" }}>
+          {headline.split(/(\s+)/).map((w, j) =>
+            hl && w.toLowerCase().replace(/[^\p{L}\p{N}]/gu, "") === hl.replace(/[^\p{L}\p{N}]/gu, "") ? (
+              <span key={j} style={{ color: accent }}>{w}</span>
+            ) : (
+              <React.Fragment key={j}>{w}</React.Fragment>
+            ),
+          )}
+        </div>
+        {c?.subline ? (
+          <div style={{ marginTop: 22 * k, display: "inline-block", padding: `${12 * k}px ${24 * k}px`, borderRadius: 14 * k, background: accent, color: "#fff", fontFamily: p.brand.bodyFont, fontWeight: 800, fontSize: 46 * k }}>{c.subline}</div>
+        ) : (
+          <div style={{ marginTop: 24 * k, width: 180 * k, height: 14 * k, borderRadius: 9, background: accent }} />
+        )}
       </AbsoluteFill>
       <LogoBug brand={p.brand} />
     </AbsoluteFill>

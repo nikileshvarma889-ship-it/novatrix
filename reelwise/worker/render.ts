@@ -7,9 +7,9 @@ import { bundle } from "@remotion/bundler";
 import { renderMedia, renderStill, selectComposition } from "@remotion/renderer";
 import { sql } from "../src/lib/db";
 import { STORAGE_DIR, absPath, registerFile } from "../src/lib/storage";
-import type { Storyboard } from "../src/lib/ai/schemas";
+import type { CoverDesign, Storyboard } from "../src/lib/ai/schemas";
 import type { BrandKit, Cue, VideoProps, Aspect } from "../video/types";
-import { DIMENSIONS } from "../video/types";
+import { DIMENSIONS, FPS } from "../video/types";
 import { serve, startAssetServer } from "./assets";
 import { isTelugu, TELUGU_VOICE } from "../src/lib/voices";
 import { ffprobeDuration, mixVoiceover, moodBed, synthScenes, whoosh } from "./audio";
@@ -36,14 +36,16 @@ export function buildCues(text: string, start: number, dur: number, maxWords = 7
   });
 }
 
-export async function renderVideo(videoId: string, quality: "draft" | "final", onProgress: (p: number) => Promise<void>) {
+export type Timeline = { introSec: number; sceneStarts: number[]; sceneDurations: number[]; totalSec: number };
+
+/** Everything the compositions need. With audio=false (cover only) no voice is synthesised. */
+async function buildProps(videoId: string, audio: boolean) {
   const [v] = await sql`select * from videos where id = ${videoId}`;
   if (!v) throw new Error("Video not found");
   const sb = v.storyboard as Storyboard | null;
   if (!sb?.scenes?.length) throw new Error("This video has no storyboard yet.");
   const [b] = v.brand_id ? await sql`select * from brands where id = ${v.brand_id}` : [null];
-  const base = await startAssetServer();
-  void base;
+  await startAssetServer();
   const work = fs.mkdtempSync(path.join(os.tmpdir(), "rw-render-"));
 
   // ---- media referenced by the storyboard ----
@@ -74,7 +76,7 @@ export async function renderVideo(videoId: string, quality: "draft" | "final", o
   if (custom) {
     const [m] = await sql`select path from media where id = ${custom} and workspace_id = ${v.workspace_id}`;
     if (m) voiceoverUrl = serve(absPath(m.path));
-  } else if (voiceChoice !== "none" && sb.scenes.some((s) => s.voiceover.trim())) {
+  } else if (audio && voiceChoice !== "none" && sb.scenes.some((s) => s.voiceover.trim())) {
     const clips = await synthScenes(path.join(work, "vo"), sb.scenes.map((s) => s.voiceover), voiceChoice, v.workspace_id);
     durations = planned.map((d, i) => Math.max(d, (clips[i]?.duration ?? 0) + 0.8));
     if (clips.some(Boolean)) {
@@ -94,7 +96,9 @@ export async function renderVideo(videoId: string, quality: "draft" | "final", o
   // ---- music ----
   const musicChoice = opts.music;
   let musicUrl: string | null = null;
-  if (musicChoice && musicChoice !== "none" && !musicChoice.startsWith("mood:")) {
+  if (!audio) {
+    // cover only: no music needed
+  } else if (musicChoice && musicChoice !== "none" && !musicChoice.startsWith("mood:")) {
     const [m] = await sql`select path from media where id = ${musicChoice} and workspace_id = ${v.workspace_id}`;
     if (m) musicUrl = serve(absPath(m.path));
   } else if (musicChoice !== "none") {
@@ -126,18 +130,49 @@ export async function renderVideo(videoId: string, quality: "draft" | "final", o
     sceneDurations: durations,
     voiceoverUrl,
     musicUrl,
-    sfxUrl: serve(whoosh()),
+    sfxUrl: audio ? serve(whoosh()) : null,
     musicVolume: opts.musicVolume ?? 0.5,
     cues,
     introSec,
     outroSec,
+    cover: ((v.publish_kit as { cover?: CoverDesign } | null)?.cover ?? null) as CoverDesign | null,
   };
+  const timeline: Timeline = {
+    introSec,
+    sceneStarts: sb.scenes.map((_, i) => +sceneStart(i, durations).toFixed(2)),
+    sceneDurations: durations.map((d) => +d.toFixed(2)),
+    totalSec: +(sceneStart(sb.scenes.length, durations) + outroSec).toFixed(2),
+  };
+  return { v, sb, props, timeline, work };
+}
 
-  // ---- render ----
+const chromiumOptions = { gl: "swangle" as const };
+const browserExecutable = () => process.env.REMOTION_BROWSER_EXECUTABLE || null;
+
+/** Renders the cover (JPEG: YouTube rejects thumbnails over 2 MB) and registers it as media. */
+async function renderCoverFile(v: { id: string; workspace_id: string }, props: VideoProps): Promise<string> {
   const serveUrl = await getBundle();
-  const chromiumOptions = { gl: "swangle" as const };
-  const browserExecutable = process.env.REMOTION_BROWSER_EXECUTABLE || null;
-  const comp = await selectComposition({ serveUrl, id: "ReelwiseVideo", inputProps: props, chromiumOptions, browserExecutable });
+  const thumbComp = await selectComposition({ serveUrl, id: "ReelwiseThumbnail", inputProps: props, chromiumOptions, browserExecutable: browserExecutable() });
+  const thumbRel = path.join(v.workspace_id, `cover-${v.id}-${Date.now()}.jpg`);
+  fs.mkdirSync(path.dirname(absPath(thumbRel)), { recursive: true });
+  await renderStill({ serveUrl, composition: thumbComp, inputProps: props, output: absPath(thumbRel), imageFormat: "jpeg", jpegQuality: 88, chromiumOptions, browserExecutable: browserExecutable(), frame: 0 });
+  return registerFile({ workspaceId: v.workspace_id, rel: thumbRel, filename: "cover.jpg", mime: "image/jpeg", kind: "image", source: "thumbnail", width: thumbComp.width, height: thumbComp.height });
+}
+
+/** Re-renders only the cover (after Claude designs it or the user edits it). */
+export async function renderCover(videoId: string) {
+  const { v, props, work } = await buildProps(videoId, false);
+  try {
+    return await renderCoverFile(v as never, props);
+  } finally {
+    fs.rmSync(work, { recursive: true, force: true });
+  }
+}
+
+export async function renderVideo(videoId: string, quality: "draft" | "final", onProgress: (p: number) => Promise<void>) {
+  const { v, sb, props, timeline, work } = await buildProps(videoId, true);
+  const serveUrl = await getBundle();
+  const comp = await selectComposition({ serveUrl, id: "ReelwiseVideo", inputProps: props, chromiumOptions, browserExecutable: browserExecutable() });
   const rel = path.join(v.workspace_id, `video-${videoId}-${quality}-${Date.now()}.mp4`);
   fs.mkdirSync(path.dirname(absPath(rel)), { recursive: true });
   let last = 0;
@@ -152,7 +187,7 @@ export async function renderVideo(videoId: string, quality: "draft" | "final", o
     scale: quality === "final" ? 1 : 0.5,
     outputLocation: absPath(rel),
     chromiumOptions,
-    browserExecutable,
+    browserExecutable: browserExecutable(),
     concurrency: Number(process.env.RENDER_CONCURRENCY || 2),
     onProgress: ({ progress }) => {
       if (progress - last > 0.03 || progress === 1) {
@@ -174,14 +209,12 @@ export async function renderVideo(videoId: string, quality: "draft" | "final", o
     width: dims.width * scale,
     height: dims.height * scale,
   });
-
-  const thumbComp = await selectComposition({ serveUrl, id: "ReelwiseThumbnail", inputProps: props, chromiumOptions, browserExecutable });
-  const thumbRel = path.join(v.workspace_id, `thumb-${videoId}-${Date.now()}.png`);
-  await renderStill({ serveUrl, composition: thumbComp, inputProps: props, output: absPath(thumbRel), chromiumOptions, browserExecutable, frame: 0 });
-  const thumbMedia = await registerFile({ workspaceId: v.workspace_id, rel: thumbRel, filename: "thumbnail.png", mime: "image/png", kind: "image", source: "thumbnail", width: thumbComp.width, height: thumbComp.height });
-
+  const thumbMedia = await renderCoverFile(v as never, props);
   fs.rmSync(work, { recursive: true, force: true });
-  return { videoMedia, thumbMedia };
+  return { videoMedia, thumbMedia, timeline };
 }
 
-export { STORAGE_DIR };
+export const coverOffsetMs = (t: Timeline | null, sceneIndex: number) =>
+  t && t.sceneStarts[sceneIndex] != null ? Math.round((t.sceneStarts[sceneIndex] + (t.sceneDurations[sceneIndex] ?? 2) / 2) * 1000) : 0;
+
+export { STORAGE_DIR, FPS };

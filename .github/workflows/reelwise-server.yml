@@ -82,6 +82,10 @@ jobs:
           sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg >/dev/null
           npm ci --no-audit --no-fund
           BASE=http://localhost:3000 STORAGE_DIR="$PWD/ci-storage" node tests/e2e.mjs
+          npx vitest run
+          # Claude publish kit on the video the e2e suite rendered (Claude's reply stubbed: CI has no API key)
+          sudo chmod -R a+rwX "$PWD/ci-storage"
+          STORAGE_DIR="$PWD/ci-storage" npx vitest run -c vitest.it.config.ts
 
       - name: Container logs
         if: always()

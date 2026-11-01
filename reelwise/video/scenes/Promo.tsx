@@ -50,7 +50,7 @@ export const Headline: React.FC<{ text: string; size: number; color: string; fon
   </div>
 );
 
-export const PromoScene: React.FC<{ scene: Scene; brand: BrandKit; imageUrl: string | null; dur: number }> = ({ scene, brand, imageUrl }) => {
+export const PromoScene: React.FC<{ scene: Scene; brand: BrandKit; imageUrl: string | null; dur: number; bare?: boolean }> = ({ scene, brand, imageUrl, bare }) => {
   const f = useCurrentFrame();
   const { fps, width, height, durationInFrames } = useVideoConfig();
   const k = useScale();
@@ -77,7 +77,19 @@ export const PromoScene: React.FC<{ scene: Scene; brand: BrandKit; imageUrl: str
     ) : null;
 
   let body: React.ReactNode;
-  switch (scene.kind) {
+  // Cover mode: only the visual subject, no text, logo or buttons (the cover adds its own headline).
+  if (bare) {
+    body = imageUrl ? (
+      scene.kind === "product" ? (
+        <AbsoluteFill style={{ alignItems: "center", justifyContent: "center" }}>
+          <div style={{ position: "absolute", width: width * 0.9, aspectRatio: "1", borderRadius: 999, background: `radial-gradient(circle, ${accent}77, transparent 70%)` }} />
+          <Img src={imageUrl} style={{ width: width * (portrait ? 0.78 : 0.4), objectFit: "contain", filter: "drop-shadow(0 40px 50px rgba(0,0,0,.35))" }} />
+        </AbsoluteFill>
+      ) : (
+        <AbsoluteFill><Img src={imageUrl} style={{ width: "100%", height: "100%", objectFit: "cover", transform: `scale(${kb})` }} /></AbsoluteFill>
+      )
+    ) : null;
+  } else switch (scene.kind) {
     case "text_image":
       body = (
         <AbsoluteFill style={{ flexDirection: portrait ? "column" : "row", alignItems: "center", justifyContent: "center", gap: 60 * k, padding: 80 * k }}>

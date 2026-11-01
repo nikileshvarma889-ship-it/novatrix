@@ -2,11 +2,12 @@
 import os from "node:os";
 import { sql } from "../src/lib/db";
 import { claim, complete, enqueue, fail, JobType } from "../src/lib/jobs";
-import { autopilotJob, publishJob, recycleJob, refreshTokensJob, renderJob, scriptJob, syncAnalyticsJob, syncInboxJob } from "./tasks";
+import { autopilotJob, publishJob, publishKitJob, recycleJob, refreshTokensJob, renderJob, scriptJob, syncAnalyticsJob, syncInboxJob } from "./tasks";
 
 const id = `${os.hostname()}-${process.pid}`;
 const HANDLERS: Record<JobType, (p: Record<string, unknown>) => Promise<void>> = {
   script_video: scriptJob,
+  publish_kit: publishKitJob,
   render_video: renderJob,
   recycle_video: recycleJob,
   publish: publishJob,
@@ -50,6 +51,6 @@ async function main() {
     if (!x) await enqueue(type, {}, new Date(), 1);
   }
   console.log(`worker ${id} started`);
-  await Promise.all([loop("render", ["render_video", "recycle_video"]), loop("main", ["script_video", "publish", "autopilot_tick", "sync_analytics", "sync_inbox", "refresh_tokens"])]);
+  await Promise.all([loop("render", ["render_video", "recycle_video"]), loop("main", ["script_video", "publish_kit", "publish", "autopilot_tick", "sync_analytics", "sync_inbox", "refresh_tokens"])]);
 }
 main();

@@ -16,6 +16,8 @@ export const POST = route<{ id: string }>({ min: "editor", limit: [20, 60_000] }
   const v = await findVideo(user.workspaceId, params.id);
   const d = await body(req, Approve);
   if (!["ready", "approved"].includes(v.status) || !v.video_media_id) throw new HttpError(409, "Watch the finished preview before approving. The video is not ready yet.");
+  if ((v.publish_kit as { status?: string } | null)?.status === "generating")
+    throw new HttpError(409, "Claude is still writing the title, description, hashtags and cover. Approve once they appear so you can check them.");
   const when = d.scheduleAt ? new Date(d.scheduleAt) : new Date();
   if (d.scheduleAt && when.getTime() < Date.now() - 60_000) throw new HttpError(400, "The scheduled time is in the past.");
   const accounts = await sql`select id, platform, status, name from social_accounts where workspace_id = ${user.workspaceId} and id = any(${d.accountIds})`;

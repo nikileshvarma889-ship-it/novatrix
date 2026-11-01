@@ -46,3 +46,25 @@ export const ContentSchema = z.object({
 export const ReplySchema = z.object({ reply: z.string(), needsHuman: z.boolean().describe("true if the comment is a complaint, legal, medical or sensitive") });
 export const IdeasSchema = z.object({ ideas: z.array(z.object({ title: z.string(), instruction: z.string() })) });
 export const RecommendationsSchema = z.object({ recommendations: z.array(z.object({ title: z.string(), detail: z.string() })) });
+
+export const COVER_LAYOUTS = ["bottom", "center", "top"] as const;
+export const CoverSchema = z.object({
+  sceneIndex: z.number().int().describe("0-based index of the scene whose frame makes the strongest cover"),
+  headline: z.string().describe("2-5 punchy words for the cover, in the video's language"),
+  highlightWord: z.string().describe("one word from the headline to colour with the accent; empty for none"),
+  subline: z.string().describe("optional supporting line, max 6 words; may be empty"),
+  layout: z.enum(COVER_LAYOUTS).describe("where the text sits so it does not cover the subject"),
+  accentColor: z.string().describe("hex colour from the brand palette that pops on this frame"),
+});
+export type CoverDesign = z.infer<typeof CoverSchema>;
+
+export const PublishKitSchema = z.object({
+  youtubeTitle: z.string().describe("max 90 characters, front-load the hook and the key search phrase"),
+  youtubeDescription: z.string().describe("2-4 short paragraphs: hook, what the viewer gets, call to action with website/contact if given. No hashtags."),
+  instagramCaption: z.string().describe("hook line, 2-4 short lines with line breaks, call to action. No hashtags."),
+  hashtags: z.array(z.object({ tag: z.string().describe("without #"), reach: z.enum(["broad", "niche", "brand"]) })).describe("12-20 hashtags: a mix of broad high-volume, niche/community and brand tags"),
+  chapterTitles: z.array(z.string()).describe("one short title per scene, in scene order"),
+  cover: CoverSchema,
+  notes: z.string().describe("one line explaining the angle chosen"),
+});
+export type PublishKit = z.infer<typeof PublishKitSchema>;

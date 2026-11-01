@@ -41,6 +41,9 @@ export const PATCH = route<P>({ min: "editor" }, async ({ req, user, params, ip 
   if (render_options) set.render_options = sql.json({ ...(v.render_options ?? {}), ...render_options } as never);
   const changesVideo = Boolean(storyboard || render_options);
   if (Object.keys(set).length) await sql`update videos set ${sql(set as never)}, updated_at = now() where id = ${v.id}`;
+  // Hand edits to the publishing text win: Claude won't overwrite them on the next render.
+  if (["caption", "hashtags", "youtube_title", "youtube_description", "thumbnail_text"].some((k) => k in fields))
+    await sql`update videos set publish_kit = coalesce(publish_kit, '{}'::jsonb) || '{"edited": true}'::jsonb where id = ${v.id}`;
   // Any change to what's on screen invalidates approval and needs a new render.
   if (changesVideo || rerender) {
     await sql`update videos set status = 'rendering', render_progress = 0, approved_at = null, approved_by = null where id = ${v.id}`;
