@@ -27,7 +27,8 @@ RUN if [ "$INSTALL_PIPER" = "1" ]; then \
 
 WORKDIR /app
 COPY package.json package-lock.json ./
-RUN npm ci --no-audit --no-fund
+# --include=dev: TypeScript, Tailwind and tsx (runs the worker and migrations) are needed at build and run time.
+RUN npm ci --include=dev --no-audit --no-fund
 # Remotion downloads its own pinned headless Chrome.
 RUN node -e "require('@remotion/renderer').ensureBrowser().then(() => console.log('Chrome ready'))"
 
