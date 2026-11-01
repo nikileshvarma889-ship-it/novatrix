@@ -2,10 +2,12 @@
 import fs from "node:fs";
 import path from "node:path";
 import postgres from "postgres";
+import { pgConnection } from "../src/lib/db-url";
 
 const url = process.env.DATABASE_URL;
 if (!url) throw new Error("DATABASE_URL is not set (see .env.example)");
-const sql = postgres(url, { max: 1, onnotice: () => {} });
+const conn = pgConnection(url);
+const sql = postgres(conn.url, { max: 1, prepare: conn.prepare, onnotice: () => {} });
 const dir = path.join(process.cwd(), "db/migrations");
 
 async function main() {

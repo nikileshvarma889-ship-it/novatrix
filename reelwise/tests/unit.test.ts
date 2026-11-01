@@ -78,3 +78,13 @@ describe("approval schema", () => {
     expect(Approve.safeParse({ accountIds: [crypto.randomUUID()], scheduleAt: null, confirm: true }).success).toBe(true);
   });
 });
+
+import { pgConnection } from "../src/lib/db-url";
+describe("database URL", () => {
+  it("strips libpq-only params and detects poolers", () => {
+    const neon = pgConnection("postgresql://u:p@ep-cool-1-pooler.us-east-2.aws.neon.tech/neondb?sslmode=require&channel_binding=require");
+    expect(neon.url).toBe("postgresql://u:p@ep-cool-1-pooler.us-east-2.aws.neon.tech/neondb?sslmode=require");
+    expect(neon.prepare).toBe(false);
+    expect(pgConnection("postgres://u:p@localhost:5432/db").prepare).toBe(true);
+  });
+});

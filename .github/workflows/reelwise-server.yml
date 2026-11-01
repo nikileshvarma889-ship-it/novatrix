@@ -10,6 +10,7 @@ on:
       - "!reelwise/mobile/**"
       - "!reelwise/docs/**"
       - ".github/workflows/reelwise-server.yml"
+      - "deploy/**"
   workflow_dispatch:
 
 permissions:
@@ -107,3 +108,56 @@ jobs:
           HOOK: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
         run: |
           if [ -n "$HOOK" ]; then curl -fsS -X POST "$HOOK" >/dev/null && echo "Deploy triggered"; else echo "No RENDER_DEPLOY_HOOK_URL secret; skipping deploy."; fi
+
+  # The free Hugging Face Space build (deploy/huggingface/Dockerfile), run the way Hugging Face runs it:
+  # as user 1000 on port 7860, with a Neon-style DATABASE_URL (channel_binding must be tolerated).
+  huggingface-space:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_DB: reelwise
+          POSTGRES_USER: reelwise
+          POSTGRES_PASSWORD: ci_only_password
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U reelwise" --health-interval 5s --health-retries 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - name: Build the Space image (clones this branch from GitHub)
+        uses: docker/build-push-action@v6
+        with:
+          context: deploy/huggingface
+          load: true
+          tags: reelwise-hf:test
+          build-args: REELWISE_REF=${{ github.ref_name }}
+          cache-from: type=gha,scope=hf
+          cache-to: type=gha,mode=max,scope=hf
+      - name: Run it like Hugging Face does
+        run: |
+          mkdir -p "$PWD/hf-storage" && chmod 777 "$PWD/hf-storage"
+          KEY="$(openssl rand -base64 32)"; echo "::add-mask::$KEY"; echo "ENCRYPTION_KEY=$KEY" >> "$GITHUB_ENV"
+          docker run -d --name hf --network host --user 1000 \
+            -e DATABASE_URL="postgresql://reelwise:ci_only_password@localhost:5432/reelwise?sslmode=disable&channel_binding=require" \
+            -e ENCRYPTION_KEY="$KEY" -e APP_URL=http://localhost:7860 -v "$PWD/hf-storage:/tmp/reelwise-storage" reelwise-hf:test
+          for i in $(seq 1 60); do curl -fs http://localhost:7860/api/health && { echo; echo healthy on 7860; exit 0; }; sleep 3; done
+          docker logs hf; exit 1
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: reelwise/package-lock.json
+      - name: End-to-end tests against the Space image
+        working-directory: reelwise
+        env:
+          DATABASE_URL: postgres://reelwise:ci_only_password@localhost:5432/reelwise
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg >/dev/null
+          npm ci --no-audit --no-fund
+          BASE=http://localhost:7860 STORAGE_DIR="$GITHUB_WORKSPACE/hf-storage" node tests/e2e.mjs
+      - name: Container logs
+        if: always()
+        run: docker logs hf 2>&1 | tail -100

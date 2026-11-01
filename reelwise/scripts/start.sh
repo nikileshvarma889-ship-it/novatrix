@@ -16,12 +16,12 @@ if [ "$ROLE" != "worker" ]; then
 fi
 
 case "$ROLE" in
-  web)    exec npx next start -p "${PORT:-3000}" ;;
+  web)    exec npx next start -H 0.0.0.0 -p "${PORT:-3000}" ;;
   worker) exec npx tsx worker/index.ts ;;
   all)
     npx tsx worker/index.ts &
     WORKER=$!
-    npx next start -p "${PORT:-3000}" &
+    npx next start -H 0.0.0.0 -p "${PORT:-3000}" &
     WEB=$!
     # If either process dies, stop the container so the host restarts it.
     while kill -0 "$WORKER" 2>/dev/null && kill -0 "$WEB" 2>/dev/null; do sleep 5; done

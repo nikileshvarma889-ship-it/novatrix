@@ -22,10 +22,21 @@
   button:disabled { opacity:.6; }
   .err { margin-top:12px; padding:12px 14px; border-radius:14px; background:#fef2f2; color:#b91c1c; font-size:14px; display:none; }
   .hint { margin-top:14px; font-size:12px; color:#8b92ad; line-height:1.5; }
+  .boot { display:none; text-align:center; }
+  .spin { width:44px; height:44px; margin:22px auto 14px; border-radius:50%; border:4px solid #e4e8ff; border-top-color:var(--brand); animation:spin 1s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .retry { display:none; }
 </style>
 </head>
 <body>
-  <div class="card">
+  <div class="card boot" id="boot">
+    <div class="logo" style="margin:0 auto">R</div>
+    <h1>Reelwise</h1>
+    <div class="spin" id="spin"></div>
+    <p id="bootmsg">Starting Reelwise…</p>
+    <button class="retry" id="retry" type="button">Try again</button>
+  </div>
+  <div class="card" id="setup">
     <div class="logo">R</div>
     <h1>Welcome to Reelwise</h1>
     <p>Connect to your Reelwise server to create, approve and publish videos from your phone.</p>
@@ -38,8 +49,35 @@
     <div class="hint">Use the address where your Reelwise web app is deployed (HTTPS). You can change it later by clearing the app's storage.</div>
   </div>
 <script>
+  // Set at build time (the Android workflow replaces the placeholder). When set, the app
+  // opens this server directly and the address screen is never shown.
+  const BUILT_IN = "__REELWISE_SERVER_URL__";
   const KEY = "reelwise.server";
-  const saved = localStorage.getItem(KEY);
+  if (BUILT_IN && !BUILT_IN.startsWith("__")) boot(BUILT_IN.replace(/\/$/, ""));
+  async function boot(base) {
+    document.getElementById("setup").style.display = "none";
+    document.getElementById("boot").style.display = "block";
+    const msg = document.getElementById("bootmsg"), retry = document.getElementById("retry"), spin = document.getElementById("spin");
+    retry.onclick = () => boot(base);
+    retry.style.display = "none"; spin.style.display = "block"; msg.textContent = "Starting Reelwise…";
+    const started = Date.now();
+    // A free server sleeps when unused; waking it can take a minute or two.
+    while (Date.now() - started < 4 * 60_000) {
+      try {
+        const res = await fetch(base + "/api/health", { cache: "no-store" });
+        const data = await res.json();
+        if (data.ok) return location.replace(base + "/dashboard");
+        msg.textContent = "The server is starting its database…";
+      } catch {
+        if (Date.now() - started > 8000) msg.textContent = "Waking up the server… this can take up to a minute.";
+      }
+      await new Promise((r) => setTimeout(r, 3000));
+    }
+    spin.style.display = "none";
+    msg.textContent = "Couldn't reach the Reelwise server. Check your internet connection and try again.";
+    retry.style.display = "block";
+  }
+  const saved = BUILT_IN.startsWith("__") ? localStorage.getItem(KEY) : null;
   const input = document.getElementById("url");
   const err = document.getElementById("err");
   const go = document.getElementById("go");

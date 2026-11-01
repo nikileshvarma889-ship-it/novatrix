@@ -34,8 +34,13 @@ jobs:
           node-version: "22"
 
       - name: Install Capacitor and sync the Android project
+        env:
+          # The server the app opens directly (no address screen). Override with the repository variable REELWISE_SERVER_URL.
+          SERVER_URL: ${{ vars.REELWISE_SERVER_URL || 'https://lnikileshvarma-reelwise.hf.space' }}
         run: |
           npm ci
+          sed -i "s|__REELWISE_SERVER_URL__|${SERVER_URL}|" www/index.html
+          grep -q "${SERVER_URL}" www/index.html && echo "App opens ${SERVER_URL}"
           npx cap sync android
 
       - name: Prepare signing key
