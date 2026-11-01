@@ -7,3 +7,7 @@ export const VOICE_OPTIONS = [
   { id: "none", label: "No voiceover (subtitles only)" },
 ];
 export const MUSIC_MOODS = ["upbeat", "inspiring", "calm", "dramatic", "corporate"];
+
+/** Telugu narration must use the ElevenLabs "Bunty" voice (product rule). */
+export const TELUGU_VOICE = "Bunty";
+export const isTelugu = (...texts: (string | null | undefined)[]) => texts.some((t) => !!t && (/telugu|తెలుగు/i.test(t) || /[ఀ-౿]/.test(t)));

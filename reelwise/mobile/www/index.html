@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Reelwise</title>
+<style>
+  :root { --ink:#1b2140; --soft:#525a7a; --brand:#5b6cff; --lilac:#9b7bff; }
+  * { box-sizing: border-box; }
+  body { margin:0; min-height:100vh; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; color:var(--ink);
+    background: radial-gradient(900px 500px at 100% -10%, rgba(155,123,255,.18), transparent 60%), radial-gradient(700px 400px at -10% 10%, rgba(91,108,255,.15), transparent 60%), #f5f7fe;
+    display:flex; align-items:center; justify-content:center; padding: max(24px, env(safe-area-inset-top)) 20px 24px; }
+  .card { width:100%; max-width:420px; background:rgba(255,255,255,.75); backdrop-filter: blur(18px); border:1px solid rgba(255,255,255,.8);
+    border-radius:28px; padding:28px; box-shadow: 0 2px 4px rgba(27,33,64,.05), 0 24px 50px -16px rgba(91,108,255,.28); }
+  .logo { width:56px; height:56px; border-radius:18px; background:linear-gradient(135deg,var(--brand),var(--lilac)); display:grid; place-items:center; color:#fff; font-size:28px; font-weight:800; box-shadow:0 12px 24px -8px rgba(91,108,255,.6); }
+  h1 { margin:18px 0 4px; font-size:26px; }
+  p { margin:0 0 20px; color:var(--soft); line-height:1.5; font-size:15px; }
+  label { font-size:12px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--soft); }
+  input { width:100%; margin-top:6px; padding:14px 16px; border-radius:16px; border:1px solid #dfe4ff; font-size:16px; background:#fff; outline:none; }
+  input:focus { border-color: var(--brand); box-shadow: 0 0 0 4px #e4e8ff; }
+  button { width:100%; margin-top:16px; padding:15px; border:0; border-radius:16px; font-size:16px; font-weight:700; color:#fff; background:linear-gradient(90deg,var(--brand),var(--lilac)); }
+  button:disabled { opacity:.6; }
+  .err { margin-top:12px; padding:12px 14px; border-radius:14px; background:#fef2f2; color:#b91c1c; font-size:14px; display:none; }
+  .hint { margin-top:14px; font-size:12px; color:#8b92ad; line-height:1.5; }
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="logo">R</div>
+    <h1>Welcome to Reelwise</h1>
+    <p>Connect to your Reelwise server to create, approve and publish videos from your phone.</p>
+    <form id="f">
+      <label for="url">Server address</label>
+      <input id="url" type="url" inputmode="url" autocomplete="url" placeholder="https://app.yourcompany.com" required />
+      <button id="go" type="submit">Connect</button>
+      <div class="err" id="err"></div>
+    </form>
+    <div class="hint">Use the address where your Reelwise web app is deployed (HTTPS). You can change it later by clearing the app's storage.</div>
+  </div>
+<script>
+  const KEY = "reelwise.server";
+  const saved = localStorage.getItem(KEY);
+  const input = document.getElementById("url");
+  const err = document.getElementById("err");
+  const go = document.getElementById("go");
+  if (saved) { input.value = saved; open(saved, true); }
+  document.getElementById("f").addEventListener("submit", (e) => { e.preventDefault(); open(input.value.trim(), false); });
+  async function open(raw, silent) {
+    err.style.display = "none";
+    let url;
+    try { url = new URL(/^https?:\/\//.test(raw) ? raw : "https://" + raw); } catch { return show("That doesn't look like a web address."); }
+    const base = url.origin;
+    go.disabled = true; go.textContent = "Connecting…";
+    try {
+      const res = await fetch(base + "/api/health", { cache: "no-store" });
+      const data = await res.json();
+      if (!data.ok) throw new Error("The server is up but its database is not ready.");
+      localStorage.setItem(KEY, base);
+      location.replace(base + "/dashboard");
+    } catch (e) {
+      go.disabled = false; go.textContent = "Connect";
+      if (!silent) show("Couldn't reach a Reelwise server at " + base + ". " + (e && e.message ? e.message : ""));
+    }
+  }
+  function show(m) { err.textContent = m; err.style.display = "block"; }
+</script>
+</body>
+</html>

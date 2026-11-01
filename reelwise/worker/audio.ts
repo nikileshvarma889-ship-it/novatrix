@@ -24,11 +24,13 @@ export async function synthScenes(dir: string, texts: string[], voice: string, w
   fs.mkdirSync(dir, { recursive: true });
   if (voice.startsWith("elevenlabs")) {
     const key = await elevenKeyFor(workspaceId);
-    if (!key) throw new Error("ElevenLabs voice selected but no ElevenLabs API key is configured (Settings → Voice).");
+    if (!key) throw new Error("This voiceover needs ElevenLabs (Telugu uses the Bunty voice), but no ElevenLabs API key is configured. Add it in Settings → Voice.");
     const d = await voiceDefaultsFor(workspaceId);
     const wanted = voice.includes(":") ? voice.split(":")[1] : d.voice;
+    const telugu = voice.startsWith("elevenlabs-name:");
     if (!wanted) throw new Error("No default ElevenLabs voice is set (Settings → Voice).");
-    const v = await resolveVoice(key, wanted, d.language || undefined);
+    const lang = telugu ? "te" : d.language || undefined;
+    const v = await resolveVoice(key, wanted, lang);
     const out: ({ file: string; duration: number } | null)[] = [];
     for (let i = 0; i < texts.length; i++) {
       if (!texts[i].trim()) {
@@ -36,7 +38,7 @@ export async function synthScenes(dir: string, texts: string[], voice: string, w
         continue;
       }
       const f = path.join(dir, `vo-${i}.mp3`);
-      fs.writeFileSync(f, await speak(key, v.voice_id, texts[i], { model: d.model, language: d.language || undefined }));
+      fs.writeFileSync(f, await speak(key, v.voice_id, texts[i], { model: d.model, language: lang }));
       out.push({ file: f, duration: ffprobeDuration(f) });
     }
     return out;

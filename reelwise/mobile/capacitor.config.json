@@ -1,0 +1,12 @@
+{
+  "appId": "com.reelwise.app",
+  "appName": "Reelwise",
+  "webDir": "www",
+  "android": { "allowMixedContent": false, "backgroundColor": "#f7f9ff" },
+  "server": { "androidScheme": "https", "allowNavigation": ["*"] },
+  "plugins": {
+    "CapacitorHttp": { "enabled": true },
+    "SplashScreen": { "launchShowDuration": 1200, "backgroundColor": "#f7f9ff", "showSpinner": false, "androidScaleType": "CENTER_CROP" },
+    "StatusBar": { "style": "LIGHT", "backgroundColor": "#f7f9ff", "overlaysWebView": false }
+  }
+}

@@ -4,6 +4,7 @@ import { sql } from "@/lib/db";
 import { enqueue } from "@/lib/jobs";
 import { audit } from "@/lib/audit";
 import { StoryboardSchema } from "@/lib/ai/schemas";
+import { isTelugu } from "@/lib/voices";
 
 const Create = z.object({
   instruction: z.string().trim().min(10, "Describe the video in at least a sentence.").max(4000),
@@ -28,6 +29,8 @@ export const POST = route({ min: "editor", limit: [20, 60_000] }, async ({ req, 
     brand = ((await sql`select * from brands where id = ${d.brandId} and workspace_id = ${user.workspaceId}`)[0] as Record<string, unknown>) ?? null;
     if (!brand) throw new HttpError(404, "Brand not found.");
   }
+  // Telugu videos always narrate with ElevenLabs "Bunty".
+  if (isTelugu(brand?.language as string | undefined, d.instruction)) d.voice = "elevenlabs";
   // "auto": brand preference first, else infer from the instruction.
   const style =
     d.style !== "auto" ? d.style : brand?.video_style && brand.video_style !== "auto" ? (brand.video_style as string) : /\b(3d|cinematic|animation|animated|character|globe|city|deliver)/i.test(d.instruction) ? "cinematic3d" : "promo";

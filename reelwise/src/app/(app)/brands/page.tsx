@@ -2,8 +2,9 @@
 import { useState } from "react";
 import { Palette, Plus, Trash2, Upload } from "lucide-react";
 import { api, Card, Empty, ErrorBox, Field, Loading, Modal, Page, Spinner, mediaUrl, useAction, useApi } from "@/components/ui";
+import { upload } from "@/components/upload";
 
-export type Brand = {
+type Brand = {
   id?: string; name: string; description: string; audience: string; language: string; video_style: string; colors: string[]; fonts: { heading: string; body: string };
   characters: string; intro_text: string; outro_text: string; contact: string; website: string; cta: string; duration_sec: number; aspect_ratio: string;
   music_pref: string; voice_pref: string; restrictions: string; logo_media_id: string | null; music_media_id: string | null;
@@ -14,14 +15,6 @@ const blank: Brand = {
   logo_media_id: null, music_media_id: null,
 };
 type Media = { id: string; filename: string; kind: string; mime: string };
-
-export async function upload(file: File, opts: { brandId?: string; purpose?: string } = {}) {
-  const fd = new FormData();
-  fd.set("file", file);
-  if (opts.brandId) fd.set("brandId", opts.brandId);
-  if (opts.purpose) fd.set("purpose", opts.purpose);
-  return api<{ id: string; kind: string }>("/api/media", { method: "POST", body: fd });
-}
 
 function BrandEditor({ initial, onDone }: { initial: Brand; onDone: () => void }) {
   const [b, setB] = useState<Brand>(initial);

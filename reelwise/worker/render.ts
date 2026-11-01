@@ -11,6 +11,7 @@ import type { Storyboard } from "../src/lib/ai/schemas";
 import type { BrandKit, Cue, VideoProps, Aspect } from "../video/types";
 import { DIMENSIONS } from "../video/types";
 import { serve, startAssetServer } from "./assets";
+import { isTelugu, TELUGU_VOICE } from "../src/lib/voices";
 import { ffprobeDuration, mixVoiceover, moodBed, synthScenes, whoosh } from "./audio";
 
 let bundled: Promise<string> | null = null;
@@ -58,7 +59,9 @@ export async function renderVideo(videoId: string, quality: "draft" | "final", o
 
   // ---- voiceover: scenes stretch to fit narration ----
   const opts = (v.render_options ?? {}) as { voice?: string; voiceoverMediaId?: string; music?: string; musicVolume?: number };
-  const voiceChoice = opts.voice ?? "warm-male";
+  // Telugu narration always uses ElevenLabs "Bunty" (Piper has no Telugu voice).
+  const telugu = isTelugu(b?.language, ...sb.scenes.map((s) => s.voiceover));
+  const voiceChoice = telugu ? `elevenlabs-name:${TELUGU_VOICE}` : opts.voice ?? "warm-male";
   const custom = opts.voiceoverMediaId;
   const planned = sb.scenes.map((s) => Math.max(2, Math.min(15, s.durationSec)));
   let durations = [...planned];

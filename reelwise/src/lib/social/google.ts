@@ -88,7 +88,16 @@ export async function uploadVideo(token: string, filePath: string, meta: { title
       status: { privacyStatus: meta.publishAt ? "private" : meta.privacy, publishAt: meta.publishAt, selfDeclaredMadeForKids: false },
     }),
   });
-  if (!init.ok) throw new PlatformError("youtube", `YouTube refused the upload (HTTP ${init.status}): ${(await init.text()).slice(0, 300)}`, init.status, init.status === 401);
+  if (!init.ok) {
+    const err = (await init.json().catch(() => ({}))) as { error?: { message?: string; errors?: { reason?: string }[] } };
+    const reason = err.error?.errors?.[0]?.reason;
+    const msg =
+      init.status === 401 ? "YouTube access expired or was revoked. Reconnect the channel on the Connected Accounts page."
+      : reason === "quotaExceeded" ? "The YouTube API daily quota is used up. Try again tomorrow."
+      : init.status === 403 ? `YouTube denied the upload (${reason ?? "forbidden"}). Reconnect and grant upload permission.`
+      : `YouTube refused the upload (HTTP ${init.status}): ${err.error?.message ?? "unknown error"}`;
+    throw new PlatformError("youtube", msg, reason ?? init.status, init.status === 401);
+  }
   const location = init.headers.get("location");
   if (!location) throw new PlatformError("youtube", "YouTube did not return an upload URL.");
   const put = await fetch(location, { method: "PUT", headers: { Authorization: `Bearer ${token}`, "content-type": "video/mp4", "content-length": String(size) }, body: fs.readFileSync(filePath) });

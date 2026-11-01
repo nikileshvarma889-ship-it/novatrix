@@ -8,7 +8,9 @@ import { decrypt } from "../crypto";
 
 export const MODEL = "claude-opus-5-5";
 
-export class AiNotConfigured extends Error {
+/** An AI failure with a message the user can act on. */
+export class AiError extends Error {}
+export class AiNotConfigured extends AiError {
   constructor() {
     super("No Claude API key is configured. Add one in Settings → AI (or set ANTHROPIC_API_KEY on the server).");
   }
@@ -36,14 +38,15 @@ export async function generate<T extends ZodType>(workspaceId: string, opts: { s
       output_config: { format: zodOutputFormat(opts.schema), effort: opts.effort ?? "medium" },
       messages: [{ role: "user", content }],
     });
-    if (res.stop_reason === "refusal") throw new Error("Claude declined this request. Please rephrase the instruction.");
-    if (res.stop_reason === "max_tokens") throw new Error("The response was too long. Try a shorter video or fewer scenes.");
-    if (!res.parsed_output) throw new Error("Claude returned an unexpected format. Please try again.");
+    if (res.stop_reason === "refusal") throw new AiError("Claude declined this request. Please rephrase the instruction.");
+    if (res.stop_reason === "max_tokens") throw new AiError("The response was too long. Try a shorter video or fewer scenes.");
+    if (!res.parsed_output) throw new AiError("Claude returned an unexpected format. Please try again.");
     return res.parsed_output as z.infer<T>;
   } catch (e) {
-    if (e instanceof Anthropic.AuthenticationError) throw new Error("The Claude API key was rejected. Check it in Settings → AI.");
-    if (e instanceof Anthropic.RateLimitError) throw new Error("Claude is rate-limiting this key. Please retry in a minute.");
-    if (e instanceof Anthropic.APIError) throw new Error(`Claude API error (${e.status}): ${e.message}`);
+    if (e instanceof Anthropic.AuthenticationError) throw new AiError("The Claude API key was rejected. Check it in Settings → AI.");
+    if (e instanceof Anthropic.RateLimitError) throw new AiError("Claude is rate-limiting this key. Please retry in a minute.");
+    if (e instanceof Anthropic.APIError) throw new AiError(`Claude API error (${e.status}): ${e.message}`);
+    if (e instanceof Anthropic.APIConnectionError) throw new AiError("Could not reach the Claude API. Check the server's internet access.");
     throw e;
   }
 }

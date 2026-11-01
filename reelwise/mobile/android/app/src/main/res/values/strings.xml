@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Reelwise</string>
+    <string name="title_activity_main">Reelwise</string>
+    <string name="package_name">com.reelwise.app</string>
+    <string name="custom_url_scheme">com.reelwise.app</string>
+</resources>

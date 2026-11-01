@@ -5,6 +5,9 @@ import { NextRequest, NextResponse } from "next/server";
 import { z, ZodError, ZodType } from "zod/v4";
 import { currentUser, hasRole, Role, SessionUser } from "./session";
 import { rateLimit } from "./rate-limit";
+import { AiError } from "./ai/claude";
+import { PlatformError } from "./social/errors";
+import { VoiceError } from "./elevenlabs";
 
 export class HttpError extends Error {
   constructor(public status: number, message: string, public details?: unknown) {
@@ -46,7 +49,13 @@ export function route<P = Record<string, string>>(
 
 export function errorResponse(e: unknown) {
   if (e instanceof HttpError) return json({ error: e.message, details: e.details }, e.status);
-  if (e instanceof ZodError) return json({ error: "Please check the highlighted fields.", details: z.flattenError(e) }, 400);
+  if (e instanceof ZodError) {
+    const first = e.issues[0];
+    return json({ error: first ? `${first.path.join(".") || "Input"}: ${first.message}` : "Please check the form.", details: z.flattenError(e) }, 400);
+  }
+  // External-service failures: show the actionable message.
+  if (e instanceof AiError) return json({ error: e.message }, 400);
+  if (e instanceof VoiceError || e instanceof PlatformError) return json({ error: e.message }, 502);
   console.error(e);
   return json({ error: "Something went wrong on our side. The error has been logged." }, 500);
 }
