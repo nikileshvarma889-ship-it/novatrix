@@ -6,7 +6,7 @@ import { Card, Loading, Page, StatusBadge, fmtDate, mediaUrl, useApi } from "@/c
 
 type Video = { id: string; title: string; status: string; render_progress: number; thumbnail_media_id: string | null; created_at: string; brand_name: string | null };
 type Pub = { id: string; status: string; title: string; account_name: string; platform: string; scheduled_at: string | null; published_at: string | null };
-type Me = { integrations: { meta: boolean; google: boolean; claudeServerKey: boolean; claudeWorkspaceKey: boolean } };
+type Me = { ai: { name: string; ready: boolean }; integrations: { meta: boolean; google: boolean } };
 
 export default function Dashboard() {
   const videos = useApi<Video[]>("/api/videos", 15_000);
@@ -17,9 +17,9 @@ export default function Dashboard() {
   const pending = videos.data?.filter((v) => v.status === "ready") ?? [];
   const scheduled = pubs.data?.filter((p) => p.status === "scheduled") ?? [];
   const published = pubs.data?.filter((p) => p.status === "published") ?? [];
-  const ai = me.data && (me.data.integrations.claudeServerKey || me.data.integrations.claudeWorkspaceKey);
+  const ai = me.data?.ai.ready;
   const steps = [
-    { done: Boolean(ai), label: "Add your Claude API key", href: "/settings", icon: Settings },
+    { done: Boolean(ai), label: "Add your AI key (Gemini or Claude)", href: "/settings", icon: Settings },
     { done: Boolean(brands.data?.length), label: "Create a brand profile", href: "/brands", icon: Palette },
     { done: Boolean(accounts.data?.length), label: "Connect Instagram, Facebook or YouTube", href: "/accounts", icon: Link2 },
     { done: Boolean(videos.data?.length), label: "Create your first video", href: "/create", icon: Clapperboard },

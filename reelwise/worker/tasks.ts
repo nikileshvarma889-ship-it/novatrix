@@ -151,7 +151,7 @@ export async function publishKitJob(p: P) {
     const thumb = await renderCover(videoId);
     await sql`update videos set thumbnail_media_id = ${thumb}, publish_kit = publish_kit || ${sql.json({ status: "ready" } as never)}::jsonb, updated_at = now() where id = ${videoId}`;
   } catch (e) {
-    const msg = e instanceof AiNotConfigured ? "Add a Claude API key in Settings → AI so Claude can write the title, description, hashtags and cover." : (e as Error).message.slice(0, 500);
+    const msg = e instanceof AiNotConfigured ? `${e.message} It writes the title, description, hashtags and cover.` : (e as Error).message.slice(0, 500);
     await fail(msg);
     if (!(e instanceof AiNotConfigured)) throw e; // the worker skips retries for permanent AI errors
   }

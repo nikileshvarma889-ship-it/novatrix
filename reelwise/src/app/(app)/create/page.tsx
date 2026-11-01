@@ -8,7 +8,7 @@ import { api, Card, Empty, ErrorBox, Field, Loading, Modal, Notice, Page, Spinne
 type Brand = { id: string; name: string; video_style: string; aspect_ratio: string; duration_sec: number; language: string };
 type Video = { id: string; title: string; status: string; render_progress: number; thumbnail_media_id: string | null; created_at: string; brand_name: string | null; error: string | null; aspect_ratio: string };
 type Voices = { options: { id: string; label: string }[]; elevenlabs: { configured: boolean; error: string | null } };
-type Me = { integrations: { claudeServerKey: boolean; claudeWorkspaceKey: boolean } };
+type Me = { ai: { name: string; ready: boolean } };
 
 const EXAMPLE = "Create a 30-second cinematic 3D promotional video about international courier services. Show an orange-shirt delivery boy collecting a parcel in India and delivering it to a customer in the USA. Use professional camera movements, beautiful lighting and my company logo.";
 
@@ -70,7 +70,8 @@ export default function CreatePage() {
   useEffect(() => {
     if (voices.data && !f.voice) setF((x) => ({ ...x, voice: voices.data!.elevenlabs.configured ? "elevenlabs" : "warm-male" }));
   }, [voices.data, f.voice]);
-  const aiReady = me.data && (me.data.integrations.claudeServerKey || me.data.integrations.claudeWorkspaceKey);
+  const aiReady = me.data?.ai.ready;
+  const aiName = me.data?.ai.name ?? "AI";
   const submit = () =>
     run(async () => {
       setErr(null);
@@ -83,10 +84,10 @@ export default function CreatePage() {
       }
     });
   return (
-    <Page title="AI Video Creator" subtitle="Describe the video. Claude writes the script and storyboard, the engine renders it, and you review everything before anything is published." actions={<button className="btn-outline" onClick={() => setRecycle(true)}><Recycle className="h-4 w-4" /> Recycle existing video</button>}>
+    <Page title="AI Video Creator" subtitle={`Describe the video. ${aiName} writes the script and storyboard, the engine renders it, and you review everything before anything is published.`} actions={<button className="btn-outline" onClick={() => setRecycle(true)}><Recycle className="h-4 w-4" /> Recycle existing video</button>}>
       <div className="grid gap-6 lg:grid-cols-5">
         <Card className="lg:col-span-3">
-          {me.data && !aiReady ? <div className="mb-4"><Notice tone="warn">Add a Claude API key in <Link className="font-semibold underline" href="/settings">Settings</Link> to generate scripts. Without it the creator can't write storyboards.</Notice></div> : null}
+          {me.data && !aiReady ? <div className="mb-4"><Notice tone="warn">Add a Gemini or Claude API key in <Link className="font-semibold underline" href="/settings">Settings</Link> to generate scripts. Without it the creator can't write storyboards.</Notice></div> : null}
           <Field label="Your instruction">
             <textarea className="input min-h-[150px] text-[15px] leading-relaxed" placeholder={EXAMPLE} value={f.instruction} onChange={(e) => setF({ ...f, instruction: e.target.value })} />
           </Field>
@@ -130,7 +131,7 @@ export default function CreatePage() {
         <Card className="lg:col-span-2">
           <div className="mb-3 flex items-center gap-2 font-display text-lg font-bold"><Sparkles className="h-5 w-5 text-lilac-500" /> How it works</div>
           <ol className="space-y-3 text-sm text-ink-soft">
-            {["Claude reads your instruction and the selected brand's guidelines.", "It writes the script, scenes and voiceover.", "The engine builds the scenes — 3D (Three.js) or motion graphics — adds voice, music, subtitles, logo, intro and outro.", "Claude then watches the finished preview and writes the YouTube title, description, caption and hashtags, and designs the cover.", "You watch it, edit anything, then approve and choose where and when to publish.", "On approval a full-quality 1080p version is rendered and published only to the accounts you chose."].map((s, i) => (
+            {[`${aiName} reads your instruction and the selected brand's guidelines.`, "It writes the script, scenes and voiceover.", "The engine builds the scenes — 3D (Three.js) or motion graphics — adds voice, music, subtitles, logo, intro and outro.", `${aiName} then watches the finished preview and writes the YouTube title, description, caption and hashtags, and designs the cover.`, "You watch it, edit anything, then approve and choose where and when to publish.", "On approval a full-quality 1080p version is rendered and published only to the accounts you chose."].map((s, i) => (
               <li key={i} className="flex gap-3"><span className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-brand-100 text-xs font-bold text-brand-600">{i + 1}</span>{s}</li>
             ))}
           </ol>

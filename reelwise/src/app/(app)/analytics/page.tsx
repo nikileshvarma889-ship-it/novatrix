@@ -109,7 +109,7 @@ export default function AnalyticsPage() {
         <Card className="mt-4">
           <div className="flex items-center gap-2"><Sparkles className="h-5 w-5 text-lilac-500" /><div className="font-display font-bold">AI recommendations</div>
             <button className="btn-outline ml-auto !py-1.5 text-xs" disabled={busy} onClick={() => run(async () => setRecs((await api<{ recommendations: { title: string; detail: string }[] }>("/api/analytics/recommendations", { method: "POST" })).recommendations))}>{busy ? <Spinner /> : null} Analyse my data</button></div>
-          {recs ? <ul className="mt-3 space-y-2">{recs.map((r, i) => <li key={i} className="rounded-xl bg-white/80 p-3"><div className="font-semibold">{r.title}</div><div className="text-sm text-ink-soft">{r.detail}</div></li>)}</ul> : <p className="muted mt-2">Claude reviews your real metrics and suggests what to make next.</p>}
+          {recs ? <ul className="mt-3 space-y-2">{recs.map((r, i) => <li key={i} className="rounded-xl bg-white/80 p-3"><div className="font-semibold">{r.title}</div><div className="text-sm text-ink-soft">{r.detail}</div></li>)}</ul> : <p className="muted mt-2">The AI reviews your real metrics and suggests what to make next.</p>}
         </Card>
       ) : null}
     </Page>

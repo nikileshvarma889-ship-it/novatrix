@@ -31,6 +31,14 @@ services:
         value: "1"
       - key: APP_URL          # leave empty to use the onrender.com URL; set it when you add a custom domain
         sync: false
+      - key: AI_PROVIDER          # gemini (free tier) or claude (paid credit)
+        value: gemini
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: GEMINI_MODEL
+        value: gemini-flash-latest
+      - key: GEMINI_FALLBACK_MODEL
+        value: gemini-flash-lite-latest
       - key: ANTHROPIC_API_KEY
         sync: false
       - key: ELEVENLABS_API_KEY

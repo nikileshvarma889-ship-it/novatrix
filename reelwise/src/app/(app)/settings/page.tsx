@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { KeyRound, Mic, ScrollText, ShieldCheck, Users } from "lucide-react";
 import { api, Card, ErrorBox, Field, Notice, Page, Spinner, StatusBadge, fmtDate, useAction, useApi } from "@/components/ui";
 
-type S = { has_claude_key: boolean; has_elevenlabs_key: boolean; elevenlabsServerKey: boolean; voiceDefaults: { voice: string; language: string; model: string }; integrations: { meta: boolean; google: boolean; claudeServerKey: boolean }; redirects: { meta: string; google: string }; appUrl: string };
+type S = { has_gemini_key: boolean; ai_provider: "claude" | "gemini" | null; geminiServerKey: boolean; ai: { provider: string; name: string; model: string; ready: boolean }; has_claude_key: boolean; has_elevenlabs_key: boolean; elevenlabsServerKey: boolean; voiceDefaults: { voice: string; language: string; model: string }; integrations: { meta: boolean; google: boolean; claudeServerKey: boolean }; redirects: { meta: string; google: string }; appUrl: string };
 type Member = { id: string; email: string; name: string; role: string };
 type Log = { id: string; action: string; email: string | null; ip: string | null; created_at: string; target_type: string | null };
 
@@ -12,6 +12,7 @@ export default function SettingsPage() {
   const members = useApi<Member[]>("/api/settings/members");
   const logs = useApi<Log[]>("/api/settings/audit");
   const [claude, setClaude] = useState("");
+  const [gemini, setGemini] = useState("");
   const [eleven, setEleven] = useState("");
   const [voice, setVoice] = useState({ voice: "", language: "", model: "" });
   const [invite, setInvite] = useState({ email: "", role: "editor" });
@@ -24,10 +25,25 @@ export default function SettingsPage() {
       {s.error ? <ErrorBox error={s.error} /> : null}
       <div className="grid gap-6 lg:grid-cols-2">
         <Card>
-          <div className="mb-3 flex items-center gap-2 font-display text-lg font-bold"><KeyRound className="h-5 w-5 text-brand-500" /> AI — Claude</div>
-          <p className="muted mb-3">Scripts, storyboards, captions and replies use Claude (claude-opus-5-5). Status: {d?.has_claude_key ? <StatusBadge status="connected" /> : d?.integrations.claudeServerKey ? "using the server's key" : <StatusBadge status="expired" />}</p>
+          <div className="mb-3 flex items-center gap-2 font-display text-lg font-bold"><KeyRound className="h-5 w-5 text-brand-500" /> AI</div>
+          <p className="muted mb-3">
+            Scripts, titles, descriptions, hashtags, covers and reply drafts are written by the AI you choose.
+            Now using: <b>{d?.ai.name ?? "…"}</b> <span className="text-ink-faint">({d?.ai.model})</span> {d ? (d.ai.ready ? <StatusBadge status="connected" /> : <StatusBadge status="expired" />) : null}
+          </p>
+          <Field label="AI provider">
+            <select className="input" value={d?.ai_provider ?? "auto"} disabled={busy || !d} onChange={(e) => put({ aiProvider: e.target.value }, "AI provider saved.")}>
+              <option value="auto">Automatic (whichever has a key)</option>
+              <option value="gemini">Google Gemini (free tier available)</option>
+              <option value="claude">Anthropic Claude (paid API credit)</option>
+            </select>
+          </Field>
+          <div className="mt-4 label">Gemini API key {d?.has_gemini_key ? <StatusBadge status="connected" /> : d?.geminiServerKey ? <span className="font-normal normal-case text-ink-faint">· using the server&apos;s key</span> : null}</div>
+          <div className="flex gap-2"><input className="input" type="password" placeholder="From aistudio.google.com → Get API key" value={gemini} onChange={(e) => setGemini(e.target.value)} /><button className="btn-primary" disabled={busy || !gemini} onClick={() => { put({ geminiKey: gemini }, "Gemini key verified and saved."); setGemini(""); }}>{busy ? <Spinner /> : null} Save</button></div>
+          {d?.has_gemini_key ? <button className="btn-ghost mt-2 text-xs" onClick={() => put({ geminiKey: null }, "Gemini key removed.")}>Remove Gemini key</button> : null}
+          <div className="mt-4 label">Claude API key {d?.has_claude_key ? <StatusBadge status="connected" /> : d?.integrations.claudeServerKey ? <span className="font-normal normal-case text-ink-faint">· using the server&apos;s key</span> : null}</div>
           <div className="flex gap-2"><input className="input" type="password" placeholder="sk-ant-…" value={claude} onChange={(e) => setClaude(e.target.value)} /><button className="btn-primary" disabled={busy || !claude} onClick={() => { put({ claudeKey: claude }, "Claude key verified and saved."); setClaude(""); }}>{busy ? <Spinner /> : null} Save</button></div>
-          {d?.has_claude_key ? <button className="btn-ghost mt-2 text-xs" onClick={() => put({ claudeKey: null }, "Key removed.")}>Remove key</button> : null}
+          {d?.has_claude_key ? <button className="btn-ghost mt-2 text-xs" onClick={() => put({ claudeKey: null }, "Claude key removed.")}>Remove Claude key</button> : null}
+          <p className="mt-3 text-[11px] text-ink-faint">Gemini&apos;s free tier has daily limits, and Google may use free-tier prompts to improve its products. Claude needs prepaid credit at console.anthropic.com.</p>
         </Card>
         <Card>
           <div className="mb-3 flex items-center gap-2 font-display text-lg font-bold"><Mic className="h-5 w-5 text-brand-500" /> Voice — ElevenLabs</div>

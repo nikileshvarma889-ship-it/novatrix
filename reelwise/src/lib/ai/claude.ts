@@ -1,5 +1,6 @@
-// All Claude calls go through here. Uses the workspace's own key when saved in
-// Settings, otherwise the server's ANTHROPIC_API_KEY. Never runs without a key.
+// All AI calls go through generate(). The provider is Claude or Google Gemini:
+// the workspace's choice in Settings, else the server's AI_PROVIDER, else whichever has a key.
+// Keys come from the workspace (encrypted, Settings) or the server environment. Never runs without a key.
 import Anthropic from "@anthropic-ai/sdk";
 import { zodOutputFormat } from "@anthropic-ai/sdk/helpers/zod";
 import type { ZodType, z } from "zod/v4";
@@ -8,17 +9,12 @@ import { decrypt } from "../crypto";
 
 export const MODEL = "claude-opus-5-5";
 
-/** An AI failure with a message the user can act on. `permanent` = retrying will not help. */
-export class AiError extends Error {
-  constructor(message: string, readonly permanent = true) {
-    super(message);
-  }
-}
-export class AiNotConfigured extends AiError {
-  constructor() {
-    super("No Claude API key is configured. Add one in Settings → AI (or set ANTHROPIC_API_KEY on the server).");
-  }
-}
+export { AiError, AiNotConfigured } from "./errors";
+import { AiError, AiNotConfigured } from "./errors";
+import { geminiGenerate, GEMINI_MODEL } from "./gemini";
+
+export type AiProvider = "claude" | "gemini";
+export const AI_NAMES: Record<AiProvider, string> = { claude: "Claude", gemini: "Gemini" };
 
 /** Turns API errors into plain messages, and says whether a retry can succeed. */
 export function explainAiError(e: unknown): AiError | null {
@@ -36,16 +32,33 @@ export function explainAiError(e: unknown): AiError | null {
   return new AiError(`Claude could not handle this request: ${detail}`);
 }
 
+/** Which AI this workspace uses, and its key (null when none is configured). */
+export async function resolveAi(workspaceId: string): Promise<{ provider: AiProvider; key: string | null; model: string }> {
+  const [row] = await sql`select anthropic_key_enc, gemini_key_enc, ai_provider from workspace_settings where workspace_id = ${workspaceId}`;
+  const claudeKey = row?.anthropic_key_enc ? decrypt(row.anthropic_key_enc) : process.env.ANTHROPIC_API_KEY || null;
+  const geminiKey = row?.gemini_key_enc ? decrypt(row.gemini_key_enc) : process.env.GEMINI_API_KEY || null;
+  const forced = (row?.ai_provider || process.env.AI_PROVIDER || "") as AiProvider | "";
+  const provider: AiProvider = forced === "claude" || forced === "gemini" ? forced : claudeKey ? "claude" : geminiKey ? "gemini" : "claude";
+  return { provider, key: provider === "claude" ? claudeKey : geminiKey, model: provider === "claude" ? MODEL : GEMINI_MODEL() };
+}
+
+export async function aiStatus(workspaceId: string) {
+  const r = await resolveAi(workspaceId);
+  return { provider: r.provider, name: AI_NAMES[r.provider], model: r.model, ready: Boolean(r.key) };
+}
+
 export async function clientFor(workspaceId: string) {
-  const [row] = await sql`select anthropic_key_enc from workspace_settings where workspace_id = ${workspaceId}`;
-  const key = row?.anthropic_key_enc ? decrypt(row.anthropic_key_enc) : process.env.ANTHROPIC_API_KEY;
-  if (!key) throw new AiNotConfigured();
-  return new Anthropic({ apiKey: key });
+  const r = await resolveAi(workspaceId);
+  if (!r.key || r.provider !== "claude") throw new AiNotConfigured("claude");
+  return new Anthropic({ apiKey: r.key });
 }
 
 /** One structured call: returns data validated against `schema`. */
 export async function generate<T extends ZodType>(workspaceId: string, opts: { system: string; prompt: string; schema: T; effort?: "low" | "medium" | "high"; images?: { mime: string; data: string }[] }): Promise<z.infer<T>> {
-  const client = await clientFor(workspaceId);
+  const ai = await resolveAi(workspaceId);
+  if (!ai.key) throw new AiNotConfigured(ai.provider);
+  if (ai.provider === "gemini") return geminiGenerate(ai.key, opts);
+  const client = new Anthropic({ apiKey: ai.key });
   const content: Anthropic.ContentBlockParam[] = [
     ...(opts.images ?? []).map((img) => ({ type: "image" as const, source: { type: "base64" as const, media_type: img.mime as "image/png", data: img.data } })),
     { type: "text", text: opts.prompt },

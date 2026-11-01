@@ -2,7 +2,7 @@
 #   fly launch --no-deploy --copy-config     (pick a unique app name)
 #   fly postgres create  &&  fly postgres attach <db-name>     (sets DATABASE_URL)
 #   fly volumes create reelwise_data --size 10
-#   fly secrets set ENCRYPTION_KEY=$(openssl rand -base64 32) ELEVENLABS_API_KEY=... ANTHROPIC_API_KEY=...
+#   fly secrets set ENCRYPTION_KEY=$(openssl rand -base64 32) ELEVENLABS_API_KEY=... GEMINI_API_KEY=...
 #   fly deploy
 app = "reelwise"
 primary_region = "bom"
@@ -12,6 +12,9 @@ primary_region = "bom"
 
 [env]
   ROLE = "all"
+  AI_PROVIDER = "gemini"
+  GEMINI_MODEL = "gemini-flash-latest"
+  GEMINI_FALLBACK_MODEL = "gemini-flash-lite-latest"
   STORAGE_DIR = "/data/storage"
   RENDER_CONCURRENCY = "1"
   ELEVENLABS_DEFAULT_VOICE = "Bunty"

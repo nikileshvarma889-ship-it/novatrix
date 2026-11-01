@@ -11,7 +11,7 @@ type P = { id: string };
 async function guard(v: Record<string, unknown>) {
   if (!v.video_media_id || !v.timeline) throw new HttpError(409, "Wait for the preview to finish rendering first.");
   const kit = v.publish_kit as { status?: string } | null;
-  if (kit?.status === "generating") throw new HttpError(409, "Claude is already working on it.");
+  if (kit?.status === "generating") throw new HttpError(409, "The AI is already working on it.");
   if ((await sql`select 1 from publications where video_id = ${v.id as string} and status in ('publishing','published')`).length)
     throw new HttpError(409, "This video has already been published.");
 }

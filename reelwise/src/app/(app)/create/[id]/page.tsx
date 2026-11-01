@@ -138,7 +138,7 @@ function CopyBtn({ text }: { text: string }) {
 }
 
 /** Title, description, caption, hashtags and cover - written and designed by Claude from the finished video. */
-function PublishKitCard({ v, reload }: { v: Video; reload: () => void }) {
+function PublishKitCard({ v, reload, ai }: { v: Video; reload: () => void; ai: string }) {
   const kit = v.publish_kit ?? {};
   const generating = kit.status === "generating";
   const published = v.publications.some((p) => ["publishing", "published"].includes(p.status));
@@ -161,7 +161,7 @@ function PublishKitCard({ v, reload }: { v: Video; reload: () => void }) {
   const reach = new Map((kit.hashtags ?? []).map((h) => [h.tag.toLowerCase(), h.reach]));
   const grouped = (["broad", "niche", "brand", "other"] as const).map((r) => ({ r, items: tags.filter((x) => (reach.get(x.toLowerCase()) ?? "other") === r) })).filter((g) => g.items.length);
   const ready = Boolean(v.video_media_id) && !busyStatus(v.status);
-  const ask = () => run(async () => { await api(`/api/videos/${v.id}/publish-kit`, { method: "POST", json: { note: note || undefined } }); setNote(""); reload(); }, "Claude is watching the video and writing a new version.");
+  const ask = () => run(async () => { await api(`/api/videos/${v.id}/publish-kit`, { method: "POST", json: { note: note || undefined } }); setNote(""); reload(); }, `${ai} is watching the video and writing a new version.`);
   const save = () => run(async () => { await api(`/api/videos/${v.id}`, { method: "PATCH", json: { ...t, hashtags: tags } }); reload(); }, "Saved. Your edits will be used when publishing.");
   const saveCover = () => run(async () => { await api(`/api/videos/${v.id}/publish-kit`, { method: "PUT", json: cover }); setCoverOpen(false); reload(); }, "Updating the cover…");
   const addTag = () => {
@@ -174,20 +174,20 @@ function PublishKitCard({ v, reload }: { v: Video; reload: () => void }) {
     <Card>
       <div className="mb-1 flex flex-wrap items-center gap-2">
         <div className="font-display text-lg font-bold">Title, description, hashtags & cover</div>
-        {generating ? <span className="chip bg-brand-50 text-brand-700"><Spinner /> Claude is working</span>
-          : kit.status === "ready" ? <span className="chip bg-emerald-50 text-emerald-700"><Sparkles className="h-3 w-3" /> {kit.edited ? "Made by Claude, edited by you" : "Made by Claude"}</span> : null}
+        {generating ? <span className="chip bg-brand-50 text-brand-700"><Spinner /> {ai} is working</span>
+          : kit.status === "ready" ? <span className="chip bg-emerald-50 text-emerald-700"><Sparkles className="h-3 w-3" /> {kit.edited ? `Made by ${ai}, edited by you` : `Made by ${ai}`}</span> : null}
       </div>
-      <p className="muted mb-4">Claude watches the finished video (one frame from every scene plus the script) and writes the YouTube title and description, the Instagram/Facebook caption and the hashtags, then designs the cover. Everything here is what gets published. Edit anything before you approve.</p>
+      <p className="muted mb-4">{ai} watches the finished video (one frame from every scene plus the script) and writes the YouTube title and description, the Instagram/Facebook caption and the hashtags, then designs the cover. Everything here is what gets published. Edit anything before you approve.</p>
 
       {generating ? (
         <div className="mb-4 flex items-center gap-3 rounded-xl bg-gradient-to-r from-brand-50 to-lilac-50 px-4 py-3 text-sm text-ink-soft">
           <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 2, ease: "linear" }}><Sparkles className="h-5 w-5 text-brand-500" /></motion.div>
-          Claude is watching your video and writing the title, description, hashtags and cover…
+          {ai} is watching your video and writing the title, description, hashtags and cover…
         </div>
       ) : null}
       {kit.status === "failed" && kit.error ? <div className="mb-4"><ErrorBox error={kit.error} /></div> : null}
       {!ready && !generating ? <Notice>These appear automatically once the preview has rendered.</Notice> : null}
-      {kit.notes && !generating ? <p className="mb-4 rounded-xl bg-white/70 px-3 py-2 text-xs text-ink-soft"><b>Claude&apos;s angle:</b> {kit.notes}</p> : null}
+      {kit.notes && !generating ? <p className="mb-4 rounded-xl bg-white/70 px-3 py-2 text-xs text-ink-soft"><b>{ai}&apos;s angle:</b> {kit.notes}</p> : null}
 
       <div className="grid gap-5 md:grid-cols-[1fr_220px]">
         <fieldset className="space-y-3" disabled={generating || published}>
@@ -225,7 +225,7 @@ function PublishKitCard({ v, reload }: { v: Video; reload: () => void }) {
                 <button type="button" className="btn-outline !py-2" onClick={addTag}><Plus className="h-4 w-4" /></button>
                 <CopyBtn text={hashtagLine} />
               </div>
-              <p className="text-[11px] text-ink-faint">Claude picks tags the way people in this niche search: broad, niche and brand. It has no live trend data, so no tag is guaranteed to go viral.</p>
+              <p className="text-[11px] text-ink-faint">{ai} picks tags the way people in this niche search: broad, niche and brand. It has no live trend data, so no tag is guaranteed to go viral.</p>
             </div>
           </div>
         </fieldset>
@@ -263,8 +263,8 @@ function PublishKitCard({ v, reload }: { v: Video; reload: () => void }) {
 
       {published ? <div className="mt-4"><Notice>This video has been published, so its text and cover are locked.</Notice></div> : (
         <div className="mt-5 flex flex-col gap-3 border-t border-ink/5 pt-4 md:flex-row md:items-center">
-          <input className="input !py-2 text-sm md:flex-1" placeholder="Optional note for Claude, e.g. “more playful”, “target Telugu audience”" value={note} onChange={(e) => setNote(e.target.value)} disabled={!ready || generating} />
-          <button className="btn-outline" disabled={busy || !ready || generating} onClick={ask}><Wand2 className="h-4 w-4" /> {kit.status ? "Rewrite with Claude" : "Write with Claude"}</button>
+          <input className="input !py-2 text-sm md:flex-1" placeholder={`Optional note for ${ai}, e.g. “more playful”, “target Telugu audience”`} value={note} onChange={(e) => setNote(e.target.value)} disabled={!ready || generating} />
+          <button className="btn-outline" disabled={busy || !ready || generating} onClick={ask}><Wand2 className="h-4 w-4" /> {kit.status ? `Rewrite with ${ai}` : `Write with ${ai}`}</button>
           <button className="btn-primary" disabled={busy || generating} onClick={save}>Save my edits</button>
         </div>
       )}
@@ -277,6 +277,8 @@ export default function VideoPage({ params }: { params: Promise<{ id: string }> 
   const router = useRouter();
   const { data: v, error, loading, reload } = useApi<Video>(`/api/videos/${id}`, 4000);
   const voices = useApi<Voices>("/api/voices");
+  const me = useApi<{ ai: { name: string } }>("/api/me");
+  const aiName = me.data?.ai.name ?? "AI";
   const [approve, setApprove] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
   const [instruction, setInstruction] = useState("");
@@ -309,7 +311,7 @@ export default function VideoPage({ params }: { params: Promise<{ id: string }> 
               ) : (
                 <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 bg-gradient-to-br from-brand-500/90 to-lilac-500/90 p-6 text-center text-white">
                   {v.status === "failed" ? <XCircle className="h-10 w-10" /> : <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 2, ease: "linear" }}><RefreshCw className="h-10 w-10" /></motion.div>}
-                  <div className="font-display text-lg font-bold">{v.status === "scripting" ? "Claude is writing the script…" : v.status === "rendering" ? "Rendering your video…" : v.status === "failed" ? "Something went wrong" : "Preparing…"}</div>
+                  <div className="font-display text-lg font-bold">{v.status === "scripting" ? `${aiName} is writing the script…` : v.status === "rendering" ? "Rendering your video…" : v.status === "failed" ? "Something went wrong" : "Preparing…"}</div>
                   {v.status === "rendering" ? (
                     <div className="h-2 w-48 overflow-hidden rounded-full bg-white/30"><div className="h-full bg-white transition-all" style={{ width: `${Math.max(3, v.render_progress * 100)}%` }} /></div>
                   ) : null}
@@ -327,7 +329,7 @@ export default function VideoPage({ params }: { params: Promise<{ id: string }> 
           {v.status === "failed" ? <button className="btn-outline mt-3 w-full" disabled={busy} onClick={() => run(async () => { await api(`/api/videos/${v.id}/render`, { method: "POST" }); reload(); }, "Retrying.")}><RefreshCw className="h-4 w-4" /> Try again</button> : null}
 
           <div className="mt-4 grid grid-cols-2 gap-3">
-            <button className="btn-primary !py-3.5" disabled={working || !["ready", "approved"].includes(v.status) || v.publish_kit?.status === "generating"} title={v.publish_kit?.status === "generating" ? "Claude is still writing the title, hashtags and cover" : undefined} onClick={() => setApprove(true)}><CheckCircle2 className="h-5 w-5" /> APPROVE & PUBLISH</button>
+            <button className="btn-primary !py-3.5" disabled={working || !["ready", "approved"].includes(v.status) || v.publish_kit?.status === "generating"} title={v.publish_kit?.status === "generating" ? `${aiName} is still writing the title, hashtags and cover` : undefined} onClick={() => setApprove(true)}><CheckCircle2 className="h-5 w-5" /> APPROVE & PUBLISH</button>
             <button className="btn-outline !py-3.5" disabled={working} onClick={() => setEditOpen(true)}><Pencil className="h-5 w-5" /> EDIT VIDEO</button>
           </div>
           <div className="mt-2 flex gap-2">
@@ -375,7 +377,7 @@ export default function VideoPage({ params }: { params: Promise<{ id: string }> 
               </div>
             </Card>
           ) : null}
-          <PublishKitCard v={v} reload={reload} />
+          <PublishKitCard v={v} reload={reload} ai={aiName} />
         </div>
       </div>
 

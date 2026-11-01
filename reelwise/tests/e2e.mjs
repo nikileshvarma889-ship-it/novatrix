@@ -57,7 +57,7 @@ await a(`/api/brands/${brand.data.id}`, { method: "PUT", json: { ...brand.data, 
 
 // --- AI without key: clear message ---
 const gen = await a("/api/content", { method: "POST", json: { kind: "hooks", tone: "funny", language: "Telugu", brandId: brand.data.id, topic: "courier service" } });
-ok(gen.status === 400 && /Claude API key/.test(gen.data.error), "AI features explain the missing Claude key", gen.data.error);
+ok(gen.status === 400 && /API key/.test(gen.data.error), "AI features explain the missing AI key", gen.data.error);
 
 // --- video with a hand-written storyboard (no AI key needed) ---
 const scene = (id, kind, h, vo, extra = {}) => ({ id, kind, durationSec: 3, heading: h, subheading: "", bullets: [], voiceover: vo, camera: "static", imageMediaId: null, fromPlace: "", toPlace: "", characterColor: "", mood: "bright", ...extra });
