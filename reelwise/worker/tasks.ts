@@ -9,7 +9,7 @@ import { postText, scriptVideo } from "../src/lib/videos";
 import { generate, brandBrief } from "../src/lib/ai/claude";
 import { IdeasSchema, PublishKitSchema, type Storyboard } from "../src/lib/ai/schemas";
 import { PUBLISH_KIT_SYSTEM } from "../src/lib/ai/prompts";
-import { AiNotConfigured } from "../src/lib/ai/claude";
+import { AiNotConfigured, aiStatus } from "../src/lib/ai/claude";
 import { accountWithToken, markError } from "../src/lib/social/accounts";
 import { PlatformError } from "../src/lib/social/errors";
 import * as meta from "../src/lib/social/meta";
@@ -43,7 +43,8 @@ export async function renderJob(p: P) {
     // Claude writes the title, description, caption, hashtags and designs the cover from the finished video,
     // unless the user has already edited them by hand.
     const kit = v.publish_kit as { edited?: boolean } | null;
-    if (quality === "draft" && !kit?.edited) await queuePublishKit(videoId, {});
+    // Only when an AI key is configured; otherwise approval would wait on a job that can't run.
+    if (quality === "draft" && !kit?.edited && (await aiStatus(v.workspace_id)).ready) await queuePublishKit(videoId, {});
     if (quality === "draft")
       await notify(v.workspace_id, v.autopilot_rule_id ? "Auto Pilot video ready for your approval" : "Your video preview is ready", v.title, `/create/${videoId}`);
   } catch (e) {

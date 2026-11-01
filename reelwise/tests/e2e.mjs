@@ -86,6 +86,8 @@ const [{ id: wsId }] = await sql`select workspace_id as id from videos where id 
 const [acct] = await sql`insert into social_accounts (workspace_id, platform, external_id, name, access_token_enc, refresh_token_enc, token_expires_at)
   values (${wsId}, 'youtube', ${`UC-test-${Date.now()}`}, 'Test channel', ${encrypt ? encrypt("not-a-real-token") : "v1:x:x:x"}, null, now() + interval '1 hour') returning id`;
 ok((await a(`/api/videos/${vid}/approve`, { method: "POST", json: { accountIds: [acct.id], scheduleAt: null } })).status === 400, "approval requires explicit confirmation");
+// Like a person, wait until the AI publish kit (title, hashtags, cover) is no longer being written.
+for (let i = 0; i < 60 && (await a(`/api/videos/${vid}`)).data.publish_kit?.status === "generating"; i++) await new Promise((r) => setTimeout(r, 2000));
 const appr = await a(`/api/videos/${vid}/approve`, { method: "POST", json: { accountIds: [acct.id], scheduleAt: null, confirm: true } });
 ok(appr.status === 200, "approve & publish accepted");
 let pubs;
