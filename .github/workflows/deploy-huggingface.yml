@@ -68,12 +68,14 @@ jobs:
           if r.status_code == 401: fail("The Neon API key was rejected. Create a new one in Neon -> Account settings -> API keys.")
           if not r.ok: fail(f"Neon refused to list projects: {r.status_code} {r.text[:300]}")
           proj = next((p for p in r.json().get("projects", []) if p["name"] == "reelwise"), None)
+          new_db = False
           if proj is None:
               body = {"project": {"name": "reelwise", "region_id": "aws-ap-southeast-1", "pg_version": 16, **({"org_id": org_id} if org_id else {})}}
               r = neon.post(f"{N}/projects", json=body)
               if not r.ok: fail(f"Could not create the Neon database: {r.status_code} {r.text[:300]}")
               body = r.json(); proj = body["project"]
               uri = body["connection_uris"][0]["connection_uri"]
+              new_db = True
               print("Created Neon database 'reelwise' (Singapore)")
           else:
               branches = neon.get(f"{N}/projects/{proj['id']}/branches").json()["branches"]
@@ -106,11 +108,20 @@ jobs:
 
           api.add_space_secret(repo_id, "DATABASE_URL", uri)
           api.add_space_secret(repo_id, "GEMINI_API_KEY", os.environ["GEMINI_API_KEY"])
-          # The encryption key protects saved tokens: set it once and never replace it.
-          if not existed:
+          # The encryption key protects saved tokens: set it whenever nothing is encrypted yet
+          # (new Space or brand-new database), and never replace it afterwards.
+          if not existed or new_db:
               api.add_space_secret(repo_id, "ENCRYPTION_KEY", base64.b64encode(secrets.token_bytes(32)).decode())
+              print("Set a new ENCRYPTION_KEY")
           else:
-              print("Space existed: keeping its ENCRYPTION_KEY")
+              print("Keeping the Space's existing ENCRYPTION_KEY")
+
+          # Free hardware only: paid hardware without billing leaves a Space paused.
+          rt = api.get_space_runtime(repo_id)
+          print(f"Space before start: stage={rt.stage} hardware={rt.hardware} requested={rt.requested_hardware}")
+          if (rt.requested_hardware or rt.hardware or "cpu-basic") != "cpu-basic":
+              api.request_space_hardware(repo_id, "cpu-basic")
+              print("Switched the Space to the free CPU basic hardware")
           api.restart_space(repo_id, factory_reboot=True)
           print(f"Space: https://huggingface.co/spaces/{repo_id}")
           print(f"Server address: {url}")
@@ -118,10 +129,19 @@ jobs:
               f.write(f"url={url}\nrepo_id={repo_id}\n")
 
           # ---- Wait for the build ----
+          paused = 0
           for i in range(160):
-              stage = api.get_space_runtime(repo_id).stage
+              rt = api.get_space_runtime(repo_id)
+              stage = rt.stage
               if i % 4 == 0: print(f"Space status: {stage}")
               if stage == "RUNNING": break
+              if stage == "PAUSED":
+                  paused += 1
+                  if paused in (2, 6):
+                      print(f"Space is paused, restarting it. Details: {rt.raw}")
+                      api.restart_space(repo_id, factory_reboot=True)
+                  if paused >= 12:
+                      fail(f"Hugging Face keeps the Space paused. Details: {rt.raw}. Open https://huggingface.co/spaces/{repo_id}/settings and check it is on 'CPU basic' and not paused.")
               if stage in ("BUILD_ERROR", "RUNTIME_ERROR", "CONFIG_ERROR"):
                   fail(f"The Space stopped with {stage}. Open https://huggingface.co/spaces/{repo_id} -> Logs.")
               time.sleep(15)
