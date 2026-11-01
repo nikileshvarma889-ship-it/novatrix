@@ -1,0 +1,65 @@
+{
+  "0": {
+    "text": "ఒక్కసారి ఊహించుకోండి!",
+    "file": "audio/lines/00.wav",
+    "duration": 1.679,
+    "match": 1.0,
+    "heard": "ఒక్కసారి ఊహించుకోండి",
+    "model": "gemini-2.5-flash-preview-tts",
+    "voice": "Charon"
+  },
+  "1": {
+    "text": "మీరు అంతరిక్షంలో ఉన్నారు... మీ పక్కనే ఒక భారీ పేలుడు జరిగినా మీకు శబ్దం వినిపించదు!",
+    "file": "audio/lines/01.wav",
+    "duration": 9.854,
+    "match": 1.0,
+    "heard": "మీరు అంతరిక్షంలో ఉన్నారు. మీ పక్కనే ఒక భారీ పేలుడు జరిగినా మీకు శబ్దం వినిపించదు.",
+    "model": "gemini-2.5-flash-preview-tts",
+    "voice": "Charon"
+  },
+  "2": {
+    "text": "అవును! ఇది నిజం!",
+    "file": "audio/lines/02.wav",
+    "duration": 1.716,
+    "match": 1.0,
+    "heard": "అవును ఇది నిజం",
+    "model": "gemini-2.5-flash-preview-tts",
+    "voice": "Charon"
+  },
+  "3": {
+    "text": "ఎందుకంటే శబ్దం ప్రయాణించడానికి గాలి లేదా మరొక పదార్థం అవసరం.",
+    "file": "audio/lines/03.wav",
+    "duration": 4.978,
+    "match": 1.0,
+    "heard": "ఎందుకంటే శబ్దం ప్రయాణించడానికి గాలి లేదా మరొక పదార్థం అవసరం.",
+    "model": "gemini-2.5-flash-preview-tts",
+    "voice": "Charon"
+  },
+  "4": {
+    "text": "కానీ అంతరిక్షంలో దాదాపు శూన్య వాతావరణం ఉంటుంది.",
+    "file": "audio/lines/04.wav",
+    "duration": 3.853,
+    "match": 1.0,
+    "heard": "కానీ అంతరిక్షంలో దాదాపు శూన్య వాతావరణం ఉంటుంది",
+    "model": "gemini-2.5-flash-preview-tts",
+    "voice": "Charon"
+  },
+  "5": {
+    "text": "అందుకే అక్కడ శబ్దం మన చెవులకు చేరదు!",
+    "file": "audio/lines/05.wav",
+    "duration": 3.285,
+    "match": 1.0,
+    "heard": "అందుకే అక్కడ శబ్దం మన చెవులకు చేరదు",
+    "model": "gemini-2.5-flash-preview-tts",
+    "voice": "Charon"
+  },
+  "6": {
+    "text": "ఇలాంటి అద్భుతమైన విషయాలు తెలుసుకోవడానికి మన పేజీని ఫాలో అవ్వండి!",
+    "file": "audio/lines/06.wav",
+    "duration": 4.318,
+    "match": 1.0,
+    "heard": "ఇలాంటి అద్భుతమైన విషయాలు తెలుసుకోవడానికి మన పేజీని ఫాలో అవ్వండి.",
+    "model": "gemini-2.5-flash-preview-tts",
+    "voice": "Charon"
+  }
+}
