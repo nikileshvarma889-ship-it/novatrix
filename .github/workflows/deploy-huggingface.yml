@@ -53,23 +53,36 @@ jobs:
           # ---- Neon: reuse a project called "reelwise" or create one ----
           neon = requests.Session()
           neon.headers.update({"Authorization": f"Bearer {os.environ['NEON_API_KEY']}", "Accept": "application/json"})
-          r = neon.get("https://console.neon.tech/api/v2/projects", params={"limit": 100})
+          N = "https://console.neon.tech/api/v2"
+          # Neon accounts are organization-based: personal API keys must name the organization.
+          org_id = None
+          r = neon.get(f"{N}/users/me/organizations")
           if r.status_code == 401: fail("The Neon API key was rejected. Create a new one in Neon -> Account settings -> API keys.")
-          r.raise_for_status()
+          if r.ok:
+              orgs = r.json().get("organizations", [])
+              if orgs:
+                  org_id = orgs[0]["id"]
+                  print(f"Neon organization: {orgs[0].get('name', org_id)}")
+          q = {"limit": 100, **({"org_id": org_id} if org_id else {})}
+          r = neon.get(f"{N}/projects", params=q)
+          if r.status_code == 401: fail("The Neon API key was rejected. Create a new one in Neon -> Account settings -> API keys.")
+          if not r.ok: fail(f"Neon refused to list projects: {r.status_code} {r.text[:300]}")
           proj = next((p for p in r.json().get("projects", []) if p["name"] == "reelwise"), None)
           if proj is None:
-              r = neon.post("https://console.neon.tech/api/v2/projects", json={"project": {"name": "reelwise", "region_id": "aws-ap-southeast-1", "pg_version": 16}})
+              body = {"project": {"name": "reelwise", "region_id": "aws-ap-southeast-1", "pg_version": 16, **({"org_id": org_id} if org_id else {})}}
+              r = neon.post(f"{N}/projects", json=body)
               if not r.ok: fail(f"Could not create the Neon database: {r.status_code} {r.text[:300]}")
               body = r.json(); proj = body["project"]
               uri = body["connection_uris"][0]["connection_uri"]
               print("Created Neon database 'reelwise' (Singapore)")
           else:
-              branches = neon.get(f"https://console.neon.tech/api/v2/projects/{proj['id']}/branches").json()["branches"]
-              branch = next(b for b in branches if b.get("default") or b.get("primary"))
-              dbs = neon.get(f"https://console.neon.tech/api/v2/projects/{proj['id']}/branches/{branch['id']}/databases").json()["databases"]
+              branches = neon.get(f"{N}/projects/{proj['id']}/branches").json()["branches"]
+              branch = next((b for b in branches if b.get("default") or b.get("primary")), branches[0])
+              dbs = neon.get(f"{N}/projects/{proj['id']}/branches/{branch['id']}/databases").json()["databases"]
               d = dbs[0]
-              r = neon.get(f"https://console.neon.tech/api/v2/projects/{proj['id']}/connection_uri", params={"database_name": d["name"], "role_name": d["owner_name"]})
-              r.raise_for_status(); uri = r.json()["uri"]
+              r = neon.get(f"{N}/projects/{proj['id']}/connection_uri", params={"database_name": d["name"], "role_name": d["owner_name"]})
+              if not r.ok: fail(f"Neon refused the connection string: {r.status_code} {r.text[:300]}")
+              uri = r.json()["uri"]
               print("Reusing Neon database 'reelwise'")
           print(f"::add-mask::{uri}")
 
