@@ -1,0 +1,105 @@
+name: Reelwise server image
+
+# Builds the production Docker image, runs it against a real PostgreSQL with the end-to-end
+# test suite (signup, login, security, upload, real video render, approval, publish safety),
+# then publishes the image to GitHub Container Registry and triggers a deploy if configured.
+on:
+  push:
+    paths:
+      - "reelwise/**"
+      - "!reelwise/mobile/**"
+      - "!reelwise/docs/**"
+      - ".github/workflows/reelwise-server.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  build-test-publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    defaults:
+      run:
+        working-directory: reelwise
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_DB: reelwise
+          POSTGRES_USER: reelwise
+          POSTGRES_PASSWORD: ci_only_password
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U reelwise" --health-interval 5s --health-retries 20
+    env:
+      DATABASE_URL: postgres://reelwise:ci_only_password@localhost:5432/reelwise
+      IMAGE: ghcr.io/${{ github.repository_owner }}/reelwise
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: docker/setup-buildx-action@v3
+
+      - name: Build production image
+        uses: docker/build-push-action@v6
+        with:
+          context: reelwise
+          load: true
+          tags: reelwise:test
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Start the app (web + worker) against PostgreSQL
+        run: |
+          mkdir -p "$PWD/ci-storage"
+          KEY="$(openssl rand -base64 32)"
+          echo "::add-mask::$KEY"
+          echo "ENCRYPTION_KEY=$KEY" >> "$GITHUB_ENV"
+          docker run -d --name reelwise --network host \
+            -e ROLE=all -e PORT=3000 -e APP_URL=http://localhost:3000 \
+            -e DATABASE_URL -e ENCRYPTION_KEY="$KEY" -e STORAGE_DIR=/data/storage \
+            -v "$PWD/ci-storage:/data/storage" reelwise:test
+          for i in $(seq 1 60); do
+            if curl -fs http://localhost:3000/api/health; then echo; echo "healthy"; exit 0; fi
+            sleep 3
+          done
+          docker logs reelwise; exit 1
+
+      - name: Check the container has FFmpeg, Chrome and Piper
+        run: |
+          docker exec reelwise ffmpeg -version | head -1
+          docker exec reelwise sh -c 'ls /opt/piper/*.onnx'
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: reelwise/package-lock.json
+
+      - name: End-to-end tests against the running container
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg >/dev/null
+          npm ci --no-audit --no-fund
+          BASE=http://localhost:3000 STORAGE_DIR="$PWD/ci-storage" node tests/e2e.mjs
+
+      - name: Container logs
+        if: always()
+        run: docker logs reelwise 2>&1 | tail -150
+
+      - name: Publish image to GitHub Container Registry
+        if: success()
+        run: |
+          echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
+          OWNER_LC="$(echo "$IMAGE" | tr '[:upper:]' '[:lower:]')"
+          docker tag reelwise:test "$OWNER_LC:latest"
+          docker tag reelwise:test "$OWNER_LC:${GITHUB_SHA::7}"
+          docker push "$OWNER_LC:latest"
+          docker push "$OWNER_LC:${GITHUB_SHA::7}"
+
+      - name: Trigger deploy (Render deploy hook, if configured)
+        if: success()
+        env:
+          HOOK: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
+        run: |
+          if [ -n "$HOOK" ]; then curl -fsS -X POST "$HOOK" >/dev/null && echo "Deploy triggered"; else echo "No RENDER_DEPLOY_HOOK_URL secret; skipping deploy."; fi

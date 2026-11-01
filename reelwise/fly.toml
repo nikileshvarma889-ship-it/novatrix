@@ -1,0 +1,39 @@
+# Fly.io config for Reelwise (alternative to Render). From reelwise/:
+#   fly launch --no-deploy --copy-config     (pick a unique app name)
+#   fly postgres create  &&  fly postgres attach <db-name>     (sets DATABASE_URL)
+#   fly volumes create reelwise_data --size 10
+#   fly secrets set ENCRYPTION_KEY=$(openssl rand -base64 32) ELEVENLABS_API_KEY=... ANTHROPIC_API_KEY=...
+#   fly deploy
+app = "reelwise"
+primary_region = "bom"
+
+[build]
+  dockerfile = "Dockerfile"
+
+[env]
+  ROLE = "all"
+  STORAGE_DIR = "/data/storage"
+  RENDER_CONCURRENCY = "1"
+  ELEVENLABS_DEFAULT_VOICE = "Bunty"
+  ELEVENLABS_MODEL = "eleven_v3"
+  ELEVENLABS_LANGUAGE = "te"
+
+[mounts]
+  source = "reelwise_data"
+  destination = "/data"
+
+[http_service]
+  internal_port = 3000
+  force_https = true
+  auto_stop_machines = "off"   # the worker must keep running to publish scheduled posts
+  min_machines_running = 1
+
+  [[http_service.checks]]
+    path = "/api/health"
+    interval = "30s"
+    timeout = "5s"
+    grace_period = "60s"
+
+[[vm]]
+  size = "shared-cpu-2x"
+  memory = "2gb"

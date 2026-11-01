@@ -1,0 +1,57 @@
+# Render Blueprint for Reelwise: one Docker service (web app + render/publish worker sharing a disk)
+# and a managed PostgreSQL database. Deploy: https://render.com/deploy?repo=https://github.com/nikileshvarma889-ship-it/novatrix
+# Secrets marked sync:false are entered in the Render dashboard, never committed.
+services:
+  - type: web
+    name: reelwise
+    runtime: docker
+    dockerfilePath: ./reelwise/Dockerfile
+    dockerContext: ./reelwise
+    plan: standard            # 2 GB RAM: needed for 3D video rendering. A disk requires a paid plan.
+    healthCheckPath: /api/health
+    buildFilter:
+      paths: ["reelwise/**"]
+      ignoredPaths: ["reelwise/mobile/**", "reelwise/docs/**"]
+    disk:
+      name: reelwise-storage
+      mountPath: /data
+      sizeGB: 10
+    envVars:
+      - key: ROLE
+        value: all
+      - key: DATABASE_URL
+        fromDatabase:
+          name: reelwise-db
+          property: connectionString
+      - key: ENCRYPTION_KEY
+        generateValue: true   # random 256-bit base64 value, as the app requires
+      - key: STORAGE_DIR
+        value: /data/storage
+      - key: RENDER_CONCURRENCY
+        value: "1"
+      - key: APP_URL          # leave empty to use the onrender.com URL; set it when you add a custom domain
+        sync: false
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: ELEVENLABS_API_KEY
+        sync: false
+      - key: ELEVENLABS_DEFAULT_VOICE
+        value: Bunty
+      - key: ELEVENLABS_MODEL
+        value: eleven_v3
+      - key: ELEVENLABS_LANGUAGE
+        value: te
+      - key: META_APP_ID
+        sync: false
+      - key: META_APP_SECRET
+        sync: false
+      - key: GOOGLE_CLIENT_ID
+        sync: false
+      - key: GOOGLE_CLIENT_SECRET
+        sync: false
+
+databases:
+  - name: reelwise-db
+    databaseName: reelwise
+    user: reelwise
+    plan: basic-256mb
