@@ -56,6 +56,7 @@ jobs:
             # No secrets yet: sign with a one-off key so the APK installs.
             # Add the ANDROID_* secrets (see reelwise/docs/ANDROID.md) so updates install over earlier versions.
             PW="$(openssl rand -hex 16)"
+            echo "::add-mask::$PW"
             keytool -genkeypair -v -keystore "$KS" -storepass "$PW" -keypass "$PW" -alias reelwise -keyalg RSA -keysize 2048 -validity 10000 \
               -dname "CN=Reelwise, O=Reelwise, C=IN"
             echo "ANDROID_KEYSTORE_PASSWORD=$PW" >> "$GITHUB_ENV"
