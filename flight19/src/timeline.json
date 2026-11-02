@@ -1,0 +1,269 @@
+{
+ "fps": 30,
+ "duration": 90,
+ "title": "FLIGHT 19: THE DEAD FREQUENCY",
+ "scenes": [
+  {
+   "id": "s1",
+   "name": "Takeoff",
+   "start": 0,
+   "dur": 13,
+   "lines": [
+    {
+     "key": "s1_0",
+     "who": "NARRATOR",
+     "text": "December fifth, nineteen forty-five. Naval Air Station, Fort Lauderdale.",
+     "start": 0.9,
+     "dur": 5.14,
+     "radio": false,
+     "fiction": false,
+     "label": ""
+    },
+    {
+     "key": "s1_1",
+     "who": "NARRATOR",
+     "text": "Five TBM Avenger torpedo bombers lift off on a routine training flight. Fourteen men aboard.",
+     "start": 6.54,
+     "dur": 6.57,
+     "radio": false,
+     "fiction": false,
+     "label": ""
+    }
+   ],
+   "caption": [
+    "DECEMBER 5, 1945 \u00b7 2:10 PM",
+    "NAVAL AIR STATION FORT LAUDERDALE, FLORIDA"
+   ],
+   "end": []
+  },
+  {
+   "id": "s2",
+   "name": "Lost over the Atlantic",
+   "start": 13,
+   "dur": 11,
+   "lines": [
+    {
+     "key": "s2_0",
+     "who": "NARRATOR",
+     "text": "Ninety minutes later, the flight leader, Lieutenant Charles Taylor, believes both of his compasses have failed... and that he is over the Florida Keys.",
+     "start": 0.9,
+     "dur": 10.79,
+     "radio": false,
+     "fiction": false,
+     "label": ""
+    }
+   ],
+   "caption": [
+    "OVER THE ATLANTIC \u00b7 3:40 PM"
+   ],
+   "end": []
+  },
+  {
+   "id": "s3",
+   "name": "Radio",
+   "start": 24,
+   "dur": 16,
+   "lines": [
+    {
+     "key": "s3_0",
+     "who": "TAYLOR",
+     "text": "Both of my compasses are out, and I am trying to find Fort Lauderdale, Florida. I am over land, but it's broken. I'm sure I'm in the Keys, but I don't know how far down.",
+     "start": 0.9,
+     "dur": 12.07,
+     "radio": true,
+     "fiction": false,
+     "label": "LT. CHARLES TAYLOR \u00b7 FT-28"
+    },
+    {
+     "key": "s3_1",
+     "who": "COX",
+     "text": "Put the sun on your port wing if you are in the Keys, and fly up the coast until you get to Miami.",
+     "start": 13.47,
+     "dur": 7.0,
+     "radio": true,
+     "fiction": false,
+     "label": "LT. ROBERT COX \u00b7 FT-74"
+    },
+    {
+     "key": "s3_2",
+     "who": "NARRATOR",
+     "text": "But they were not over the Keys.",
+     "start": 20.97,
+     "dur": 2.29,
+     "radio": false,
+     "fiction": false,
+     "label": ""
+    }
+   ],
+   "caption": [
+    "RADIO EXCHANGE RECONSTRUCTED FROM THE U.S. NAVY INVESTIGATION",
+    "NO AUDIO RECORDINGS EXIST"
+   ],
+   "end": [],
+   "cut": 13.22
+  },
+  {
+   "id": "s4",
+   "name": "Radar",
+   "start": 40,
+   "dur": 12,
+   "lines": [
+    {
+     "key": "s4_0",
+     "who": "TOWER",
+     "text": "Flight one-nine, Fort Lauderdale. Switch to three thousand kilocycles. Say your position.",
+     "start": 0.9,
+     "dur": 6.36,
+     "radio": true,
+     "fiction": false,
+     "label": "FORT LAUDERDALE RADIO"
+    },
+    {
+     "key": "s4_1",
+     "who": "NARRATOR",
+     "text": "Radio direction finders placed them north of the Bahamas, far out over the open Atlantic. The fix came too late.",
+     "start": 7.76,
+     "dur": 8.0,
+     "radio": false,
+     "fiction": false,
+     "label": ""
+    }
+   ],
+   "caption": [
+    "FORT LAUDERDALE \u00b7 5:50 PM",
+    "DRAMATIZATION"
+   ],
+   "end": [],
+   "lightning": [
+    1.8,
+    7.4
+   ]
+  },
+  {
+   "id": "s5",
+   "name": "The sixth aircraft",
+   "start": 52,
+   "dur": 14,
+   "lines": [
+    {
+     "key": "s5_0",
+     "who": "TAYLOR",
+     "text": "All planes close up tight. We'll have to ditch unless landfall. When the first plane drops below ten gallons, we all go down together.",
+     "start": 0.9,
+     "dur": 9.57,
+     "radio": true,
+     "fiction": false,
+     "label": "LT. CHARLES TAYLOR \u00b7 FT-28"
+    },
+    {
+     "key": "s5_1",
+     "who": "NARRATOR",
+     "text": "Five aircraft. Then, beside them in the fog... a sixth.",
+     "start": 10.97,
+     "dur": 3.93,
+     "radio": false,
+     "fiction": true,
+     "label": ""
+    },
+    {
+     "key": "s5_2",
+     "who": "GHOST",
+     "text": "Stay... with us.",
+     "start": 15.4,
+     "dur": 1.14,
+     "radio": true,
+     "fiction": true,
+     "label": "UNKNOWN STATION"
+    }
+   ],
+   "caption": [
+    "FICTIONAL ELEMENT"
+   ],
+   "end": [],
+   "ghostAt": 10.37,
+   "scopeAt": 14.95,
+   "lightning": [
+    1.6,
+    11.27,
+    14.25
+   ]
+  },
+  {
+   "id": "s6",
+   "name": "The rescue",
+   "start": 66,
+   "dur": 14,
+   "lines": [
+    {
+     "key": "s6_0",
+     "who": "NARRATOR",
+     "text": "A PBM Mariner flying boat, thirteen men aboard, took off to search for them.",
+     "start": 0.9,
+     "dur": 5.43,
+     "radio": false,
+     "fiction": false,
+     "label": ""
+    },
+    {
+     "key": "s6_1",
+     "who": "NARRATOR",
+     "text": "Twenty-three minutes later, the crew of a tanker saw flames on the sea. The USS Solomons watched a radar contact... disappear.",
+     "start": 6.83,
+     "dur": 9.0,
+     "radio": false,
+     "fiction": false,
+     "label": ""
+    },
+    {
+     "key": "s6_2",
+     "who": "NARRATOR",
+     "text": "Twenty-seven men. Six aircraft. No wreckage was ever found.",
+     "start": 16.33,
+     "dur": 4.21,
+     "radio": false,
+     "fiction": false,
+     "label": ""
+    }
+   ],
+   "caption": [
+    "NAVAL AIR STATION BANANA RIVER \u00b7 7:27 PM"
+   ],
+   "end": [],
+   "cuts": [
+    6.53,
+    11.51
+   ],
+   "lightning": [
+    1.5,
+    3.5
+   ]
+  },
+  {
+   "id": "s7",
+   "name": "The dead frequency",
+   "start": 80,
+   "dur": 10,
+   "lines": [
+    {
+     "key": "s7_0",
+     "who": "GHOST",
+     "text": "Fort Lauderdale... Flight nineteen... we're still flying.",
+     "start": 0.9,
+     "dur": 4.07,
+     "radio": true,
+     "fiction": true,
+     "label": "UNKNOWN STATION"
+    }
+   ],
+   "caption": [
+    "DECADES LATER",
+    "FICTIONAL HORROR DRAMATIZATION"
+   ],
+   "end": [
+    "Radio lines in this film are reconstructed from the U.S. Navy investigation; no recordings exist.",
+    "The sixth aircraft and the final transmission are fiction."
+   ],
+   "wake": 1.6
+  }
+ ]
+}

@@ -1,0 +1,71 @@
+{
+  "title": "FLIGHT 19: THE DEAD FREQUENCY",
+  "duration": 90,
+  "voices": {
+    "NARRATOR": { "voice": "Algenib", "radio": false, "style": "a deep, ominous documentary narrator for a horror mystery, low and restrained, at a measured, natural pace (not slow), American English" },
+    "TAYLOR": { "voice": "Iapetus", "radio": true, "label": "LT. CHARLES TAYLOR · FT-28", "style": "a 1945 U.S. Navy pilot on an aircraft radio, tense and disoriented but trying to stay professional, clipped American delivery" },
+    "COX": { "voice": "Orus", "radio": true, "label": "LT. ROBERT COX · FT-74", "style": "a 1945 U.S. Navy flight instructor on the radio, calm, firm and clear" },
+    "TOWER": { "voice": "Alnilam", "radio": true, "label": "FORT LAUDERDALE RADIO", "style": "a 1945 naval air station radio operator, measured and formal, with growing worry" },
+    "GHOST": { "voice": "Enceladus", "radio": true, "ghost": true, "label": "UNKNOWN STATION", "style": "a hollow, exhausted, whispering voice coming through a dead radio channel, very slow, eerie, with long pauses" }
+  },
+  "scenes": [
+    {
+      "id": "s1", "name": "Takeoff", "min": 11,
+      "caption": ["DECEMBER 5, 1945 · 2:10 PM", "NAVAL AIR STATION FORT LAUDERDALE, FLORIDA"],
+      "lines": [
+        { "who": "NARRATOR", "text": "December fifth, nineteen forty-five. Naval Air Station, Fort Lauderdale." },
+        { "who": "NARRATOR", "text": "Five TBM Avenger torpedo bombers lift off on a routine training flight. Fourteen men aboard." }
+      ]
+    },
+    {
+      "id": "s2", "name": "Lost over the Atlantic", "min": 9,
+      "caption": ["OVER THE ATLANTIC · 3:40 PM"],
+      "lines": [
+        { "who": "NARRATOR", "text": "Ninety minutes later, the flight leader, Lieutenant Charles Taylor, believes both of his compasses have failed... and that he is over the Florida Keys." }
+      ]
+    },
+    {
+      "id": "s3", "name": "Radio", "min": 14,
+      "caption": ["RADIO EXCHANGE RECONSTRUCTED FROM THE U.S. NAVY INVESTIGATION", "NO AUDIO RECORDINGS EXIST"],
+      "lines": [
+        { "who": "TAYLOR", "text": "Both of my compasses are out, and I am trying to find Fort Lauderdale, Florida. I am over land, but it's broken. I'm sure I'm in the Keys, but I don't know how far down." },
+        { "who": "COX", "text": "Put the sun on your port wing if you are in the Keys, and fly up the coast until you get to Miami." },
+        { "who": "NARRATOR", "text": "But they were not over the Keys." }
+      ]
+    },
+    {
+      "id": "s4", "name": "Radar", "min": 11,
+      "caption": ["FORT LAUDERDALE · 5:50 PM", "DRAMATIZATION"],
+      "lines": [
+        { "who": "TOWER", "text": "Flight one-nine, Fort Lauderdale. Switch to three thousand kilocycles. Say your position." },
+        { "who": "NARRATOR", "text": "Radio direction finders placed them north of the Bahamas, far out over the open Atlantic. The fix came too late." }
+      ]
+    },
+    {
+      "id": "s5", "name": "The sixth aircraft", "min": 13,
+      "caption": ["FICTIONAL ELEMENT"],
+      "lines": [
+        { "who": "TAYLOR", "text": "All planes close up tight. We'll have to ditch unless landfall. When the first plane drops below ten gallons, we all go down together." },
+        { "who": "NARRATOR", "text": "Five aircraft. Then, beside them in the fog... a sixth.", "fiction": true },
+        { "who": "GHOST", "text": "Stay... with us.", "fiction": true }
+      ]
+    },
+    {
+      "id": "s6", "name": "The rescue", "min": 15,
+      "caption": ["NAVAL AIR STATION BANANA RIVER · 7:27 PM"],
+      "lines": [
+        { "who": "NARRATOR", "text": "A PBM Mariner flying boat, thirteen men aboard, took off to search for them." },
+        { "who": "NARRATOR", "text": "Twenty-three minutes later, the crew of a tanker saw flames on the sea. The USS Solomons watched a radar contact... disappear." },
+        { "who": "NARRATOR", "text": "Twenty-seven men. Six aircraft. No wreckage was ever found." }
+      ]
+    },
+    {
+      "id": "s7", "name": "The dead frequency", "min": 12,
+      "caption": ["DECADES LATER", "FICTIONAL HORROR DRAMATIZATION"],
+      "lines": [
+        { "who": "GHOST", "text": "Fort Lauderdale... Flight nineteen... we're still flying.", "fiction": true }
+      ],
+      "end": ["Radio lines in this film are reconstructed from the U.S. Navy investigation; no recordings exist.", "The sixth aircraft and the final transmission are fiction."]
+    }
+  ]
+}
