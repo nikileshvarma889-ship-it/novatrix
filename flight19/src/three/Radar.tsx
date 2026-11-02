@@ -40,6 +40,8 @@ export const RadarScope: React.FC<{ t: number; blips: Blip[]; radius?: number; n
             c *= smoothstep(1.0, 0.92, r) * uP;
             c += vec3(0.02,0.06,0.03) * (1.0 - r) * uP;
             gl_FragColor = vec4(c, 1.0);
+            #include <tonemapping_fragment>
+            #include <colorspace_fragment>
           }`,
       }),
     [],

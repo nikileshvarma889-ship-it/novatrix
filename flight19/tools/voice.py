@@ -29,7 +29,7 @@ def post(model: str, body: dict, timeout=90):
 
 
 def synth(model: str, voice: str, text: str, style: str, dest: Path):
-    prompt = f"Speak as {style}. Read exactly this text and nothing else:\n{text}"
+    prompt = f"Say {style}: {text}"   # short "Say ...:" direction — longer instructions get read aloud by some models
     for attempt in range(6):
         d = post(model, {"contents": [{"parts": [{"text": prompt}]}],
                          "generationConfig": {"responseModalities": ["AUDIO"],
@@ -57,7 +57,7 @@ def synth(model: str, voice: str, text: str, style: str, dest: Path):
 
 def transcribe(wav: Path) -> str:
     body = {"contents": [{"parts": [{"inline_data": {"mime_type": "audio/wav", "data": base64.b64encode(wav.read_bytes()).decode()}},
-                                    {"text": "Transcribe this English speech exactly. Write every number as words (for example nineteen forty-five, not 1945). Output only the transcript."}]}]}
+                                    {"text": "Transcribe this audio VERBATIM: every word that is spoken, nothing omitted or cleaned up. Write every number as words (for example nineteen forty-five, not 1945). Output only the transcript."}]}]}
     for m in ("gemini-flash-lite-latest", "gemini-flash-latest"):
         try:
             d = post(m, body, timeout=60)
@@ -93,7 +93,7 @@ def duration(p: Path) -> float:
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--model", default="gemini-2.5-flash-preview-tts")
+    ap.add_argument("--model", default="gemini-3.1-flash-tts-preview")
     ap.add_argument("--scene", action="append", help="only these scene ids (repeatable)")
     a = ap.parse_args()
     script = json.loads((ROOT / "script/script.json").read_text())
@@ -111,13 +111,18 @@ def main():
             best = None
             for attempt in range(6):
                 try:
-                    synth(a.model, v["voice"], line["text"], v["style"], dest)
+                    synth(a.model, v["voice"], line["text"], v["say"], dest)
                     heard = transcribe(dest)
+                    time.sleep(2)
                 except Exception as e:
                     print(f"{key}: attempt {attempt + 1} failed ({e}); retrying", flush=True)
                     time.sleep(6)
                     continue
                 score = similarity(line["text"], heard)
+                words = len(line["text"].split())
+                if duration(dest) > words / 1.6 + 2.5:          # far too long for the text: extra speech or dead air
+                    print(f"{key}: {duration(dest):.1f}s is implausible for {words} words; rejecting", flush=True)
+                    score = min(score, 0.5)
                 print(f"{key} {line['who']}: try {attempt + 1} match {score:.2f} ({duration(dest):.2f}s)", flush=True)
                 if best is None or score > best[0]:
                     best = (score, dest.read_bytes(), heard)

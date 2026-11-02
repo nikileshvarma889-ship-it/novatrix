@@ -58,6 +58,8 @@ const Window: React.FC<{ t: number; storm: number; flash: number; broken: boolea
             float crack = uBroken * smoothstep(0.985, 1.0, fbm(vec3(p*18.0, 4.0)));
             c += vec3(0.4) * crack;
             gl_FragColor = vec4(c, 1.0);
+            #include <tonemapping_fragment>
+            #include <colorspace_fragment>
           }`,
       }),
     [],

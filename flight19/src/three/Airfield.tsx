@@ -27,9 +27,9 @@ const Palm: React.FC<{ pos: [number, number, number]; h: number; mat: THREE.Mate
   <group position={pos} rotation={[0, 0, lean]}>
     <mesh material={mat} position={[0, h / 2, 0]}><cylinderGeometry args={[0.18, 0.3, h, 8]} /></mesh>
     {Array.from({ length: 9 }, (_, i) => (
-      <mesh key={i} material={leaf} position={[0, h, 0]} rotation={[0, (i / 9) * Math.PI * 2, 0.9 + (i % 3) * 0.15]}>
-        <mesh position={[0, 1.6, 0]} scale={[0.35, 1, 0.06]}><sphereGeometry args={[1.7, 8, 6]} /></mesh>
-      </mesh>
+      <group key={i} position={[0, h, 0]} rotation={[0, (i / 9) * Math.PI * 2, 0.9 + (i % 3) * 0.15]}>
+        <mesh material={leaf} position={[0, 1.6, 0]} scale={[0.35, 1, 0.06]}><sphereGeometry args={[1.7, 8, 6]} /></mesh>
+      </group>
     ))}
   </group>
 );

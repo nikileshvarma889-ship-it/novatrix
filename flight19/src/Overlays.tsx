@@ -13,9 +13,9 @@ export const Grade: React.FC<{ strength?: number }> = ({ strength = 1 }) => {
   const flick = 1 + (random(`f${frame}`) - 0.5) * 0.05;
   return (
     <AbsoluteFill style={{ pointerEvents: "none" }}>
-      <AbsoluteFill style={{ background: "#3d5672", mixBlendMode: "color", opacity: 0.38 * strength }} />
-      <AbsoluteFill style={{ background: "#0b1420", mixBlendMode: "multiply", opacity: 0.22 * strength }} />
-      <AbsoluteFill style={{ background: "radial-gradient(ellipse at 50% 48%, rgba(0,0,0,0) 38%, rgba(0,3,8,0.78) 100%)" }} />
+      <AbsoluteFill style={{ background: "#3d5672", mixBlendMode: "color", opacity: 0.3 * strength }} />
+      <AbsoluteFill style={{ background: "#0b1420", mixBlendMode: "multiply", opacity: 0.06 * strength }} />
+      <AbsoluteFill style={{ background: "radial-gradient(ellipse at 50% 48%, rgba(0,0,0,0) 38%, rgba(0,3,8,0.62) 100%)" }} />
       <AbsoluteFill style={{ background: `rgba(0,0,0,${(1 - flick) * 2 + 0.02})` }} />
       <svg width="100%" height="100%" style={{ position: "absolute", opacity: 0.11, mixBlendMode: "overlay" }}>
         <filter id="grain"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves={2} seed={Math.floor(random(frame) * 999)} /></filter>

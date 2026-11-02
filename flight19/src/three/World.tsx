@@ -11,9 +11,9 @@ export const MOODS: Record<string, Mood> = {
   // late afternoon over the ocean, weather building
   dusk: { sky: "#2f3c4d", horizon: "#77818a", fog: "#5f6a75", sun: new THREE.Vector3(-0.7, 0.18, 0.2), sunColor: "#ffd9a8", sunI: 1.6, storm: 0.55 },
   // storm at sunset, dense fog
-  storm: { sky: "#1b232e", horizon: "#3c4652", fog: "#3a434d", sun: new THREE.Vector3(-0.8, 0.08, 0.3), sunColor: "#c9b49a", sunI: 0.8, storm: 1 },
+  storm: { sky: "#2a3542", horizon: "#56616d", fog: "#4b5662", sun: new THREE.Vector3(-0.8, 0.08, 0.3), sunColor: "#c9b49a", sunI: 0.8, storm: 1 },
   // night over the sea
-  night: { sky: "#05080d", horizon: "#121a24", fog: "#0e141c", sun: new THREE.Vector3(0.3, 0.5, -0.6), sunColor: "#8fa6c8", sunI: 0.35, storm: 0.9 },
+  night: { sky: "#0b1119", horizon: "#202b39", fog: "#19222d", sun: new THREE.Vector3(0.3, 0.5, -0.6), sunColor: "#8fa6c8", sunI: 0.6, storm: 0.9 },
 };
 
 /** Sky dome: gradient + layered storm clouds + sun glow. */
@@ -42,6 +42,8 @@ export const SkyDome: React.FC<{ mood: Mood; t: number; flash?: number }> = ({ m
             c = mix(c, cloudC, cov * smoothstep(-0.05, 0.12, d.y) * (0.6 + uStorm*0.4));
             c += vec3(0.75,0.82,1.0) * uFlash * (0.4 + cov*0.9);
             gl_FragColor = vec4(c, 1.0);
+            #include <tonemapping_fragment>
+            #include <colorspace_fragment>
           }`,
       }),
     [],
@@ -106,6 +108,8 @@ export const Ocean: React.FC<{ mood: Mood; t: number; flash?: number; size?: num
             float f = 1.0 - exp(-pow(dist*0.0009*(1.0+uStorm*1.6), 1.3));
             c = mix(c, uFog, clamp(f, 0.0, 1.0));
             gl_FragColor = vec4(c, 1.0);
+            #include <tonemapping_fragment>
+            #include <colorspace_fragment>
           }`,
       }),
     [],
@@ -151,6 +155,8 @@ export const CloudLayer: React.FC<{ mood: Mood; t: number; count?: number; seed?
             a *= smoothstep(4.0, 60.0, vDepth);               // fade when the camera flies through
             vec3 c = mix(uC2, uC1, smoothstep(0.2, 0.8, n + p.y)) + vec3(0.7,0.8,1.0)*uFlash*0.8;
             gl_FragColor = vec4(c, a);
+            #include <tonemapping_fragment>
+            #include <colorspace_fragment>
           }`,
       }),
     [],

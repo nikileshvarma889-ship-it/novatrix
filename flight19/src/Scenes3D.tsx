@@ -28,7 +28,7 @@ const Cam: React.FC<{ pos: [number, number, number]; look: [number, number, numb
 export const Canvas3D: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { width, height } = useVideoConfig();
   return (
-    <ThreeCanvas width={width} height={height} linear flat gl={{ antialias: true, preserveDrawingBuffer: true }} camera={{ fov: 40, near: 0.05, far: 9000, position: [0, 2, 10] }} style={{ background: "#000" }}>
+    <ThreeCanvas width={width} height={height} gl={{ antialias: true, preserveDrawingBuffer: true, toneMapping: THREE.ACESFilmicToneMapping, toneMappingExposure: 1.15 }} camera={{ fov: 40, near: 0.05, far: 9000, position: [0, 2, 10] }} style={{ background: "#000" }}>
       {children}
     </ThreeCanvas>
   );
@@ -66,7 +66,7 @@ export const S1: React.FC<{ t: number; dur: number }> = ({ t, dur }) => {
     const lead = planes[0];
     return (
       <>
-        <Cam pos={[70, 2.4, 34]} look={lerp3([lead.x - 20, 4, 0], [lead.x + 10, lead.y * 0.8 + 3, 0], k)} fov={36} />
+        <Cam pos={[-30, 2.1, 26]} look={[lead.x + 6, lead.y * 0.85 + 1.4, 0]} fov={38} />
         <SkyDome mood={mood} t={t} />
         <MoodFog mood={mood} density={0.0016} />
         <ambientLight intensity={0.35} color="#9fb0c6" />
@@ -135,11 +135,11 @@ export const S3: React.FC<{ t: number; dur: number; cut: number }> = ({ t, dur, 
     const k = ease(clamp01(t / cut));
     return (
       <>
-        <Cam pos={lerp3([-0.75, 1.32, -0.42], [-0.6, 1.25, -0.36], k)} look={[0.9, 0.95, 0.05]} fov={52} roll={0.04 + Math.sin(t * 0.7) * 0.01} />
+        <Cam pos={lerp3([-1.0, 1.42, -0.32], [-0.85, 1.36, -0.26], k)} look={[0.8, 0.88, 0.02]} fov={50} roll={0.04 + Math.sin(t * 0.7) * 0.01} />
         <SkyDome mood={mood} t={t} />
         <ambientLight intensity={0.25} color="#8193a8" />
         <directionalLight position={[mood.sun.x * 10, mood.sun.y * 10, mood.sun.z * 10]} intensity={1.4} color={mood.sunColor} />
-        <pointLight position={[0.5, 1.0, 0]} intensity={0.25} distance={1.5} color="#b8ffd0" />
+        <pointLight position={[0.35, 1.05, 0]} intensity={0.9} distance={1.6} color="#d8e6ff" />
         <group position={[0, -600, 0]}>
           <Ocean mood={mood} t={t} />
         </group>

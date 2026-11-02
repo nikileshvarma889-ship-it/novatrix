@@ -29,7 +29,7 @@ const Gauge: React.FC<{ kind: "compass" | "alt" | "speed" | "fuel" | "clock"; po
   return (
     <group position={pos}>
       <mesh material={rim} rotation={[Math.PI / 2, 0, 0]} position={[0, 0, -0.005]}><cylinderGeometry args={[r * 1.12, r * 1.12, 0.02, 32]} /></mesh>
-      <mesh><circleGeometry args={[r, 40]} /><meshStandardMaterial map={tex} roughness={0.6} emissive="#b8ffcc" emissiveMap={tex} emissiveIntensity={0.08} /></mesh>
+      <mesh><circleGeometry args={[r, 40]} /><meshStandardMaterial map={tex} roughness={0.6} emissive="#b8ffcc" emissiveMap={tex} emissiveIntensity={0.45} /></mesh>
       <mesh position={[0, 0, 0.004]} rotation={[0, 0, -needle]}>
         <mesh position={[0, r * 0.38, 0]}><planeGeometry args={[r * 0.07, r * 0.8]} /><meshStandardMaterial color="#f2eedd" emissive="#f2eedd" emissiveIntensity={0.25} /></mesh>
       </mesh>
@@ -74,7 +74,7 @@ export const Cockpit: React.FC<{ t: number; compass: number; fuel: number; env?:
         <mesh key={s} material={m.interior} position={[0.2, 0.55, 0.42 * s]}><boxGeometry args={[1.4, 0.5, 0.04]} /></mesh>
       ))}
       {/* canopy frame bows + rails */}
-      {[0.55, 0.05, -0.45].map((x) => (
+      {[0.55, 0.05].map((x) => (
         <mesh key={x} material={m.frame} position={[x, 0.82, 0]} rotation={[0, Math.PI / 2, 0]}><torusGeometry args={[0.48, 0.022, 8, 32, Math.PI]} /></mesh>
       ))}
       <mesh material={m.frame} position={[0.05, 1.3, 0]} rotation={[0, 0, Math.PI / 2]}><cylinderGeometry args={[0.018, 0.018, 1.1, 8]} /></mesh>
