@@ -42,7 +42,7 @@
     {
       "id": "s1",
       "name": "Takeoff",
-      "min": 11,
+      "min": 8,
       "caption": [
         "DECEMBER 5, 1945 · 2:10 PM",
         "NAVAL AIR STATION FORT LAUDERDALE, FLORIDA"
@@ -50,7 +50,8 @@
       "lines": [
         {
           "who": "NARRATOR",
-          "text": "December fifth, nineteen forty-five. Naval Air Station, Fort Lauderdale."
+          "text": "December fifth, nineteen forty-five. Naval Air Station, Fort Lauderdale.",
+          "skip": "covered by the on-screen caption"
         },
         {
           "who": "NARRATOR",
@@ -61,7 +62,7 @@
     {
       "id": "s2",
       "name": "Lost over the Atlantic",
-      "min": 9,
+      "min": 7,
       "caption": [
         "OVER THE ATLANTIC · 3:40 PM"
       ],
@@ -75,7 +76,7 @@
     {
       "id": "s3",
       "name": "Radio",
-      "min": 14,
+      "min": 12,
       "caption": [
         "RADIO EXCHANGE RECONSTRUCTED FROM THE U.S. NAVY INVESTIGATION",
         "NO AUDIO RECORDINGS EXIST"
@@ -83,7 +84,8 @@
       "lines": [
         {
           "who": "TAYLOR",
-          "text": "Both of my compasses are out, and I am trying to find Fort Lauderdale, Florida. I am over land, but it's broken. I'm sure I'm in the Keys, but I don't know how far down."
+          "text": "Both of my compasses are out, and I am trying to find Fort Lauderdale, Florida. I'm sure I'm in the Keys, but I don't know how far down.",
+          "edit": "'I am over land, but it's broken.' removed for length"
         },
         {
           "who": "COX",
@@ -91,14 +93,15 @@
         },
         {
           "who": "NARRATOR",
-          "text": "But they were not over the Keys."
+          "text": "But they were not over the Keys.",
+          "skip": "implied by the next scene's narration"
         }
       ]
     },
     {
       "id": "s4",
       "name": "Radar",
-      "min": 11,
+      "min": 9,
       "caption": [
         "FORT LAUDERDALE · 5:50 PM",
         "DRAMATIZATION"
@@ -117,7 +120,7 @@
     {
       "id": "s5",
       "name": "The sixth aircraft",
-      "min": 13,
+      "min": 10,
       "caption": [
         "FICTIONAL ELEMENT"
       ],
@@ -129,19 +132,24 @@
         {
           "who": "NARRATOR",
           "text": "Five aircraft. Then, beside them in the fog... a sixth.",
-          "fiction": true
+          "fiction": true,
+          "skip": "shown as an on-screen caption"
         },
         {
           "who": "GHOST",
           "text": "Stay... with us.",
           "fiction": true
         }
+      ],
+      "beat": [
+        "FIVE AIRCRAFT.",
+        "THEN, BESIDE THEM IN THE FOG... A SIXTH."
       ]
     },
     {
       "id": "s6",
       "name": "The rescue",
-      "min": 15,
+      "min": 12,
       "caption": [
         "NAVAL AIR STATION BANANA RIVER · 7:27 PM"
       ],
@@ -156,14 +164,17 @@
         },
         {
           "who": "NARRATOR",
-          "text": "Twenty-seven men. Six aircraft. No wreckage was ever found."
+          "text": "No wreckage was ever found."
         }
+      ],
+      "toll": [
+        "27 MEN · 6 AIRCRAFT"
       ]
     },
     {
       "id": "s7",
       "name": "The dead frequency",
-      "min": 12,
+      "min": 10,
       "caption": [
         "DECADES LATER",
         "FICTIONAL HORROR DRAMATIZATION"

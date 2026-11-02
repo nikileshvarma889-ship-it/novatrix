@@ -58,37 +58,46 @@ def load_raw(key):
 dry = {}
 for sc in script["scenes"]:
     for n, l in enumerate(sc["lines"]):
+        if l.get("skip"): continue
         k = f"{sc['id']}_{n}"
         dry[k] = squeeze_pauses(load_raw(k), 0.38 if l["who"] == "NARRATOR" else 0.5 if l["who"] != "GHOST" else 0.9)
 
-LEAD, GAP, RADIO_GAP, TAIL = 0.9, 0.45, 0.6, 0.9
+LEAD, GAP, RADIO_GAP, TAIL = 0.5, 0.25, 0.35, 0.35
 def layout():
     out = []
     for sc in script["scenes"]:
         cur, lines = LEAD, []
         for n, l in enumerate(sc["lines"]):
+            if l.get("skip"): continue
             k = f"{sc['id']}_{n}"
             radio = script["voices"][l["who"]]["radio"]
-            if n:
+            if lines:
                 cur += RADIO_GAP if radio else GAP
+            if sc["id"] == "s5" and l["who"] == "GHOST":
+                cur += 1.8                                          # the sixth aircraft emerges + caption beat first
             lines.append({"key": k, "who": l["who"], "text": l["text"], "start": round(cur, 3), "dur": round(len(dry[k]) / SR, 3), "radio": radio, "fiction": bool(l.get("fiction")), "label": script["voices"][l["who"]].get("label", "")})
             cur += len(dry[k]) / SR
-        extra = {"s5": 1.0, "s7": 4.2}.get(sc["id"], 0)            # reveal beats / title card
-        out.append({"id": sc["id"], "name": sc["name"], "dur": max(sc["min"], cur + TAIL + extra), "lines": lines, "caption": sc.get("caption", []), "end": sc.get("end", [])})
+        extra = {"s5": 0.5, "s7": 3.5}.get(sc["id"], 0)            # reveal beat caption / title card
+        out.append({"id": sc["id"], "name": sc["name"], "dur": max(sc["min"], cur + TAIL + extra), "lines": lines, "caption": sc.get("caption", []), "end": sc.get("end", []), "toll": sc.get("toll", []), "beat": sc.get("beat", [])})
     return out
 
+for k, x in list(dry.items()):                               # radio calls: a touch quicker, as real transmissions
+    if voices[k]["who"] in ("TAYLOR", "COX", "TOWER"): dry[k] = tempo(x, 1.08)
 scenes = layout()
 need = sum(s["dur"] for s in scenes)
-if need > TOTAL:
+if need > TOTAL - 0.5:
     narr = sum(len(dry[l["key"]]) / SR for s in scenes for l in s["lines"] if l["who"] == "NARRATOR")
-    f = min(1.18, narr / max(1.0, narr - (need - TOTAL) - 1.0))
-    print(f"narration {need:.1f}s > {TOTAL}s: narrator tempo x{f:.3f}")
-    for sc in script["scenes"]:
-        for n, l in enumerate(sc["lines"]):
-            if l["who"] == "NARRATOR":
-                k = f"{sc['id']}_{n}"; dry[k] = tempo(dry[k], f)
+    f = min(1.42, narr / max(1.0, narr - (need - TOTAL) - 1.5))
+    print(f"narration needs {need:.1f}s for {TOTAL}s: narrator tempo x{f:.3f}")
+    for k in list(dry):
+        if voices[k]["who"] == "NARRATOR": dry[k] = tempo(dry[k], f)
     scenes = layout()
+if sum(s["dur"] for s in scenes) > TOTAL:
+    TOTAL = round(sum(s["dur"] for s in scenes) + 0.05, 2)
+    N = int(TOTAL * SR); t = np.arange(N) / SR
+    print(f"film length set to {TOTAL}s to fit the dialogue")
 spare = TOTAL - sum(s["dur"] for s in scenes)
+for _s in scenes: print("  ", _s["id"], round(_s["dur"],2), [(l["who"], round(l["start"],1), round(l["dur"],1)) for l in _s["lines"]])
 assert spare > -6, f"script too long by {-spare:.1f}s"
 weights = {"s1": 3, "s2": 2, "s5": 2, "s6": 1, "s7": 1, "s3": 0.5, "s4": 0.5}
 wsum = sum(weights.values())
@@ -104,12 +113,14 @@ S = {s["id"]: s for s in scenes}
 # scene-internal beats shared with the visuals
 S["s3"]["cut"] = round(S["s3"]["lines"][1]["start"] - 0.25, 3)
 S["s4"]["lightning"] = [1.8, round(S["s4"]["dur"] * 0.62, 2)]
-S["s5"]["ghostAt"] = round(S["s5"]["lines"][1]["start"] - 0.6, 3)
-S["s5"]["scopeAt"] = round(S["s5"]["lines"][2]["start"] - 0.45, 3)
+S["s5"]["ghostAt"] = round(S["s5"]["lines"][0]["start"] + S["s5"]["lines"][0]["dur"] * 0.55, 3)   # the sixth drifts in during Taylor's call
+S["s5"]["scopeAt"] = round(S["s5"]["lines"][1]["start"] - 0.45, 3)
+S["s5"]["beatAt"] = round(S["s5"]["lines"][0]["start"] + S["s5"]["lines"][0]["dur"] + 0.2, 3)
 S["s5"]["lightning"] = [1.6, round(S["s5"]["ghostAt"] + 0.9, 2), round(S["s5"]["scopeAt"] - 0.7, 2)]
 l6 = S["s6"]["lines"]
 S["s6"]["cuts"] = [round(l6[1]["start"] - 0.3, 3), round(l6[1]["start"] + l6[1]["dur"] * 0.52, 3)]
 S["s6"]["lightning"] = [1.5, round(S["s6"]["cuts"][0] * 0.7, 2)]
+S["s6"]["tollAt"] = round(l6[2]["start"] - 1.3, 3)
 S["s7"]["wake"] = 1.6
 
 # ------------------------------------------------------------------ dsp helpers
@@ -123,7 +134,7 @@ def put(buf, x, at):
     x = x[: len(buf) - i0]
     buf[i0:i0 + len(x)] += x
 def env_ad(n, a, d):
-    e = np.ones(n); na, nd = int(a * SR), int(d * SR)
+    e = np.ones(n); na, nd = min(n, int(a * SR)), min(n, int(d * SR))
     if na: e[:na] = np.linspace(0, 1, na)
     if nd: e[-nd:] *= np.linspace(1, 0, nd)
     return e

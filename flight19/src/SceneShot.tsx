@@ -38,6 +38,8 @@ export const SceneShot: React.FC<{ id: string }> = ({ id }) => {
         <Grade />
       </AbsoluteFill>
       <Caption lines={sc.caption} from={0.4} to={Math.min(d - 0.5, 0.4 + 4.8)} />
+      {(sc as { beat?: string[] }).beat?.length ? <Caption lines={(sc as { beat: string[] }).beat} from={(sc as { beatAt: number }).beatAt} to={(sc.scopeAt ?? d) - 0.15} /> : null}
+      {(sc as { toll?: string[]; tollAt?: number }).toll?.length ? <Caption lines={(sc as { toll: string[] }).toll} from={(sc as { tollAt: number }).tollAt} to={d - 0.2} /> : null}
       <Subtitles lines={sc.lines as unknown as Line[]} />
       {titleAt !== null ? <TitleCard from={titleAt} title={timeline.title} notes={sc.end} /> : null}
       <Glitch at={0} len={0.4} />
