@@ -1,0 +1,148 @@
+{
+  "title": "MH370: THE LAST TRANSMISSION",
+  "part": "PART 1",
+  "duration": 62,
+  "voices": {
+    "NARRATOR": {
+      "voice": "Charon",
+      "model": "gemini-2.5-flash-preview-tts",
+      "radio": false,
+      "say": "in a deep, slow, ominous Telugu documentary narrator voice, natural Tenglish"
+    },
+    "KL_ATC": {
+      "voice": "Alnilam",
+      "model": "gemini-3.1-flash-tts-preview",
+      "radio": true,
+      "label": "KUALA LUMPUR RADAR",
+      "say": "calmly and routinely, like an air traffic controller with a Malaysian English accent"
+    },
+    "PILOT": {
+      "voice": "Iapetus",
+      "model": "gemini-3.1-flash-tts-preview",
+      "radio": true,
+      "label": "MH370 COCKPIT",
+      "say": "casually and quietly, like an airline pilot signing off at night"
+    },
+    "CALL": {
+      "voice": "Alnilam",
+      "model": "gemini-3.1-flash-tts-preview",
+      "radio": true,
+      "label": "ATC · DRAMATIZED",
+      "say": "with growing concern, like an air traffic controller calling a silent aircraft"
+    },
+    "FINAL": {
+      "voice": "Alnilam",
+      "model": "gemini-3.1-flash-tts-preview",
+      "radio": true,
+      "ghost": true,
+      "label": "UNKNOWN · DRAMATIZED",
+      "say": "slowly and quietly, like a tired controller calling into empty static"
+    }
+  },
+  "scenes": [
+    {
+      "id": "s1",
+      "name": "Night takeoff",
+      "min": 12,
+      "caption": [
+        "8 MARCH 2014 · 00:41 MYT",
+        "KUALA LUMPUR INTERNATIONAL AIRPORT"
+      ],
+      "lines": [
+        {
+          "who": "NARRATOR",
+          "text": "March 8th, 2014... Malaysia నుంచి Beijing కి వెళ్తున్న Flight MH370...",
+          "sub": "March 8th, 2014... Malaysia nunchi Beijing ki velthunna Flight MH370..."
+        },
+        {
+          "who": "NARRATOR",
+          "text": "239 మంది aboard... అందరికీ ఇది ఒక normal journey...",
+          "sub": "239 mandi aboard... Andariki idi oka normal journey..."
+        }
+      ]
+    },
+    {
+      "id": "s2",
+      "name": "Last radio call",
+      "min": 12,
+      "caption": [
+        "01:19 MYT · 35,000 FT",
+        "ATC TRANSCRIPT · VOICES RECREATED"
+      ],
+      "lines": [
+        {
+          "who": "KL_ATC",
+          "text": "Malaysian three seven zero, contact Ho Chi Minh one two zero decimal nine. Good night.",
+          "sub": "Malaysian Three Seven Zero, contact Ho Chi Minh one two zero decimal nine. Good night."
+        },
+        {
+          "who": "PILOT",
+          "text": "Good night. Malaysian three seven zero.",
+          "sub": "Good night. Malaysian Three Seven Zero."
+        },
+        {
+          "who": "NARRATOR",
+          "text": "కానీ... ఆ goodbye... వాళ్ళ last confirmed radio transmission గా మారింది.",
+          "sub": "Kaani... aa goodbye... vaalla last confirmed radio transmission ga maarindi."
+        }
+      ]
+    },
+    {
+      "id": "s3",
+      "name": "Radar loss",
+      "min": 15,
+      "caption": [
+        "01:21 MYT · NEAR WAYPOINT IGARI"
+      ],
+      "lines": [
+        {
+          "who": "CALL",
+          "text": "MH370... do you copy?",
+          "sub": "MH370... do you copy?"
+        },
+        {
+          "who": "NARRATOR",
+          "text": "రెండు నిమిషాలు కూడా కాకముందే... radar screen మీద aircraft disappear అయింది...",
+          "sub": "Rendu nimishaalu kooda kaakamunde... radar screen meeda aircraft disappear ayindi..."
+        },
+        {
+          "who": "NARRATOR",
+          "text": "కానీ... aircraft అక్కడే ఆగిపోలేదు.",
+          "sub": "Kaani... aircraft akkade aagipoledu."
+        }
+      ]
+    },
+    {
+      "id": "s4",
+      "name": "The light in the fog",
+      "min": 11,
+      "caption": [
+        "DRAMATIZATION"
+      ],
+      "lines": [
+        {
+          "who": "NARRATOR",
+          "text": "Flight MH370... అసలు ఎక్కడికి వెళ్ళింది?",
+          "sub": "Flight MH370... asalu ekkadiki vellindi?"
+        },
+        {
+          "who": "FINAL",
+          "text": "MH370... requesting contact...",
+          "sub": "MH370... requesting contact..."
+        }
+      ]
+    },
+    {
+      "id": "s5",
+      "name": "End card",
+      "min": 4.2,
+      "lines": [],
+      "end": [
+        "MH370 has never been found.",
+        "239 people were aboard."
+      ]
+    }
+  ],
+  "next": "PART 2 — THE UNKNOWN SIGNAL",
+  "cta": "Comment for Part 2"
+}

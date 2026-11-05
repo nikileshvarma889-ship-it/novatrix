@@ -1,0 +1,192 @@
+{
+  "fps": 30,
+  "duration": 66.75,
+  "title": "MH370: THE LAST TRANSMISSION",
+  "part": "PART 1",
+  "next": "PART 2 — THE UNKNOWN SIGNAL",
+  "cta": "Comment for Part 2",
+  "scenes": [
+    {
+      "id": "s1",
+      "name": "Night takeoff",
+      "lines": [
+        {
+          "key": "s1_0",
+          "who": "NARRATOR",
+          "text": "March 8th, 2014... Malaysia నుంచి Beijing కి వెళ్తున్న Flight MH370...",
+          "sub": "March 8th, 2014... Malaysia nunchi Beijing ki velthunna Flight MH370...",
+          "radio": false,
+          "fiction": false,
+          "label": "",
+          "dur": 7.444,
+          "start": 1.0
+        },
+        {
+          "key": "s1_1",
+          "who": "NARRATOR",
+          "text": "239 మంది aboard... అందరికీ ఇది ఒక normal journey...",
+          "sub": "239 mandi aboard... Andariki idi oka normal journey...",
+          "radio": false,
+          "fiction": false,
+          "label": "",
+          "dur": 5.174,
+          "start": 8.844
+        }
+      ],
+      "caption": [
+        "8 MARCH 2014 · 00:41 MYT",
+        "KUALA LUMPUR INTERNATIONAL AIRPORT"
+      ],
+      "end": [],
+      "dur": 14.618,
+      "cut": 7.6,
+      "start": 0.0
+    },
+    {
+      "id": "s2",
+      "name": "Last radio call",
+      "lines": [
+        {
+          "key": "s2_0",
+          "who": "KL_ATC",
+          "text": "Malaysian three seven zero, contact Ho Chi Minh one two zero decimal nine. Good night.",
+          "sub": "Malaysian Three Seven Zero, contact Ho Chi Minh one two zero decimal nine. Good night.",
+          "radio": true,
+          "fiction": false,
+          "label": "KUALA LUMPUR RADAR",
+          "dur": 5.792,
+          "start": 0.7
+        },
+        {
+          "key": "s2_1",
+          "who": "PILOT",
+          "text": "Good night. Malaysian three seven zero.",
+          "sub": "Good night. Malaysian Three Seven Zero.",
+          "radio": true,
+          "fiction": false,
+          "label": "MH370 COCKPIT",
+          "dur": 2.812,
+          "start": 6.992
+        },
+        {
+          "key": "s2_2",
+          "who": "NARRATOR",
+          "text": "కానీ... ఆ goodbye... వాళ్ళ last confirmed radio transmission గా మారింది.",
+          "sub": "Kaani... aa goodbye... vaalla last confirmed radio transmission ga maarindi.",
+          "radio": false,
+          "fiction": false,
+          "label": "",
+          "dur": 5.598,
+          "start": 10.504
+        }
+      ],
+      "caption": [
+        "01:19 MYT · 35,000 FT",
+        "ATC TRANSCRIPT · VOICES RECREATED"
+      ],
+      "end": [],
+      "dur": 16.602,
+      "cuts": [
+        6.792,
+        10.254
+      ],
+      "start": 14.618
+    },
+    {
+      "id": "s3",
+      "name": "Radar loss",
+      "lines": [
+        {
+          "key": "s3_0",
+          "who": "CALL",
+          "text": "MH370... do you copy?",
+          "sub": "MH370... do you copy?",
+          "radio": true,
+          "fiction": true,
+          "label": "ATC · DRAMATIZED",
+          "dur": 2.683,
+          "start": 1.7
+        },
+        {
+          "key": "s3_1",
+          "who": "NARRATOR",
+          "text": "రెండు నిమిషాలు కూడా కాకముందే... radar screen మీద aircraft disappear అయింది...",
+          "sub": "Rendu nimishaalu kooda kaakamunde... radar screen meeda aircraft disappear ayindi...",
+          "radio": false,
+          "fiction": false,
+          "label": "",
+          "dur": 6.944,
+          "start": 5.733
+        },
+        {
+          "key": "s3_2",
+          "who": "NARRATOR",
+          "text": "కానీ... aircraft అక్కడే ఆగిపోలేదు.",
+          "sub": "Kaani... aircraft akkade aagipoledu.",
+          "radio": false,
+          "fiction": false,
+          "label": "",
+          "dur": 3.124,
+          "start": 13.177
+        }
+      ],
+      "caption": [
+        "01:21 MYT · NEAR WAYPOINT IGARI"
+      ],
+      "end": [],
+      "dur": 18.001,
+      "coastAt": 0.9,
+      "goneAt": 10.733,
+      "trailAt": 13.377,
+      "start": 31.22
+    },
+    {
+      "id": "s4",
+      "name": "The light in the fog",
+      "lines": [
+        {
+          "key": "s4_0",
+          "who": "NARRATOR",
+          "text": "Flight MH370... అసలు ఎక్కడికి వెళ్ళింది?",
+          "sub": "Flight MH370... asalu ekkadiki vellindi?",
+          "radio": false,
+          "fiction": false,
+          "label": "",
+          "dur": 4.833,
+          "start": 1.1
+        },
+        {
+          "key": "s4_1",
+          "who": "FINAL",
+          "text": "MH370... requesting contact...",
+          "sub": "MH370... requesting contact...",
+          "radio": true,
+          "fiction": true,
+          "label": "UNKNOWN · DRAMATIZED",
+          "dur": 5.191,
+          "start": 7.033
+        }
+      ],
+      "caption": [
+        "DRAMATIZATION"
+      ],
+      "end": [],
+      "lightAt": 3.275,
+      "dur": 13.324,
+      "fadeAt": 11.924,
+      "start": 49.221
+    },
+    {
+      "id": "s5",
+      "name": "End card",
+      "lines": [],
+      "caption": [],
+      "end": [
+        "MH370 has never been found.",
+        "239 people were aboard."
+      ],
+      "dur": 4.2,
+      "start": 62.545
+    }
+  ]
+}
