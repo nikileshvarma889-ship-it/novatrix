@@ -1,0 +1,272 @@
+{
+  "fps": 30,
+  "duration": 99.95,
+  "title": "MH370: THE UNKNOWN SIGNAL",
+  "part": "PART 2",
+  "next": "PART 3 — THE FINAL FLIGHT",
+  "cta": "Comment for Part 3",
+  "scenes": [
+    {
+      "id": "s1",
+      "name": "The search",
+      "lines": [
+        {
+          "key": "s1_0",
+          "who": "NARRATOR",
+          "text": "Years passed... since MH370 disappeared.",
+          "sub": "Years passed... since MH370 disappeared.",
+          "radio": false,
+          "fiction": false,
+          "label": "",
+          "dur": 4.589,
+          "start": 1.0
+        },
+        {
+          "key": "s1_1",
+          "who": "NARRATOR",
+          "text": "The entire world searched... for two hundred and thirty-nine missing souls.",
+          "sub": "The entire world searched... for two hundred and thirty-nine missing souls.",
+          "radio": false,
+          "fiction": false,
+          "label": "",
+          "dur": 8.546,
+          "start": 5.909
+        }
+      ],
+      "caption": [
+        "SOUTHERN INDIAN OCEAN",
+        "SEARCH 2014 – 2018"
+      ],
+      "end": [],
+      "dur": 14.955,
+      "cut": 5.609,
+      "start": 0.0
+    },
+    {
+      "id": "s2",
+      "name": "Satellite data",
+      "lines": [
+        {
+          "key": "s2_0",
+          "who": "NARRATOR",
+          "text": "Satellite data indicated... the aircraft had travelled toward the southern Indian Ocean.",
+          "sub": "Satellite data indicated... the aircraft had travelled toward the southern Indian Ocean.",
+          "radio": false,
+          "fiction": false,
+          "label": "",
+          "dur": 6.776,
+          "start": 0.6
+        },
+        {
+          "key": "s2_1",
+          "who": "NARRATOR",
+          "text": "But its exact location?",
+          "sub": "But its exact location?",
+          "radio": false,
+          "fiction": false,
+          "label": "",
+          "dur": 2.09,
+          "start": 7.696
+        },
+        {
+          "key": "s2_2",
+          "who": "NARRATOR",
+          "text": "Still unknown.",
+          "sub": "Still unknown.",
+          "radio": false,
+          "fiction": false,
+          "label": "",
+          "dur": 1.917,
+          "start": 10.486
+        }
+      ],
+      "caption": [
+        "INMARSAT SATELLITE DATA",
+        "FINAL HANDSHAKE ARC · APPROXIMATE"
+      ],
+      "end": [],
+      "dur": 13.103,
+      "start": 14.955
+    },
+    {
+      "id": "s3",
+      "name": "Midnight transmission",
+      "lines": [
+        {
+          "key": "s3_0",
+          "who": "NARRATOR",
+          "text": "One midnight... inside the Malaysian ATC control room... a radio suddenly activated.",
+          "sub": "One midnight... inside the Malaysian ATC control room... a radio suddenly activated.",
+          "radio": false,
+          "fiction": false,
+          "label": "",
+          "dur": 7.093,
+          "start": 0.8
+        },
+        {
+          "key": "s3_1",
+          "who": "NARRATOR",
+          "text": "Through the static... a voice whispered...",
+          "sub": "Through the static... a voice whispered...",
+          "radio": false,
+          "fiction": false,
+          "label": "",
+          "dur": 3.515,
+          "start": 8.213
+        },
+        {
+          "key": "s3_2",
+          "who": "GHOST",
+          "text": "Malaysia Control... this is MH370...",
+          "sub": "Malaysia Control... this is MH370...",
+          "radio": true,
+          "fiction": true,
+          "label": "UNKNOWN STATION · FICTION",
+          "dur": 5.792,
+          "start": 12.528
+        },
+        {
+          "key": "s3_3",
+          "who": "NARRATOR",
+          "text": "The controllers froze.",
+          "sub": "The controllers froze.",
+          "radio": false,
+          "fiction": false,
+          "label": "",
+          "dur": 2.895,
+          "start": 18.92
+        },
+        {
+          "key": "s3_4",
+          "who": "CTRL",
+          "text": "MH370... identify yourself!",
+          "sub": "MH370... identify yourself!",
+          "radio": false,
+          "fiction": true,
+          "label": "KL CONTROL · FICTION",
+          "dur": 2.897,
+          "start": 22.165
+        },
+        {
+          "key": "s3_5",
+          "who": "GHOST",
+          "text": "We are... still over the ocean...",
+          "sub": "We are... still over the ocean...",
+          "radio": true,
+          "fiction": true,
+          "label": "UNKNOWN STATION · FICTION",
+          "dur": 4.309,
+          "start": 25.862
+        }
+      ],
+      "caption": [
+        "THE FOLLOWING IS FICTION",
+        "THIS TRANSMISSION NEVER HAPPENED"
+      ],
+      "end": [],
+      "dur": 30.871,
+      "start": 28.058
+    },
+    {
+      "id": "s4",
+      "name": "The signal",
+      "lines": [
+        {
+          "key": "s4_0",
+          "who": "NARRATOR",
+          "text": "Suddenly... an unknown aircraft signal appeared on the radar.",
+          "sub": "Suddenly... an unknown aircraft signal appeared on the radar.",
+          "radio": false,
+          "fiction": false,
+          "label": "",
+          "dur": 6.494,
+          "start": 0.6
+        },
+        {
+          "key": "s4_1",
+          "who": "NARRATOR",
+          "text": "Flight number... MH370.",
+          "sub": "Flight number... MH370.",
+          "radio": false,
+          "fiction": false,
+          "label": "",
+          "dur": 4.444,
+          "start": 7.414
+        },
+        {
+          "key": "s4_2",
+          "who": "NARRATOR",
+          "text": "But the signal... was coming from the middle of the ocean.",
+          "sub": "But the signal... was coming from the middle of the ocean.",
+          "radio": false,
+          "fiction": false,
+          "label": "",
+          "dur": 4.893,
+          "start": 12.178
+        },
+        {
+          "key": "s4_3",
+          "who": "CTRL_W",
+          "text": "This is impossible...",
+          "sub": "This is impossible...",
+          "radio": false,
+          "fiction": true,
+          "label": "CONTROLLER · FICTION",
+          "dur": 2.654,
+          "start": 17.391
+        },
+        {
+          "key": "s4_4",
+          "who": "GHOST",
+          "text": "Please... don't leave us...",
+          "sub": "Please... don't leave us...",
+          "radio": true,
+          "fiction": true,
+          "label": "UNKNOWN STATION · FICTION",
+          "dur": 3.301,
+          "start": 20.645
+        },
+        {
+          "key": "s4_5",
+          "who": "NARRATOR",
+          "text": "The signal disappeared.",
+          "sub": "The signal disappeared.",
+          "radio": false,
+          "fiction": false,
+          "label": "",
+          "dur": 2.538,
+          "start": 24.546
+        },
+        {
+          "key": "s4_6",
+          "who": "NARRATOR",
+          "text": "But on the radar... the aircraft... was still moving.",
+          "sub": "But on the radar... the aircraft... was still moving.",
+          "radio": false,
+          "fiction": false,
+          "label": "",
+          "dur": 5.937,
+          "start": 27.884
+        }
+      ],
+      "caption": [
+        "FICTION"
+      ],
+      "end": [],
+      "dur": 36.021,
+      "start": 58.929
+    },
+    {
+      "id": "s5",
+      "name": "End card",
+      "lines": [],
+      "caption": [],
+      "end": [
+        "The transmission in this story is fiction.",
+        "The main wreckage of MH370 has never been found."
+      ],
+      "dur": 5,
+      "start": 94.95
+    }
+  ]
+}

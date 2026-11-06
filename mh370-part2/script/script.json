@@ -1,0 +1,164 @@
+{
+  "title": "MH370: THE UNKNOWN SIGNAL",
+  "part": "PART 2",
+  "next": "PART 3 — THE FINAL FLIGHT",
+  "cta": "Comment for Part 3",
+  "duration": 85,
+  "voices": {
+    "NARRATOR": {
+      "voice": "Charon",
+      "model": "gemini-2.5-flash-preview-tts",
+      "radio": false,
+      "say": "in a deep, slow, ominous horror documentary narrator voice"
+    },
+    "GHOST": {
+      "voice": "Iapetus",
+      "model": "gemini-3.1-flash-tts-preview",
+      "radio": true,
+      "ghost": true,
+      "label": "UNKNOWN STATION · FICTION",
+      "say": "in a faint, exhausted, hollow whisper, very slowly"
+    },
+    "CTRL": {
+      "voice": "Alnilam",
+      "model": "gemini-3.1-flash-tts-preview",
+      "radio": false,
+      "label": "KL CONTROL · FICTION",
+      "say": "urgently and sharply, like a shocked air traffic controller"
+    },
+    "CTRL_W": {
+      "voice": "Alnilam",
+      "model": "gemini-3.1-flash-tts-preview",
+      "radio": false,
+      "label": "CONTROLLER · FICTION",
+      "say": "in a frightened, barely audible whisper"
+    }
+  },
+  "scenes": [
+    {
+      "id": "s1",
+      "name": "The search",
+      "min": 10,
+      "caption": [
+        "SOUTHERN INDIAN OCEAN",
+        "SEARCH 2014 – 2018"
+      ],
+      "lines": [
+        {
+          "who": "NARRATOR",
+          "text": "Years passed... since MH370 disappeared."
+        },
+        {
+          "who": "NARRATOR",
+          "text": "The entire world searched... for two hundred and thirty-nine missing souls."
+        }
+      ]
+    },
+    {
+      "id": "s2",
+      "name": "Satellite data",
+      "min": 9,
+      "caption": [
+        "INMARSAT SATELLITE DATA",
+        "FINAL HANDSHAKE ARC · APPROXIMATE"
+      ],
+      "lines": [
+        {
+          "who": "NARRATOR",
+          "text": "Satellite data indicated... the aircraft had travelled toward the southern Indian Ocean."
+        },
+        {
+          "who": "NARRATOR",
+          "text": "But its exact location?"
+        },
+        {
+          "who": "NARRATOR",
+          "text": "Still unknown."
+        }
+      ]
+    },
+    {
+      "id": "s3",
+      "name": "Midnight transmission",
+      "min": 20,
+      "caption": [
+        "THE FOLLOWING IS FICTION",
+        "THIS TRANSMISSION NEVER HAPPENED"
+      ],
+      "lines": [
+        {
+          "who": "NARRATOR",
+          "text": "One midnight... inside the Malaysian ATC control room... a radio suddenly activated."
+        },
+        {
+          "who": "NARRATOR",
+          "text": "Through the static... a voice whispered..."
+        },
+        {
+          "who": "GHOST",
+          "text": "Malaysia Control... this is MH370..."
+        },
+        {
+          "who": "NARRATOR",
+          "text": "The controllers froze."
+        },
+        {
+          "who": "CTRL",
+          "text": "MH370... identify yourself!"
+        },
+        {
+          "who": "GHOST",
+          "text": "We are... still over the ocean..."
+        }
+      ]
+    },
+    {
+      "id": "s4",
+      "name": "The signal",
+      "min": 24,
+      "caption": [
+        "FICTION"
+      ],
+      "lines": [
+        {
+          "who": "NARRATOR",
+          "text": "Suddenly... an unknown aircraft signal appeared on the radar."
+        },
+        {
+          "who": "NARRATOR",
+          "text": "Flight number... MH370."
+        },
+        {
+          "who": "NARRATOR",
+          "text": "But the signal... was coming from the middle of the ocean."
+        },
+        {
+          "who": "CTRL_W",
+          "text": "This is impossible..."
+        },
+        {
+          "who": "GHOST",
+          "text": "Please... don't leave us..."
+        },
+        {
+          "who": "NARRATOR",
+          "text": "The signal disappeared."
+        },
+        {
+          "who": "NARRATOR",
+          "text": "But on the radar... the aircraft... was still moving."
+        }
+      ]
+    },
+    {
+      "id": "s5",
+      "name": "End card",
+      "min": 5,
+      "lines": [],
+      "end": [
+        "The transmission in this story is fiction.",
+        "The main wreckage of MH370 has never been found."
+      ]
+    }
+  ]
+}
