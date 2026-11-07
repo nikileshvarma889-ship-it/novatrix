@@ -1,0 +1,31 @@
+{
+  "name": "mh370-part3",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Flight 19: The Dead Frequency — 90 s aviation horror documentary (Remotion + Three.js)",
+  "scripts": {
+    "voice": "python3 tools/voice.py",
+    "audio": "python3 tools/mix.py",
+    "studio": "remotion studio",
+    "preview": "remotion render SpaceSound out/preview.mp4 --scale=0.5 --crf=26",
+    "render": "remotion render SpaceSound out/space-sound-telugu.mp4 --crf=17",
+    "cover": "remotion still Cover out/cover.jpg --image-format=jpeg",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@react-three/fiber": "^8.17.10",
+    "@remotion/cli": "^4.0.539",
+    "@remotion/fonts": "^4.0.539",
+    "@remotion/three": "^4.0.539",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "remotion": "^4.0.539",
+    "three": "^0.169.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.9.0",
+    "@types/react": "^18.3.12",
+    "@types/three": "^0.169.0",
+    "typescript": "^5.6.3"
+  }
+}

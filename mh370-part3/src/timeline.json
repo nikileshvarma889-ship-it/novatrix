@@ -1,0 +1,198 @@
+{
+  "fps": 30,
+  "duration": 66.5,
+  "title": "MH370: THE FINAL FLIGHT",
+  "part": "PART 3",
+  "scenes": [
+    {
+      "id": "s1",
+      "name": "The return",
+      "lines": [
+        {
+          "key": "s1_0",
+          "who": "NARRATOR",
+          "text": "After years of silence, the mysterious MH370 signal returned.",
+          "sub": "After years of silence... the mysterious MH370 signal... returned.",
+          "radio": false,
+          "fiction": false,
+          "label": "",
+          "dur": 5.837,
+          "start": 0.8
+        }
+      ],
+      "caption": [
+        "KUALA LUMPUR ATC · MIDNIGHT",
+        "FICTION · INSPIRED BY THE REAL MH370"
+      ],
+      "end": [],
+      "dur": 7.037,
+      "start": 0.0
+    },
+    {
+      "id": "s2",
+      "name": "The impossible radar",
+      "lines": [
+        {
+          "key": "s2_0",
+          "who": "NARRATOR",
+          "text": "Inside the control room, the radar showed something impossible. An aircraft, approaching Kuala Lumpur.",
+          "sub": "Inside the control room... the radar showed something impossible. An aircraft... approaching Kuala Lumpur.",
+          "radio": false,
+          "fiction": false,
+          "label": "",
+          "dur": 7.87,
+          "start": 0.4
+        }
+      ],
+      "caption": [
+        "UNKNOWN TRAFFIC · INBOUND KUALA LUMPUR"
+      ],
+      "end": [],
+      "dur": 8.77,
+      "start": 7.037
+    },
+    {
+      "id": "s3",
+      "name": "The radio",
+      "lines": [
+        {
+          "key": "s3_0",
+          "who": "ATC",
+          "text": "MH370... is that you?",
+          "sub": "MH370... is that you?",
+          "radio": false,
+          "fiction": true,
+          "label": "KL CONTROL · FICTION",
+          "dur": 3.587,
+          "start": 1.2
+        },
+        {
+          "key": "s3_1",
+          "who": "GHOST",
+          "text": "Malaysia Control... requesting landing clearance...",
+          "sub": "Malaysia Control... requesting landing clearance...",
+          "radio": true,
+          "fiction": true,
+          "label": "MH370 · FICTION",
+          "dur": 5.169,
+          "start": 5.687
+        }
+      ],
+      "caption": [],
+      "end": [],
+      "dur": 11.456,
+      "start": 15.807
+    },
+    {
+      "id": "s4",
+      "name": "The empty runway",
+      "lines": [
+        {
+          "key": "s4_0",
+          "who": "ATC_RADIO",
+          "text": "MH370... you are cleared to land.",
+          "sub": "MH370... you are cleared to land.",
+          "radio": true,
+          "fiction": true,
+          "label": "KL CONTROL · FICTION",
+          "dur": 4.016,
+          "start": 0.8
+        },
+        {
+          "key": "s4_1",
+          "who": "NARRATOR",
+          "text": "But something was terribly wrong.",
+          "sub": "But something... was terribly wrong.",
+          "radio": false,
+          "fiction": false,
+          "label": "",
+          "dur": 2.871,
+          "start": 5.316
+        }
+      ],
+      "caption": [
+        "RUNWAY 14L · KLIA",
+        "FICTION"
+      ],
+      "end": [],
+      "dur": 8.787,
+      "start": 27.263
+    },
+    {
+      "id": "s5",
+      "name": "The last transmission",
+      "lines": [
+        {
+          "key": "s5_0",
+          "who": "GHOST",
+          "text": "Thank you... for waiting...",
+          "sub": "Thank you... for waiting...",
+          "radio": true,
+          "fiction": true,
+          "label": "MH370 · FICTION",
+          "dur": 2.922,
+          "start": 2.2
+        }
+      ],
+      "caption": [],
+      "end": [],
+      "dur": 6.3,
+      "start": 36.05
+    },
+    {
+      "id": "s6",
+      "name": "Disappearance",
+      "lines": [
+        {
+          "key": "s6_0",
+          "who": "NARRATOR",
+          "text": "The radar screen went completely dark. The signal disappeared forever.",
+          "sub": "The radar screen went completely dark. The signal... disappeared forever.",
+          "radio": false,
+          "fiction": false,
+          "label": "",
+          "dur": 5.885,
+          "start": 0.5
+        }
+      ],
+      "caption": [],
+      "end": [],
+      "dur": 7.4,
+      "start": 42.35
+    },
+    {
+      "id": "s7",
+      "name": "The final shot",
+      "lines": [
+        {
+          "key": "s7_0",
+          "who": "NARRATOR",
+          "text": "Two hundred and thirty-nine souls. One unanswered mystery. MH370. The flight that never came home.",
+          "sub": "239 souls... one unanswered mystery. MH370... the flight that never came home.",
+          "radio": false,
+          "fiction": false,
+          "label": "",
+          "dur": 8.449,
+          "start": 1.2
+        }
+      ],
+      "caption": [],
+      "end": [],
+      "dur": 12.149,
+      "start": 49.75
+    },
+    {
+      "id": "s8",
+      "name": "End card",
+      "lines": [],
+      "caption": [],
+      "end": [
+        "The supernatural events in this series are fiction.",
+        "MH370 disappeared on 8 March 2014 with 239 people aboard.",
+        "Its main wreckage has never been found."
+      ],
+      "dur": 4.6,
+      "start": 61.899
+    }
+  ]
+}

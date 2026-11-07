@@ -1,0 +1,149 @@
+{
+  "title": "MH370: THE FINAL FLIGHT",
+  "part": "PART 3",
+  "duration": 64,
+  "voices": {
+    "NARRATOR": {
+      "voice": "Charon",
+      "model": "gemini-2.5-flash-preview-tts",
+      "radio": false,
+      "say": "in a deep, low, serious documentary narrator voice, at a normal speaking pace with short pauses"
+    },
+    "ATC": {
+      "voice": "Alnilam",
+      "model": "gemini-3.1-flash-tts-preview",
+      "radio": false,
+      "label": "KL CONTROL · FICTION",
+      "say": "slowly, in a shaken, hesitant voice, like an air traffic controller who cannot believe it"
+    },
+    "ATC_RADIO": {
+      "voice": "Alnilam",
+      "model": "gemini-3.1-flash-tts-preview",
+      "radio": true,
+      "label": "KL CONTROL · FICTION",
+      "say": "calmly but with a trembling voice, like an air traffic controller giving a landing clearance"
+    },
+    "GHOST": {
+      "voice": "Iapetus",
+      "model": "gemini-3.1-flash-tts-preview",
+      "radio": true,
+      "ghost": true,
+      "label": "MH370 · FICTION",
+      "say": "in a faint, hollow, exhausted whisper, very slowly"
+    }
+  },
+  "scenes": [
+    {
+      "id": "s1",
+      "name": "The return",
+      "min": 6.5,
+      "caption": [
+        "KUALA LUMPUR ATC · MIDNIGHT",
+        "FICTION · INSPIRED BY THE REAL MH370"
+      ],
+      "lines": [
+        {
+          "who": "NARRATOR",
+          "text": "After years of silence, the mysterious MH370 signal returned.",
+          "sub": "After years of silence... the mysterious MH370 signal... returned."
+        }
+      ]
+    },
+    {
+      "id": "s2",
+      "name": "The impossible radar",
+      "min": 7,
+      "caption": [
+        "UNKNOWN TRAFFIC · INBOUND KUALA LUMPUR"
+      ],
+      "lines": [
+        {
+          "who": "NARRATOR",
+          "text": "Inside the control room, the radar showed something impossible. An aircraft, approaching Kuala Lumpur.",
+          "sub": "Inside the control room... the radar showed something impossible. An aircraft... approaching Kuala Lumpur."
+        }
+      ]
+    },
+    {
+      "id": "s3",
+      "name": "The radio",
+      "min": 7,
+      "lines": [
+        {
+          "who": "ATC",
+          "text": "MH370... is that you?"
+        },
+        {
+          "who": "GHOST",
+          "text": "Malaysia Control... requesting landing clearance..."
+        }
+      ]
+    },
+    {
+      "id": "s4",
+      "name": "The empty runway",
+      "min": 7,
+      "caption": [
+        "RUNWAY 14L · KLIA",
+        "FICTION"
+      ],
+      "lines": [
+        {
+          "who": "ATC_RADIO",
+          "text": "MH370... you are cleared to land."
+        },
+        {
+          "who": "NARRATOR",
+          "text": "But something was terribly wrong.",
+          "sub": "But something... was terribly wrong."
+        }
+      ]
+    },
+    {
+      "id": "s5",
+      "name": "The last transmission",
+      "min": 6.3,
+      "lines": [
+        {
+          "who": "GHOST",
+          "text": "Thank you... for waiting..."
+        }
+      ]
+    },
+    {
+      "id": "s6",
+      "name": "Disappearance",
+      "min": 7.4,
+      "lines": [
+        {
+          "who": "NARRATOR",
+          "text": "The radar screen went completely dark. The signal disappeared forever.",
+          "sub": "The radar screen went completely dark. The signal... disappeared forever."
+        }
+      ]
+    },
+    {
+      "id": "s7",
+      "name": "The final shot",
+      "min": 8,
+      "lines": [
+        {
+          "who": "NARRATOR",
+          "text": "Two hundred and thirty-nine souls. One unanswered mystery. MH370. The flight that never came home.",
+          "sub": "239 souls... one unanswered mystery. MH370... the flight that never came home."
+        }
+      ]
+    },
+    {
+      "id": "s8",
+      "name": "End card",
+      "min": 4.6,
+      "lines": [],
+      "end": [
+        "The supernatural events in this series are fiction.",
+        "MH370 disappeared on 8 March 2014 with 239 people aboard.",
+        "Its main wreckage has never been found."
+      ]
+    }
+  ]
+}
