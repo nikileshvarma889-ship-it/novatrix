@@ -1,0 +1,100 @@
+{
+ "title": "INSIDE A FIRECRACKER",
+ "duration": 58.8,
+ "voices": {
+  "NARRATOR": {
+   "voice": "Charon",
+   "model": "gemini-3.8-flash-tts",
+   "say": ""
+  }
+ },
+ "scenes": [
+  {
+   "id": "s1",
+   "name": "Intro",
+   "min": 6,
+   "lines": [
+    {
+     "who": "NARRATOR",
+     "text": "Have you ever wondered, what actually happens inside a firecracker when it explodes?",
+     "sub": "Have you ever wondered… what actually happens inside a firecracker when it explodes?"
+    }
+   ]
+  },
+  {
+   "id": "s2",
+   "name": "Inside mechanism",
+   "min": 12.5,
+   "lines": [
+    {
+     "who": "NARRATOR",
+     "text": "Inside a typical firecracker, a fast-burning energetic material releases heat and gases.",
+     "sub": "Inside a typical firecracker, a fast-burning energetic material releases heat and gases."
+    },
+    {
+     "who": "NARRATOR",
+     "text": "As the reaction happens rapidly, pressure builds inside its casing.",
+     "sub": "As the reaction happens rapidly, pressure builds inside its casing."
+    }
+   ]
+  },
+  {
+   "id": "s3",
+   "name": "The explosion",
+   "min": 13.5,
+   "lines": [
+    {
+     "who": "NARRATOR",
+     "text": "When the pressure rises extremely fast, the casing ruptures suddenly.",
+     "sub": "When the pressure rises extremely fast, the casing ruptures suddenly."
+    },
+    {
+     "who": "NARRATOR",
+     "text": "The expanding gases create a loud bang, a pressure wave, and the explosive burst we hear and see.",
+     "sub": "The expanding gases create a loud bang, a pressure wave, and the explosive burst we hear and see."
+    }
+   ]
+  },
+  {
+   "id": "s4a",
+   "name": "Rocket",
+   "min": 7.2,
+   "lines": [
+    {
+     "who": "NARRATOR",
+     "text": "But how do some fireworks fly? Rockets move upward because gases escape downward, producing thrust.",
+     "sub": "But how do some fireworks fly? Rockets move upward because gases escape downward, producing thrust."
+    }
+   ]
+  },
+  {
+   "id": "s4b",
+   "name": "Spinner",
+   "min": 6.2,
+   "lines": [
+    {
+     "who": "NARRATOR",
+     "text": "Spinning fireworks rotate because their exhaust creates turning force.",
+     "sub": "Spinning fireworks rotate because their exhaust creates turning force."
+    }
+   ]
+  },
+  {
+   "id": "s5",
+   "name": "Ending",
+   "min": 10.5,
+   "lines": [
+    {
+     "who": "NARRATOR",
+     "text": "One reaction, different effects. Explosion, thrust, and rotation.",
+     "sub": "One reaction… different effects. Explosion, thrust, and rotation."
+    },
+    {
+     "who": "NARRATOR",
+     "text": "Never experiment with firecrackers yourself. Enjoy fireworks safely!",
+     "sub": "Never experiment with firecrackers yourself. Enjoy fireworks safely!"
+    }
+   ]
+  }
+ ]
+}

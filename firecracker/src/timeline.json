@@ -1,0 +1,244 @@
+{
+  "fps": 30,
+  "duration": 59.99,
+  "title": "INSIDE A FIRECRACKER",
+  "scenes": [
+    {
+      "id": "s1",
+      "name": "Intro",
+      "lines": [
+        {
+          "key": "s1_0",
+          "who": "NARRATOR",
+          "text": "Have you ever wondered, what actually happens inside a firecracker when it explodes?",
+          "sub": "Have you ever wondered… what actually happens inside a firecracker when it explodes?",
+          "radio": false,
+          "fiction": false,
+          "label": "",
+          "dur": 5.269,
+          "start": 0.9
+        }
+      ],
+      "caption": [],
+      "end": [],
+      "dur": 6.669,
+      "start": 0.0,
+      "ev": {
+        "fuseGlint": 0.0
+      }
+    },
+    {
+      "id": "s2",
+      "name": "Inside mechanism",
+      "lines": [
+        {
+          "key": "s2_0",
+          "who": "NARRATOR",
+          "text": "Inside a typical firecracker, a fast-burning energetic material releases heat and gases.",
+          "sub": "Inside a typical firecracker, a fast-burning energetic material releases heat and gases.",
+          "radio": false,
+          "fiction": false,
+          "label": "",
+          "dur": 6.177,
+          "start": 0.5
+        },
+        {
+          "key": "s2_1",
+          "who": "NARRATOR",
+          "text": "As the reaction happens rapidly, pressure builds inside its casing.",
+          "sub": "As the reaction happens rapidly, pressure builds inside its casing.",
+          "radio": false,
+          "fiction": false,
+          "label": "",
+          "dur": 4.331,
+          "start": 7.177
+        }
+      ],
+      "caption": [],
+      "end": [],
+      "dur": 12.5,
+      "start": 6.669,
+      "ev": {
+        "fuseStart": 0.6,
+        "fuseEnd": 3.897
+      }
+    },
+    {
+      "id": "s3",
+      "name": "The explosion",
+      "lines": [
+        {
+          "key": "s3_0",
+          "who": "NARRATOR",
+          "text": "When the pressure rises extremely fast, the casing ruptures suddenly.",
+          "sub": "When the pressure rises extremely fast, the casing ruptures suddenly.",
+          "radio": false,
+          "fiction": false,
+          "label": "",
+          "dur": 4.745,
+          "start": 0.5
+        },
+        {
+          "key": "s3_1",
+          "who": "NARRATOR",
+          "text": "The expanding gases create a loud bang, a pressure wave, and the explosive burst we hear and see.",
+          "sub": "The expanding gases create a loud bang, a pressure wave, and the explosive burst we hear and see.",
+          "radio": false,
+          "fiction": false,
+          "label": "",
+          "dur": 7.128,
+          "start": 6.845
+        }
+      ],
+      "caption": [],
+      "end": [],
+      "dur": 14.573,
+      "start": 19.169,
+      "ev": {
+        "rupture": 4.676
+      }
+    },
+    {
+      "id": "s4a",
+      "name": "Rocket",
+      "lines": [
+        {
+          "key": "s4a_0",
+          "who": "NARRATOR",
+          "text": "But how do some fireworks fly? Rockets move upward because gases escape downward, producing thrust.",
+          "sub": "But how do some fireworks fly? Rockets move upward because gases escape downward, producing thrust.",
+          "radio": false,
+          "fiction": false,
+          "label": "",
+          "dur": 5.721,
+          "start": 0.5
+        }
+      ],
+      "caption": [],
+      "end": [],
+      "dur": 7.2,
+      "start": 33.742,
+      "ev": {
+        "ignite": 0.35,
+        "lift": 1.1
+      }
+    },
+    {
+      "id": "s4b",
+      "name": "Spinner",
+      "lines": [
+        {
+          "key": "s4b_0",
+          "who": "NARRATOR",
+          "text": "Spinning fireworks rotate because their exhaust creates turning force.",
+          "sub": "Spinning fireworks rotate because their exhaust creates turning force.",
+          "radio": false,
+          "fiction": false,
+          "label": "",
+          "dur": 3.748,
+          "start": 0.4
+        }
+      ],
+      "caption": [],
+      "end": [],
+      "dur": 6.2,
+      "start": 40.942,
+      "ev": {
+        "ignite": 0.2
+      }
+    },
+    {
+      "id": "s5",
+      "name": "Ending",
+      "lines": [
+        {
+          "key": "s5_0",
+          "who": "NARRATOR",
+          "text": "One reaction, different effects. Explosion, thrust, and rotation.",
+          "sub": "One reaction… different effects. Explosion, thrust, and rotation.",
+          "radio": false,
+          "fiction": false,
+          "label": "",
+          "dur": 4.229,
+          "start": 1.2
+        },
+        {
+          "key": "s5_1",
+          "who": "NARRATOR",
+          "text": "Never experiment with firecrackers yourself. Enjoy fireworks safely!",
+          "sub": "Never experiment with firecrackers yourself. Enjoy fireworks safely!",
+          "radio": false,
+          "fiction": false,
+          "label": "",
+          "dur": 3.922,
+          "start": 6.129
+        }
+      ],
+      "caption": [],
+      "end": [],
+      "dur": 12.851,
+      "start": 47.142,
+      "ev": {
+        "bursts": [
+          [
+            0.25,
+            -36.4,
+            184.5,
+            0.02,
+            1.24
+          ],
+          [
+            1.0,
+            -42.0,
+            158.5,
+            0.58,
+            1.19
+          ],
+          [
+            1.7,
+            17.8,
+            194.4,
+            0.12,
+            0.84
+          ],
+          [
+            2.3,
+            -53.9,
+            213.7,
+            0.85,
+            0.84
+          ],
+          [
+            3.0,
+            32.5,
+            183.2,
+            0.33,
+            1.09
+          ],
+          [
+            3.6,
+            -41.8,
+            180.3,
+            0.95,
+            1.2
+          ],
+          [
+            4.3,
+            -5.3,
+            176.4,
+            0.5,
+            1.23
+          ],
+          [
+            5.0,
+            -21.9,
+            177.8,
+            0.02,
+            1.03
+          ]
+        ],
+        "card": 5.729
+      }
+    }
+  ]
+}
