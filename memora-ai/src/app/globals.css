@@ -1,0 +1,126 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ---- design tokens (RGB triplets so Tailwind can apply opacity) ---- */
+:root {
+  --bg: 245 246 251;
+  --surface: 255 255 255;
+  --surface-2: 238 240 248;
+  --border: 222 225 238;
+  --fg: 17 20 39;
+  --muted: 88 94 122;
+  --subtle: 140 146 172;
+  --brand: 109 76 255;
+  --brand-2: 37 140 255;
+  --brand-fg: 255 255 255;
+  --ok: 16 160 110;
+  --warn: 214 140 20;
+  --danger: 222 60 80;
+  --math: 120 90 255;
+  --phys: 30 150 255;
+  --chem: 16 170 130;
+  color-scheme: light;
+}
+.dark {
+  --bg: 8 10 22;
+  --surface: 16 19 36;
+  --surface-2: 23 27 48;
+  --border: 39 44 72;
+  --fg: 234 236 248;
+  --muted: 160 166 196;
+  --subtle: 112 118 150;
+  --brand: 139 108 255;
+  --brand-2: 56 160 255;
+  --brand-fg: 255 255 255;
+  --ok: 52 211 153;
+  --warn: 251 191 36;
+  --danger: 248 113 133;
+  --math: 160 132 255;
+  --phys: 86 178 255;
+  --chem: 52 211 170;
+  color-scheme: dark;
+}
+
+html, body { height: 100%; }
+body { overflow-x: clip; }
+/* grid items may shrink below their content width (long truncated titles), so nothing pushes the page sideways on phones */
+.grid > * { min-width: 0; }
+body {
+  @apply bg-bg text-fg antialiased;
+  font-feature-settings: "cv11", "ss01";
+  background-image:
+    radial-gradient(1200px 600px at 85% -10%, rgb(var(--brand) / 0.10), transparent 60%),
+    radial-gradient(900px 500px at -10% 110%, rgb(var(--brand-2) / 0.08), transparent 60%);
+  background-attachment: fixed;
+}
+:lang(te), .te { font-family: var(--font-telugu), var(--font-sans), sans-serif; }
+
+@layer components {
+  .card { @apply min-w-0 rounded-2xl border border-border/70 bg-surface/80 shadow-card backdrop-blur-xl; }
+  .card-pad { @apply p-4 sm:p-5; }
+  .glass { @apply border border-border/60 bg-surface/60 backdrop-blur-xl; }
+  .input {
+    @apply w-full rounded-xl border border-border bg-surface-2/60 px-3.5 py-2.5 text-sm text-fg placeholder:text-subtle
+      outline-none transition focus:border-brand/60 focus:ring-2 focus:ring-brand/20 disabled:opacity-60;
+  }
+  .label { @apply mb-1.5 block text-xs font-medium uppercase tracking-wide text-muted; }
+  .chip { @apply inline-flex items-center gap-1 rounded-full border border-border bg-surface-2/70 px-2.5 py-0.5 text-xs text-muted; }
+  .h-page { @apply text-2xl font-semibold tracking-tight sm:text-[28px]; }
+  .text-gradient { @apply bg-brand-grad bg-clip-text text-transparent; }
+  .scrollbar-thin { scrollbar-width: thin; scrollbar-color: rgb(var(--border)) transparent; }
+}
+
+/* markdown answers */
+.prose-memora { @apply text-[15px] leading-7 text-fg; }
+.prose-memora h1, .prose-memora h2, .prose-memora h3 { @apply mb-2 mt-5 font-semibold tracking-tight first:mt-0; }
+.prose-memora h1 { @apply text-xl; } .prose-memora h2 { @apply text-lg; } .prose-memora h3 { @apply text-base; }
+.prose-memora p { @apply my-2.5; }
+.prose-memora ul { @apply my-2 list-disc pl-5; } .prose-memora ol { @apply my-2 list-decimal pl-5; }
+.prose-memora li { @apply my-1; }
+.prose-memora strong { @apply font-semibold text-fg; }
+.prose-memora a { @apply text-brand underline underline-offset-2; }
+.prose-memora code { @apply rounded-md bg-surface-2 px-1.5 py-0.5 font-mono text-[13px]; }
+.prose-memora pre { @apply my-3 overflow-x-auto rounded-xl bg-surface-2 p-3; }
+.prose-memora pre code { @apply bg-transparent p-0; }
+.prose-memora blockquote { @apply my-3 border-l-2 border-brand/60 pl-3 text-muted; }
+.prose-memora table { @apply my-3 w-full border-collapse text-sm; }
+.prose-memora th, .prose-memora td { @apply border border-border px-2 py-1.5 text-left; }
+.prose-memora hr { @apply my-4 border-border; }
+.prose-memora .katex-display { @apply my-3 overflow-x-auto overflow-y-hidden py-1; }
+
+/* notebook-style answers: ruled paper with a margin line */
+.notebook {
+  --line: 30px;
+  @apply rounded-2xl border border-border p-6 pl-12 sm:pl-16;
+  background-color: #fdfcf7;
+  color: #1c2140;
+  background-image:
+    linear-gradient(90deg, transparent 38px, rgb(232 90 110 / 0.55) 38px, rgb(232 90 110 / 0.55) 40px, transparent 40px),
+    repeating-linear-gradient(transparent, transparent calc(var(--line) - 1px), rgb(110 140 200 / 0.28) calc(var(--line) - 1px), rgb(110 140 200 / 0.28) var(--line));
+  line-height: var(--line);
+}
+.notebook .prose-memora { color: #1c2140; line-height: var(--line); }
+.notebook .prose-memora p, .notebook .prose-memora li { margin: 0; }
+.notebook .prose-memora h2, .notebook .prose-memora h3 { color: #3a2fb8; margin-top: var(--line); margin-bottom: 0; line-height: var(--line); }
+.notebook .prose-memora strong { color: #111; }
+.notebook .prose-memora code { background: rgb(0 0 0 / 0.05); }
+
+@media print {
+  body { background: #fff !important; }
+  .no-print { display: none !important; }
+  .print-only { display: block !important; }
+  .notebook { border: none; }
+}
+.print-only { display: none; }
+
+/* flashcard flip */
+.flip { perspective: 1400px; }
+.flip-inner { transition: transform 0.55s cubic-bezier(0.2, 0.7, 0.2, 1); transform-style: preserve-3d; }
+.flip.flipped .flip-inner { transform: rotateY(180deg); }
+.flip-face { backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+.flip-back { transform: rotateY(180deg); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}

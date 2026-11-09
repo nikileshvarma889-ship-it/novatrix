@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Offline · MEMORA AI</title>
+<meta name="theme-color" content="#080a16" />
+<style>
+  :root { color-scheme: dark; }
+  body { margin: 0; min-height: 100vh; display: grid; place-items: center; font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    background: radial-gradient(900px 500px at 80% -10%, rgba(139,108,255,.18), transparent 60%), #080a16; color: #eaecf8; }
+  .card { max-width: 380px; margin: 24px; padding: 32px 28px; text-align: center; border-radius: 20px; border: 1px solid #272c48; background: rgba(16,19,36,.8); }
+  img { width: 64px; height: 64px; border-radius: 16px; }
+  h1 { font-size: 20px; margin: 18px 0 8px; } p { color: #a0a6c4; font-size: 14px; line-height: 1.6; margin: 0 0 22px; }
+  button { border: 0; border-radius: 12px; padding: 11px 20px; font-weight: 600; color: #fff; cursor: pointer; background: linear-gradient(135deg, #8b6cff, #38a0ff); }
+</style>
+</head>
+<body>
+  <div class="card">
+    <img src="/icons/icon-192.png" alt="MEMORA AI" />
+    <h1>You're offline</h1>
+    <p>MEMORA AI needs an internet connection to reach your private, synced memories and the AI tutor. Your data is safe — reconnect and try again.</p>
+    <button onclick="location.reload()">Try again</button>
+  </div>
+</body>
+</html>
