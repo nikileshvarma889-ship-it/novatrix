@@ -1,11 +1,13 @@
 import "server-only";
 import { cookies } from "next/headers";
 import { createServerClient, type CookieOptions } from "@supabase/ssr";
+import { serverSupabaseUrl } from "./middleware";
 
 /** Server Supabase client bound to the request's auth cookies (RLS applies as the signed-in user). */
 export async function supabaseServer() {
   const store = await cookies();
-  return createServerClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!, {
+  return createServerClient(serverSupabaseUrl(), process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!, {
+    cookieOptions: { name: "sb-memora-auth-token" },
     cookies: {
       getAll: () => store.getAll(),
       setAll: (list: { name: string; value: string; options: CookieOptions }[]) => {

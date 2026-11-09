@@ -8,6 +8,11 @@ const nextConfig = {
   poweredByHeader: false,
   images: { remotePatterns: [{ protocol: "https", hostname: "i.ytimg.com" }, { protocol: "https", hostname: "yt3.ggpht.com" }] },
   serverExternalPackages: ["unpdf"],
+  async rewrites() {
+    // Optional: serve Supabase through this app's origin (NEXT_PUBLIC_SUPABASE_URL=/sb), e.g. for a single-URL preview.
+    const internal = process.env.SUPABASE_INTERNAL_URL;
+    return internal && process.env.NEXT_PUBLIC_SUPABASE_URL?.startsWith("/") ? [{ source: "/sb/:path*", destination: `${internal}/:path*` }] : [];
+  },
   async headers() {
     return [
       {

@@ -21,6 +21,9 @@ export default async function AppLayout({ children }: { children: React.ReactNod
   if (profile.avatar_path) {
     const { data } = await supabase.storage.from("user-files").createSignedUrl(profile.avatar_path, 60 * 60 * 6);
     avatarUrl = data?.signedUrl ?? null;
+    // when Supabase is proxied through this origin, hand the browser a same-origin URL
+    const pub = process.env.NEXT_PUBLIC_SUPABASE_URL ?? "";
+    if (avatarUrl && pub.startsWith("/")) avatarUrl = avatarUrl.replace(/^https?:\/\/[^/]+/, pub);
   }
   return (
     <ProfileProvider initial={profile as Profile} email={user.email ?? ""} initialUnread={count ?? 0} initialAvatarUrl={avatarUrl}>

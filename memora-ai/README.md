@@ -83,6 +83,14 @@ npx supabase start -x studio,realtime,edge-runtime,imgproxy,logflare,vector,supa
 
 `supabase status` prints the local URL and anon key. Emails appear at http://127.0.0.1:54324.
 
+### Single-URL mode (optional)
+
+To expose only the app's own URL (for example in a preview), proxy Supabase through the app. Set `NEXT_PUBLIC_SUPABASE_URL=/sb` and `SUPABASE_INTERNAL_URL=<real Supabase URL>`, then rebuild. The browser then calls `/sb/...`, which Next.js forwards to Supabase.
+
+### Install as an app
+
+Open the deployed site in Chrome (Android or desktop) and choose **Install app** or **Add to Home screen**. It opens full-screen with its own icon. iPhone: Safari → Share → **Add to Home Screen**.
+
 ## 4. Deploy
 
 - **Vercel (recommended):**

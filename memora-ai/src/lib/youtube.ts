@@ -18,6 +18,9 @@ async function yt<T>(path: string, params: Record<string, string>) {
   if (!res.ok) {
     const j = await res.json().catch(() => ({}));
     const reason = j?.error?.errors?.[0]?.reason;
+    const msg: string = j?.error?.message ?? "";
+    if (/API key not valid|API_KEY_INVALID/i.test(msg)) throw new Error("The YouTube API key on the server isn't valid. Create a YouTube Data API v3 key in Google Cloud (it starts with “AIza”).");
+    if (reason === "accessNotConfigured" || /has not been used|is disabled/i.test(msg)) throw new Error("YouTube Data API v3 isn't enabled for this API key's Google Cloud project.");
     throw new Error(reason === "quotaExceeded" ? "The daily YouTube search quota has been used up. Please try again tomorrow." : `YouTube API error (${res.status}).`);
   }
   return (await res.json()) as T;
