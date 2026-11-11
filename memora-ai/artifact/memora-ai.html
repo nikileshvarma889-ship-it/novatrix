@@ -1,0 +1,1196 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MEMORA AI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Telugu:wght@400;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
+<script>
+window.MathJax = { tex: { inlineMath: [["$", "$"], ["\\(", "\\)"]], displayMath: [["$$", "$$"], ["\\[", "\\]"]] }, svg: { fontCache: "global" }, startup: { typeset: false } };
+</script>
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.js"></script>
+<style>
+:root{--bg:245 246 251;--surface:255 255 255;--surface2:238 240 248;--border:222 225 238;--fg:17 20 39;--muted:88 94 122;--subtle:140 146 172;--brand:109 76 255;--brand2:37 140 255;--ok:16 160 110;--warn:204 130 10;--danger:222 60 80;--math:120 90 255;--phys:30 150 255;--chem:16 170 130}
+html.dark{--bg:8 10 22;--surface:16 19 36;--surface2:23 27 48;--border:39 44 72;--fg:234 236 248;--muted:160 166 196;--subtle:112 118 150;--brand:139 108 255;--brand2:56 160 255;--ok:52 211 153;--warn:251 191 36;--danger:248 113 133;--math:160 132 255;--phys:86 178 255;--chem:52 211 170}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:rgb(var(--bg));color:rgb(var(--fg));font-family:Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+body{background-image:radial-gradient(900px 500px at 90% -10%,rgb(var(--brand)/.12),transparent 60%),radial-gradient(700px 400px at -10% 110%,rgb(var(--brand2)/.09),transparent 60%);background-attachment:fixed;overflow-x:clip}
+.te,textarea,input{font-family:Inter,"Noto Sans Telugu",system-ui,sans-serif}
+button{font:inherit;color:inherit;cursor:pointer}
+a{color:rgb(var(--brand))}
+.app{display:flex;min-height:100vh}
+.side{position:fixed;inset:0 auto 0 0;width:236px;padding:14px 10px;border-right:1px solid rgb(var(--border)/.7);background:rgb(var(--surface)/.7);backdrop-filter:blur(18px);display:flex;flex-direction:column;z-index:30}
+.main{flex:1;min-width:0;margin-left:236px;padding:20px 28px 60px}
+.brand{display:flex;align-items:center;gap:10px;padding:4px 8px 16px}
+.brand b{font-size:14px;letter-spacing:.14em}.brand small{display:block;font-size:9.5px;color:rgb(var(--subtle));white-space:nowrap;margin-top:3px}
+.nav a{display:flex;align-items:center;gap:11px;padding:9px 11px;border-radius:12px;color:rgb(var(--muted));text-decoration:none;font-size:13.5px;font-weight:500;margin-bottom:2px}
+.nav a:hover{background:rgb(var(--surface2));color:rgb(var(--fg))}
+.nav a.on{background:rgb(var(--brand)/.12);color:rgb(var(--fg));box-shadow:inset 0 0 0 1px rgb(var(--brand)/.3)}
+.nav a.on svg{color:rgb(var(--brand))}
+.nav svg,.ic{width:18px;height:18px;flex:none}
+.badge-dot{margin-left:auto;background:rgb(var(--danger));color:#fff;border-radius:99px;font-size:10px;padding:1px 6px;font-weight:600}
+.bottom{display:none}
+.top{display:flex;align-items:center;gap:10px;margin-bottom:18px}
+.top h1{margin:0;font-size:24px;letter-spacing:-.02em}
+.top p{margin:2px 0 0;color:rgb(var(--muted));font-size:13.5px}
+.top .acts{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap}
+.hico{width:42px;height:42px;border-radius:14px;display:grid;place-items:center;color:#fff;background:linear-gradient(135deg,rgb(var(--brand)),rgb(var(--brand2)));box-shadow:0 8px 24px -8px rgb(var(--brand)/.7);flex:none}
+.card{background:rgb(var(--surface)/.82);border:1px solid rgb(var(--border)/.75);border-radius:18px;padding:18px;backdrop-filter:blur(14px);box-shadow:0 1px 0 rgb(255 255 255/.04) inset,0 10px 30px -18px rgb(0 0 0/.5);min-width:0}
+.ct{display:flex;align-items:center;gap:10px;margin-bottom:14px}.ct h3{margin:0;font-size:15px}.ct p{margin:1px 0 0;font-size:12px;color:rgb(var(--muted))}.ct .r{margin-left:auto}
+.ct .i{width:32px;height:32px;border-radius:10px;display:grid;place-items:center;background:rgb(var(--brand)/.12);color:rgb(var(--brand))}
+.grid{display:grid;gap:16px}.grid>*{min-width:0}
+.g2{grid-template-columns:repeat(2,minmax(0,1fr))}.g3{grid-template-columns:repeat(3,minmax(0,1fr))}.g4{grid-template-columns:repeat(4,minmax(0,1fr))}.g6{grid-template-columns:repeat(6,minmax(0,1fr))}
+.span2{grid-column:span 2}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;height:38px;padding:0 15px;border-radius:12px;border:0;font-size:13.5px;font-weight:600;white-space:nowrap;background:linear-gradient(135deg,rgb(var(--brand)),rgb(var(--brand2)));color:#fff;box-shadow:0 6px 18px -8px rgb(var(--brand)/.8)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.btn.s{background:rgb(var(--surface2));color:rgb(var(--fg));box-shadow:none;border:1px solid rgb(var(--border))}
+.btn.g{background:none;color:rgb(var(--muted));box-shadow:none}.btn.g:hover{background:rgb(var(--surface2));color:rgb(var(--fg))}
+.btn.d{background:rgb(var(--danger));box-shadow:none}
+.btn.sm{height:31px;padding:0 11px;font-size:12.5px;border-radius:10px}
+.inp,select,textarea{width:100%;border-radius:12px;border:1px solid rgb(var(--border));background:rgb(var(--surface2)/.6);color:rgb(var(--fg));padding:10px 13px;font-size:14px;outline:none}
+.inp:focus,select:focus,textarea:focus{border-color:rgb(var(--brand)/.6);box-shadow:0 0 0 3px rgb(var(--brand)/.15)}
+textarea{min-height:90px;resize:vertical;line-height:1.55}
+label.f{display:block;margin-bottom:12px}label.f>span{display:block;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:rgb(var(--muted));margin-bottom:6px}
+.chip{display:inline-flex;align-items:center;gap:4px;border-radius:99px;border:1px solid rgb(var(--border));background:rgb(var(--surface2)/.7);padding:2px 9px;font-size:11.5px;color:rgb(var(--muted))}
+.tag{display:inline-flex;align-items:center;border-radius:99px;padding:2px 8px;font-size:11px;font-weight:600;border:1px solid}
+.t-brand{color:rgb(var(--brand));border-color:rgb(var(--brand)/.3);background:rgb(var(--brand)/.1)}.t-ok{color:rgb(var(--ok));border-color:rgb(var(--ok)/.3);background:rgb(var(--ok)/.1)}.t-warn{color:rgb(var(--warn));border-color:rgb(var(--warn)/.3);background:rgb(var(--warn)/.1)}.t-danger{color:rgb(var(--danger));border-color:rgb(var(--danger)/.3);background:rgb(var(--danger)/.1)}.t-m{color:rgb(var(--math));border-color:rgb(var(--math)/.3);background:rgb(var(--math)/.1)}.t-p{color:rgb(var(--phys));border-color:rgb(var(--phys)/.3);background:rgb(var(--phys)/.1)}.t-c{color:rgb(var(--chem));border-color:rgb(var(--chem)/.3);background:rgb(var(--chem)/.1)}
+.tabs{display:inline-flex;gap:3px;padding:3px;border-radius:12px;border:1px solid rgb(var(--border));background:rgb(var(--surface2)/.5);overflow-x:auto;max-width:100%}
+.tabs button{border:0;background:none;padding:7px 12px;border-radius:9px;font-size:13px;font-weight:500;color:rgb(var(--muted));white-space:nowrap}
+.tabs button.on{background:rgb(var(--surface));color:rgb(var(--fg));box-shadow:0 1px 4px rgb(0 0 0/.2)}
+.row{display:flex;align-items:center;gap:10px}.wrap{flex-wrap:wrap}.grow{flex:1;min-width:0}
+.item{display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:13px;border:1px solid rgb(var(--border)/.6);background:rgb(var(--surface2)/.4);margin-bottom:8px}
+.item.over{border-color:rgb(var(--danger)/.4);background:rgb(var(--danger)/.06)}
+.item .t{font-size:14px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.item .s{font-size:12px;color:rgb(var(--muted))}
+.muted{color:rgb(var(--muted))}.subtle{color:rgb(var(--subtle))}.small{font-size:12.5px}.xs{font-size:11px}
+.trunc{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.clamp3{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.bar{height:8px;border-radius:99px;background:rgb(var(--surface2));overflow:hidden}.bar>i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,rgb(var(--brand)),rgb(var(--brand2)));transition:width .6s}
+.empty{border:1px dashed rgb(var(--border));border-radius:16px;padding:28px 18px;text-align:center;color:rgb(var(--muted));font-size:13.5px}
+.empty b{display:block;color:rgb(var(--fg));margin-bottom:4px}
+.iconbtn{border:0;background:none;padding:6px;border-radius:8px;color:rgb(var(--muted))}.iconbtn:hover{background:rgb(var(--surface2));color:rgb(var(--fg))}
+.qa{display:flex;flex-direction:column;align-items:center;gap:8px;padding:14px 6px;font-size:12px;font-weight:500;color:rgb(var(--muted));text-align:center}
+.qa span{width:36px;height:36px;border-radius:12px;display:grid;place-items:center;background:rgb(var(--brand)/.12);color:rgb(var(--brand))}
+.qa:hover{color:rgb(var(--fg));border-color:rgb(var(--brand)/.4)}
+.hero{position:relative;overflow:hidden;padding:24px}
+.hero:before{content:"";position:absolute;right:-80px;top:-100px;width:300px;height:300px;border-radius:50%;background:rgb(var(--brand)/.22);filter:blur(60px)}
+.av{width:50px;height:50px;border-radius:50%;display:grid;place-items:center;font-weight:700;color:#fff;background:linear-gradient(135deg,rgb(var(--brand)),rgb(var(--brand2)));flex:none}
+.search{position:relative;margin-top:18px}.search input{height:54px;border-radius:16px;padding:0 110px 0 46px;font-size:15px;box-shadow:0 0 0 1px rgb(var(--brand)/.3),0 8px 30px -10px rgb(var(--brand)/.5)}
+.search svg{position:absolute;left:15px;top:17px;color:rgb(var(--brand))}.search .btn{position:absolute;right:7px;top:8px}
+.drop{position:absolute;left:0;right:0;top:62px;z-index:10;padding:6px}
+.drop a{display:flex;gap:10px;align-items:center;padding:9px 11px;border-radius:10px;color:rgb(var(--fg));text-decoration:none;font-size:13.5px}.drop a:hover{background:rgb(var(--surface2))}
+.ring{position:relative;display:inline-grid;place-items:center}.ring b{position:absolute;font-size:13px}
+.modal-bg{position:fixed;inset:0;background:rgb(0 0 0/.6);backdrop-filter:blur(3px);z-index:50;display:flex;align-items:center;justify-content:center;padding:16px}
+.modal{width:100%;max-width:520px;max-height:90vh;overflow:auto}.modal.wide{max-width:820px}
+.modal h2{margin:0 0 14px;font-size:16px;display:flex;align-items:center}.modal h2 .iconbtn{margin-left:auto}
+.toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%);z-index:70;display:flex;flex-direction:column;gap:8px;align-items:center;pointer-events:none}
+.toast div{background:rgb(var(--surface));border:1px solid rgb(var(--border));padding:10px 16px;border-radius:12px;font-size:13.5px;box-shadow:0 10px 30px -10px rgb(0 0 0/.6);pointer-events:auto}
+.toast .e{border-color:rgb(var(--danger)/.5)}
+.note{border-radius:12px;padding:10px 13px;font-size:13px;border:1px solid}
+.note.w{color:rgb(var(--warn));border-color:rgb(var(--warn)/.35);background:rgb(var(--warn)/.08)}.note.i{color:rgb(var(--brand));border-color:rgb(var(--brand)/.3);background:rgb(var(--brand)/.07)}
+/* markdown */
+.md{font-size:14.5px;line-height:1.7}.md p{margin:.5em 0}.md h1,.md h2,.md h3{margin:1em 0 .3em;font-size:1.05em}.md ul,.md ol{padding-left:1.3em;margin:.4em 0}.md code{background:rgb(var(--surface2));padding:1px 5px;border-radius:5px;font-size:.9em}.md table{border-collapse:collapse;margin:.5em 0}.md td,.md th{border:1px solid rgb(var(--border));padding:4px 8px}.md mjx-container[display=true]{overflow-x:auto;overflow-y:hidden}
+.notebook{--l:30px;border-radius:16px;padding:20px 20px 20px 54px;background:#fdfcf7;color:#1c2140;line-height:var(--l);background-image:linear-gradient(90deg,transparent 38px,rgb(232 90 110/.55) 38px,rgb(232 90 110/.55) 40px,transparent 40px),repeating-linear-gradient(transparent,transparent calc(var(--l) - 1px),rgb(110 140 200/.3) calc(var(--l) - 1px),rgb(110 140 200/.3) var(--l))}
+.notebook .md{line-height:var(--l)}.notebook .md p,.notebook .md li{margin:0}.notebook .md h3{color:#3a2fb8;margin:var(--l) 0 0;line-height:var(--l)}.notebook .md h3:first-child{margin-top:0}
+/* chat */
+.chat{display:flex;height:calc(100vh - 140px);gap:16px}.convs{width:240px;flex:none;overflow:auto}.pane{flex:1;min-width:0;display:flex;flex-direction:column;padding:0}
+.msgs{flex:1;overflow:auto;padding:20px}.bub{max-width:80%;margin-left:auto;background:linear-gradient(135deg,rgb(var(--brand)),rgb(var(--brand2)));color:#fff;border-radius:18px 18px 4px 18px;padding:10px 14px;white-space:pre-wrap}
+.amsg{display:flex;gap:10px;margin:14px 0}.amsg .md{flex:1;min-width:0}
+.composer{border-top:1px solid rgb(var(--border)/.7);padding:12px;display:flex;gap:8px;align-items:flex-end}
+.composer textarea{min-height:44px;max-height:160px}
+.dots i{display:inline-block;width:7px;height:7px;margin:0 2px;border-radius:50%;background:rgb(var(--brand));animation:b 1s infinite}.dots i:nth-child(2){animation-delay:.15s}.dots i:nth-child(3){animation-delay:.3s}
+@keyframes b{0%,100%{opacity:.3;transform:none}50%{opacity:1;transform:translateY(-3px)}}
+/* flip */
+.flip{perspective:1400px;cursor:pointer}.flip .in{position:relative;min-height:260px;transition:transform .55s cubic-bezier(.2,.7,.2,1);transform-style:preserve-3d}.flip.on .in{transform:rotateY(180deg)}
+.flip .fc{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px}.flip .bk{transform:rotateY(180deg)}
+.pt{display:grid;grid-template-columns:repeat(18,minmax(30px,1fr));gap:3px;min-width:640px}.pt button{aspect-ratio:1;border-radius:5px;border:1px solid rgb(var(--border));background:rgb(var(--surface2));padding:1px;font-size:11px;font-weight:700;line-height:1.1}.pt button small{display:block;font-size:7px;font-weight:400;color:rgb(var(--muted))}
+.cal{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px}.cal button{min-height:58px;border-radius:10px;border:1px solid rgb(var(--border)/.5);background:none;text-align:left;padding:5px;font-size:11px;vertical-align:top}.cal button.sel{border-color:rgb(var(--brand));background:rgb(var(--brand)/.1)}.cal .dot{display:inline-block;width:6px;height:6px;border-radius:50%;margin-right:2px;background:rgb(var(--brand))}
+.switch{width:42px;height:24px;border-radius:99px;border:0;position:relative;background:rgb(var(--surface2));box-shadow:inset 0 0 0 1px rgb(var(--border))}.switch.on{background:rgb(var(--brand))}.switch i{position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:50%;background:#fff;transition:left .2s}.switch.on i{left:20px}
+.mic{width:76px;height:76px;border-radius:50%;border:0;color:#fff;background:linear-gradient(135deg,rgb(var(--brand)),rgb(var(--brand2)));display:grid;place-items:center;margin:6px auto}.mic.live{background:rgb(var(--danger));animation:pulse 1.2s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgb(var(--danger)/.5)}100%{box-shadow:0 0 0 22px rgb(var(--danger)/0)}}
+@media (max-width:1100px){.g6{grid-template-columns:repeat(3,minmax(0,1fr))}.g4{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:900px){
+  .side{display:none}.main{margin-left:0;padding:14px 14px 90px}
+  .bottom{display:grid;grid-template-columns:repeat(5,1fr);position:fixed;left:0;right:0;bottom:0;z-index:40;background:rgb(var(--surface)/.92);backdrop-filter:blur(18px);border-top:1px solid rgb(var(--border));padding-bottom:env(safe-area-inset-bottom)}
+  .bottom a,.bottom button{display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 0;font-size:10.5px;color:rgb(var(--muted));text-decoration:none;border:0;background:none;font-weight:500}.bottom .on{color:rgb(var(--brand))}
+  .g2,.g3{grid-template-columns:minmax(0,1fr)}.span2{grid-column:auto}.top h1{font-size:20px}
+  .chat{height:calc(100vh - 170px)}.top{flex-wrap:wrap}.top .acts{margin-left:0;width:100%}.qa{padding:10px 4px}.convs{display:none}.bub{max-width:90%}
+}
+@media print{.side,.bottom,.noprint{display:none!important}.main{margin:0}}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="side" id="side"></aside>
+  <main class="main" id="main"><div class="empty"><b>Loading MEMORA AI…</b></div></main>
+</div>
+<nav class="bottom" id="bottom"></nav>
+<div id="modal"></div>
+<div class="toast" id="toast"></div>
+<script>
+const CHAPTERS=[["m1a-01","m",1,"1A","Functions"],["m1a-02","m",1,"1A","Mathematical Induction"],["m1a-03","m",1,"1A","Matrices"],["m1a-04","m",1,"1A","Addition of Vectors"],["m1a-05","m",1,"1A","Product of Vectors"],["m1a-06","m",1,"1A","Trigonometric Ratios up to Transformations"],["m1a-07","m",1,"1A","Trigonometric Equations"],["m1a-08","m",1,"1A","Inverse Trigonometric Functions"],["m1a-09","m",1,"1A","Hyperbolic Functions"],["m1a-10","m",1,"1A","Properties of Triangles"],["m1b-01","m",1,"1B","Locus"],["m1b-02","m",1,"1B","Transformation of Axes"],["m1b-03","m",1,"1B","The Straight Line"],["m1b-04","m",1,"1B","Pair of Straight Lines"],["m1b-05","m",1,"1B","Three Dimensional Coordinates"],["m1b-06","m",1,"1B","Direction Cosines and Direction Ratios"],["m1b-07","m",1,"1B","The Plane"],["m1b-08","m",1,"1B","Limits and Continuity"],["m1b-09","m",1,"1B","Differentiation"],["m1b-10","m",1,"1B","Errors and Approximations"],["m1b-11","m",1,"1B","Tangents and Normals"],["m1b-12","m",1,"1B","Rate Measure"],["m1b-13","m",1,"1B","Maxima and Minima"],["m2a-01","m",2,"2A","Complex Numbers"],["m2a-02","m",2,"2A","De Moivre's Theorem"],["m2a-03","m",2,"2A","Quadratic Expressions"],["m2a-04","m",2,"2A","Theory of Equations"],["m2a-05","m",2,"2A","Permutations and Combinations"],["m2a-06","m",2,"2A","Binomial Theorem"],["m2a-07","m",2,"2A","Partial Fractions"],["m2a-08","m",2,"2A","Measures of Dispersion"],["m2a-09","m",2,"2A","Probability"],["m2a-10","m",2,"2A","Random Variables and Probability Distributions"],["m2b-01","m",2,"2B","Circle"],["m2b-02","m",2,"2B","System of Circles"],["m2b-03","m",2,"2B","Parabola"],["m2b-04","m",2,"2B","Ellipse"],["m2b-05","m",2,"2B","Hyperbola"],["m2b-06","m",2,"2B","Integration"],["m2b-07","m",2,"2B","Definite Integrals"],["m2b-08","m",2,"2B","Differential Equations"],["pi-01","p",1,"I","Physical World"],["pi-02","p",1,"I","Units and Measurements"],["pi-03","p",1,"I","Motion in a Straight Line"],["pi-04","p",1,"I","Motion in a Plane"],["pi-05","p",1,"I","Laws of Motion"],["pi-06","p",1,"I","Work, Energy and Power"],["pi-07","p",1,"I","Systems of Particles and Rotational Motion"],["pi-08","p",1,"I","Oscillations"],["pi-09","p",1,"I","Gravitation"],["pi-10","p",1,"I","Mechanical Properties of Solids"],["pi-11","p",1,"I","Mechanical Properties of Fluids"],["pi-12","p",1,"I","Thermal Properties of Matter"],["pi-13","p",1,"I","Thermodynamics"],["pi-14","p",1,"I","Kinetic Theory"],["pii-01","p",2,"II","Waves"],["pii-02","p",2,"II","Ray Optics and Optical Instruments"],["pii-03","p",2,"II","Wave Optics"],["pii-04","p",2,"II","Electric Charges and Fields"],["pii-05","p",2,"II","Electrostatic Potential and Capacitance"],["pii-06","p",2,"II","Current Electricity"],["pii-07","p",2,"II","Moving Charges and Magnetism"],["pii-08","p",2,"II","Magnetism and Matter"],["pii-09","p",2,"II","Electromagnetic Induction"],["pii-10","p",2,"II","Alternating Current"],["pii-11","p",2,"II","Electromagnetic Waves"],["pii-12","p",2,"II","Dual Nature of Radiation and Matter"],["pii-13","p",2,"II","Atoms"],["pii-14","p",2,"II","Nuclei"],["pii-15","p",2,"II","Semiconductor Electronics"],["pii-16","p",2,"II","Communication Systems"],["ci-01","c",1,"I","Atomic Structure"],["ci-02","c",1,"I","Classification of Elements and Periodicity in Properties"],["ci-03","c",1,"I","Chemical Bonding and Molecular Structure"],["ci-04","c",1,"I","States of Matter: Gases and Liquids"],["ci-05","c",1,"I","Stoichiometry"],["ci-06","c",1,"I","Thermodynamics"],["ci-07","c",1,"I","Chemical Equilibrium and Acids-Bases"],["ci-08","c",1,"I","Hydrogen and its Compounds"],["ci-09","c",1,"I","The s-Block Elements"],["ci-10","c",1,"I","p-Block Elements: Group 13"],["ci-11","c",1,"I","p-Block Elements: Group 14"],["ci-12","c",1,"I","Environmental Chemistry"],["ci-13","c",1,"I","Organic Chemistry: Basic Principles and Techniques"],["ci-14","c",1,"I","Hydrocarbons"],["cii-01","c",2,"II","Solid State"],["cii-02","c",2,"II","Solutions"],["cii-03","c",2,"II","Electrochemistry and Chemical Kinetics"],["cii-04","c",2,"II","Surface Chemistry"],["cii-05","c",2,"II","General Principles of Metallurgy"],["cii-06","c",2,"II","p-Block Elements: Groups 15 to 18"],["cii-07","c",2,"II","d and f Block Elements and Coordination Compounds"],["cii-08","c",2,"II","Polymers"],["cii-09","c",2,"II","Biomolecules"],["cii-10","c",2,"II","Chemistry in Everyday Life"],["cii-11","c",2,"II","Haloalkanes and Haloarenes"],["cii-12","c",2,"II","Alcohols, Phenols and Ethers"],["cii-13","c",2,"II","Aldehydes, Ketones and Carboxylic Acids"],["cii-14","c",2,"II","Organic Compounds Containing Nitrogen"]];
+const PT_RAW="1,H,Hydrogen,1.008,1,1,nm|2,He,Helium,4.003,18,1,ng|3,Li,Lithium,6.94,1,2,am|4,Be,Beryllium,9.012,2,2,ae|5,B,Boron,10.81,13,2,md|6,C,Carbon,12.011,14,2,nm|7,N,Nitrogen,14.007,15,2,nm|8,O,Oxygen,15.999,16,2,nm|9,F,Fluorine,18.998,17,2,hg|10,Ne,Neon,20.180,18,2,ng|11,Na,Sodium,22.990,1,3,am|12,Mg,Magnesium,24.305,2,3,ae|13,Al,Aluminium,26.982,13,3,pt|14,Si,Silicon,28.085,14,3,md|15,P,Phosphorus,30.974,15,3,nm|16,S,Sulfur,32.06,16,3,nm|17,Cl,Chlorine,35.45,17,3,hg|18,Ar,Argon,39.95,18,3,ng|19,K,Potassium,39.098,1,4,am|20,Ca,Calcium,40.078,2,4,ae|21,Sc,Scandium,44.956,3,4,tm|22,Ti,Titanium,47.867,4,4,tm|23,V,Vanadium,50.942,5,4,tm|24,Cr,Chromium,51.996,6,4,tm|25,Mn,Manganese,54.938,7,4,tm|26,Fe,Iron,55.845,8,4,tm|27,Co,Cobalt,58.933,9,4,tm|28,Ni,Nickel,58.693,10,4,tm|29,Cu,Copper,63.546,11,4,tm|30,Zn,Zinc,65.38,12,4,tm|31,Ga,Gallium,69.723,13,4,pt|32,Ge,Germanium,72.630,14,4,md|33,As,Arsenic,74.922,15,4,md|34,Se,Selenium,78.971,16,4,nm|35,Br,Bromine,79.904,17,4,hg|36,Kr,Krypton,83.798,18,4,ng|37,Rb,Rubidium,85.468,1,5,am|38,Sr,Strontium,87.62,2,5,ae|39,Y,Yttrium,88.906,3,5,tm|40,Zr,Zirconium,91.224,4,5,tm|41,Nb,Niobium,92.906,5,5,tm|42,Mo,Molybdenum,95.95,6,5,tm|43,Tc,Technetium,[98],7,5,tm|44,Ru,Ruthenium,101.07,8,5,tm|45,Rh,Rhodium,102.91,9,5,tm|46,Pd,Palladium,106.42,10,5,tm|47,Ag,Silver,107.87,11,5,tm|48,Cd,Cadmium,112.41,12,5,tm|49,In,Indium,114.82,13,5,pt|50,Sn,Tin,118.71,14,5,pt|51,Sb,Antimony,121.76,15,5,md|52,Te,Tellurium,127.60,16,5,md|53,I,Iodine,126.90,17,5,hg|54,Xe,Xenon,131.29,18,5,ng|55,Cs,Caesium,132.91,1,6,am|56,Ba,Barium,137.33,2,6,ae|57,La,Lanthanum,138.91,,6,ln|58,Ce,Cerium,140.12,,6,ln|59,Pr,Praseodymium,140.91,,6,ln|60,Nd,Neodymium,144.24,,6,ln|61,Pm,Promethium,[145],,6,ln|62,Sm,Samarium,150.36,,6,ln|63,Eu,Europium,151.96,,6,ln|64,Gd,Gadolinium,157.25,,6,ln|65,Tb,Terbium,158.93,,6,ln|66,Dy,Dysprosium,162.50,,6,ln|67,Ho,Holmium,164.93,,6,ln|68,Er,Erbium,167.26,,6,ln|69,Tm,Thulium,168.93,,6,ln|70,Yb,Ytterbium,173.05,,6,ln|71,Lu,Lutetium,174.97,,6,ln|72,Hf,Hafnium,178.49,4,6,tm|73,Ta,Tantalum,180.95,5,6,tm|74,W,Tungsten,183.84,6,6,tm|75,Re,Rhenium,186.21,7,6,tm|76,Os,Osmium,190.23,8,6,tm|77,Ir,Iridium,192.22,9,6,tm|78,Pt,Platinum,195.08,10,6,tm|79,Au,Gold,196.97,11,6,tm|80,Hg,Mercury,200.59,12,6,tm|81,Tl,Thallium,204.38,13,6,pt|82,Pb,Lead,207.2,14,6,pt|83,Bi,Bismuth,208.98,15,6,pt|84,Po,Polonium,[209],16,6,pt|85,At,Astatine,[210],17,6,hg|86,Rn,Radon,[222],18,6,ng|87,Fr,Francium,[223],1,7,am|88,Ra,Radium,[226],2,7,ae|89,Ac,Actinium,[227],,7,ac|90,Th,Thorium,232.04,,7,ac|91,Pa,Protactinium,231.04,,7,ac|92,U,Uranium,238.03,,7,ac|93,Np,Neptunium,[237],,7,ac|94,Pu,Plutonium,[244],,7,ac|95,Am,Americium,[243],,7,ac|96,Cm,Curium,[247],,7,ac|97,Bk,Berkelium,[247],,7,ac|98,Cf,Californium,[251],,7,ac|99,Es,Einsteinium,[252],,7,ac|100,Fm,Fermium,[257],,7,ac|101,Md,Mendelevium,[258],,7,ac|102,No,Nobelium,[259],,7,ac|103,Lr,Lawrencium,[266],,7,ac|104,Rf,Rutherfordium,[267],4,7,tm|105,Db,Dubnium,[268],5,7,tm|106,Sg,Seaborgium,[269],6,7,tm|107,Bh,Bohrium,[270],7,7,tm|108,Hs,Hassium,[269],8,7,tm|109,Mt,Meitnerium,[278],9,7,tm|110,Ds,Darmstadtium,[281],10,7,tm|111,Rg,Roentgenium,[282],11,7,tm|112,Cn,Copernicium,[285],12,7,tm|113,Nh,Nihonium,[286],13,7,pt|114,Fl,Flerovium,[289],14,7,pt|115,Mc,Moscovium,[290],15,7,pt|116,Lv,Livermorium,[293],16,7,pt|117,Ts,Tennessine,[294],17,7,hg|118,Og,Oganesson,[294],18,7,ng";
+
+</script>
+<script>
+"use strict";
+// ============================================================ icons (Lucide paths, inline)
+const I = {
+  dash: '<rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/>',
+  spark: '<path d="M9.94 14.06 4 20M12 3l1.9 5.8L20 11l-6.1 2.2L12 19l-1.9-5.8L4 11l6.1-2.2z"/>',
+  brain: '<path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"/><path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z"/><path d="M12 5v13"/>',
+  cap: '<path d="M22 10 12 5 2 10l10 5 10-5Z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/>',
+  cal: '<rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>',
+  note: '<path d="M2 6h4M2 10h4M2 14h4M2 18h4"/><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M9.5 8h5M9.5 12H16M9.5 16H14"/>',
+  yt: '<path d="M2.5 17a24 24 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.6 49.6 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24 24 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.6 49.6 0 0 1-16.2 0A2 2 0 0 1 2.5 17"/><path d="m10 15 5-3-5-3z"/>',
+  layers: '<path d="m12 2 10 5-10 5L2 7z"/><path d="m2 17 10 5 10-5M2 12l10 5 10-5"/>',
+  list: '<path d="m3 17 2 2 4-4M3 7l2 2 4-4M13 6h8M13 12h8M13 18h8"/>',
+  trend: '<path d="m22 7-8.5 8.5-5-5L2 17"/><path d="M16 7h6v6"/>',
+  bell: '<path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>',
+  cog: '<path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/>',
+  plus: '<path d="M5 12h14M12 5v14"/>', mic: '<path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v3"/>',
+  search: '<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>', x: '<path d="M18 6 6 18M6 6l12 12"/>', menu: '<path d="M4 12h16M4 6h16M4 18h16"/>',
+  pin: '<path d="M12 17v5M9 10.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24V16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.76V7a1 1 0 0 1 1-1 2 2 0 0 0 0-4H8a2 2 0 0 0 0 4 1 1 0 0 1 1 1z"/>',
+  edit: '<path d="M12 20h9M16.5 3.5a2.1 2.1 0 1 1 3 3L7 19l-4 1 1-4Z"/>', trash: '<path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>',
+  arch: '<rect width="20" height="5" x="2" y="3" rx="1"/><path d="M4 8v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8M10 12h4"/>',
+  check: '<path d="M20 6 9 17l-5-5"/>', circle: '<circle cx="12" cy="12" r="10"/>', ok: '<circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/>',
+  play: '<polygon points="6 3 20 12 6 21 6 3"/>', timer: '<path d="M10 2h4M12 14l3-3"/><circle cx="12" cy="14" r="8"/>', star: '<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>',
+  sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>',
+  moon: '<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>', send: '<path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/>', copy: '<rect width="14" height="14" x="8" y="8" rx="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>',
+  refresh: '<path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8M21 3v5h-5M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16M8 16H3v5"/>',
+  ext: '<path d="M15 3h6v6M10 14 21 3M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>', wand: '<path d="m21.64 3.64-1.28-1.28a1.21 1.21 0 0 0-1.72 0L2.36 18.64a1.21 1.21 0 0 0 0 1.72l1.28 1.28a1.2 1.2 0 0 0 1.72 0L21.64 5.36a1.2 1.2 0 0 0 0-1.72M14 7l3 3M5 6v4M19 14v4M10 2v2M7 8H3M21 16h-4M11 3H9"/>',
+  print: '<path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect width="12" height="8" x="6" y="14"/>',
+  clock: '<circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>', flag: '<path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1zM4 22v-7"/>',
+};
+const svg = (n, s = 18) => `<svg class="ic" viewBox="0 0 24 24" width="${s}" height="${s}" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${I[n] || ""}</svg>`;
+const LOGO = `<svg viewBox="0 0 64 64" width="34" height="34"><defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8B6CFF"/><stop offset="1" stop-color="#38A0FF"/></linearGradient></defs><rect width="64" height="64" rx="16" fill="url(#lg)"/><path d="M14 46c6-2.4 12-2.4 18 0 6-2.4 12-2.4 18 0" fill="none" stroke="#fff" stroke-opacity=".9" stroke-width="2.6" stroke-linecap="round"/><g stroke="#fff" stroke-width="2" stroke-linecap="round" fill="none"><path d="M32 14c-4-3-11-1.5-12 4-4.5 1-6 6.5-3 10-1.5 4 1.5 8 6 8h9"/><path d="M32 14c4-3 11-1.5 12 4 4.5 1 6 6.5 3 10 1.5 4-1.5 8-6 8h-9"/><path d="M32 14v22M24 22l8 5 8-5" stroke-opacity=".7"/></g><g fill="#fff"><circle cx="24" cy="22" r="2.4"/><circle cx="40" cy="22" r="2.4"/><circle cx="32" cy="27" r="2.6"/><circle cx="32" cy="36" r="2.4"/></g></svg>`;
+
+// ============================================================ helpers
+const $ = (s, r = document) => r.querySelector(s);
+const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+const TZ = () => state.profile.timezone || "Asia/Kolkata";
+const fmt = (d, o = { day: "numeric", month: "short" }) => new Intl.DateTimeFormat("en-IN", { timeZone: TZ(), ...o }).format(new Date(d));
+const fmtT = (d) => fmt(d, { hour: "numeric", minute: "2-digit", hour12: true });
+const fmtDT = (d) => fmt(d, { weekday: "short", day: "numeric", month: "short", hour: "numeric", minute: "2-digit", hour12: true });
+const dayKey = (d) => new Intl.DateTimeFormat("en-CA", { timeZone: TZ(), year: "numeric", month: "2-digit", day: "2-digit" }).format(new Date(d));
+const addDays = (k, n) => { const [y, m, d] = k.split("-").map(Number); return new Date(Date.UTC(y, m - 1, d + n)).toISOString().slice(0, 10); };
+function zoned(day, hm) { // wall time in TZ -> Date
+  const [y, m, d] = day.split("-").map(Number), [hh, mm] = hm.split(":").map(Number);
+  const guess = new Date(Date.UTC(y, m - 1, d, hh, mm));
+  const p = new Intl.DateTimeFormat("en-CA", { timeZone: TZ(), year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit", hour12: false }).formatToParts(guess);
+  const g = (t) => +p.find((x) => x.type === t).value;
+  const off = Date.UTC(g("year"), g("month") - 1, g("day"), g("hour") % 24, g("minute")) - guess.getTime();
+  return new Date(guess.getTime() - off);
+}
+const toLocal = (iso) => { if (!iso) return ""; const k = dayKey(iso); const t = new Intl.DateTimeFormat("en-GB", { timeZone: TZ(), hour: "2-digit", minute: "2-digit", hour12: false }).format(new Date(iso)); return k + "T" + t; };
+const fromLocal = (v) => (v ? zoned(v.slice(0, 10), v.slice(11, 16) || "00:00").toISOString() : null);
+const rel = (d) => { const s = (new Date(d) - Date.now()) / 1000, a = Math.abs(s), r = new Intl.RelativeTimeFormat("en", { numeric: "auto" }); return a < 3600 ? r.format(Math.round(s / 60), "minute") : a < 86400 ? r.format(Math.round(s / 3600), "hour") : a < 2592000 ? r.format(Math.round(s / 86400), "day") : fmt(d); };
+const mins = (m) => (m >= 60 ? `${Math.floor(m / 60)}h${m % 60 ? " " + (m % 60) + "m" : ""}` : `${m}m`);
+const SUBJ = { mathematics: { n: "Mathematics", c: "m" }, physics: { n: "Physics", c: "p" }, chemistry: { n: "Chemistry", c: "c" } };
+const SK = { m: "mathematics", p: "physics", c: "chemistry" };
+const CH = CHAPTERS.map(([id, s, y, paper, title]) => ({ id, subject: SK[s], year: y, paper, title }));
+const chap = (id) => CH.find((c) => c.id === id);
+const CATS = ["Personal", "Education", "Mathematics", "Physics", "Chemistry", "Assignments", "Teachers", "Important Information", "Ideas", "Reminders", "Projects", "General Notes"];
+const LEVELS = { inter1: "Intermediate 1st Year", inter2: "Intermediate 2nd Year", eapcet: "EAPCET Preparation" };
+const LANGS = { en: "English", te: "Telugu (తెలుగు)", en_te: "English + Telugu" };
+const KINDS = { task: "Task", assignment: "Assignment", study_session: "Study session", revision: "Revision", exam: "Exam", reminder: "Reminder" };
+const STYLES = { simple: "Very simple", detailed: "Detailed", exam: "Exam-oriented", steps: "Step-by-step", revision: "Quick revision", formula: "Formula explanation" };
+const STYLE_TXT = {
+  simple: "Very simple explanation: everyday language, a relatable analogy, short sentences.",
+  detailed: "Detailed explanation: build from basics, reasoning or derivation where relevant, one worked example.",
+  exam: "Exam-oriented: definitions in exam language, key points to write, typical question types, common mistakes.",
+  steps: "Step-by-step solution: number every step, show every substitution and calculation, final answer clearly.",
+  revision: "Quick revision: compact bullets, key formulas, 3 memory hooks.",
+  formula: "Formula explanation: the formula, every symbol with its SI unit, when/why it applies, a short example.",
+};
+const LANG_TXT = { en: "Reply in clear, simple English.", te: "Reply in Telugu (తెలుగు script); keep formulas, symbols and standard scientific terms in English notation.", en_te: "Reply in English, and after each main point add a short Telugu (తెలుగు) explanation of the same idea." };
+const FORMAT = "Use Markdown. Write all maths with LaTeX: inline $...$ and display $$...$$ on its own line. SI units for physics; balanced chemical equations.";
+
+let toastT;
+function toast(msg, err) { const t = $("#toast"); const d = document.createElement("div"); if (err) d.className = "e"; d.textContent = msg; t.appendChild(d); setTimeout(() => d.remove(), err ? 6000 : 3200); }
+function md(s) {
+  // protect maths from the markdown parser, then restore for MathJax
+  const keep = []; let t = String(s || "").replace(/\$\$[\s\S]+?\$\$|\\\[[\s\S]+?\\\]|\$[^$\n]+?\$/g, (m) => { keep.push(m); return `@@M${keep.length - 1}@@`; });
+  t = t.replace(/</g, "&lt;"); // no raw HTML from AI or user text
+  let h = window.marked ? marked.parse(t, { breaks: true }) : esc(t).replace(/\n/g, "<br>");
+  h = h.replace(/<script[\s\S]*?<\/script>/gi, "").replace(/\son\w+="[^"]*"/gi, "");
+  return h.replace(/@@M(\d+)@@/g, (_, i) => esc(keep[+i]));
+}
+function typeset(el) { try { if (window.MathJax?.typesetPromise) MathJax.typesetPromise(el ? [el] : undefined).catch(() => {}); } catch (_) {} }
+const bar = (pct) => `<div class="bar"><i style="width:${Math.max(0, Math.min(100, pct))}%"></i></div>`;
+const ring = (pct, size = 80, col = "rgb(var(--brand))") => { const r = (size - 9) / 2, c = 2 * Math.PI * r; return `<div class="ring" style="width:${size}px;height:${size}px"><svg width="${size}" height="${size}" style="transform:rotate(-90deg)"><circle cx="${size / 2}" cy="${size / 2}" r="${r}" stroke="rgb(var(--surface2))" stroke-width="8" fill="none"/><circle cx="${size / 2}" cy="${size / 2}" r="${r}" stroke="${col}" stroke-width="8" fill="none" stroke-linecap="round" stroke-dasharray="${c}" stroke-dashoffset="${c * (1 - pct / 100)}"/></svg><b>${Math.round(pct)}%</b></div>`; };
+const empty = (title, text, act = "") => `<div class="empty"><b>${esc(title)}</b>${esc(text || "")}${act ? `<div style="margin-top:12px">${act}</div>` : ""}</div>`;
+const header = (icon, title, sub, acts = "") => `<div class="top"><div class="hico">${svg(icon, 20)}</div><div class="grow"><h1>${esc(title)}</h1>${sub ? `<p>${esc(sub)}</p>` : ""}</div><div class="acts">${acts}</div></div>`;
+
+// ============================================================ state + storage
+const COLLS = ["memories", "tasks", "notes", "flashcards", "progress", "logs", "quizzes", "convs", "videos", "notifs"];
+const state = { ready: false, cloud: false, uid: null, isOwner: false, profile: { name: "", level: "inter1", lang: "en", timezone: "Asia/Kolkata", examName: "", examDate: "", theme: "dark", goal: 120 }, ai: null, dict: null };
+COLLS.forEach((c) => (state[c] = []));
+let DB = null, PROFILE_REF = null;
+const local = { get(k) { try { return JSON.parse(localStorage.getItem("memora:" + k) || "null"); } catch (_) { return null; } }, set(k, v) { try { localStorage.setItem("memora:" + k, JSON.stringify(v)); } catch (_) {} } };
+
+async function save(coll, obj) {
+  obj = { ...obj, updatedAt: new Date().toISOString() };
+  if (coll === "convs" && obj.messages) obj.messages = obj.messages.slice(-60).map(({ pending, ...m }) => m); // stay well under the 256 KiB document limit
+  if (!obj.id) obj.id = uid();
+  if (!obj.createdAt) obj.createdAt = obj.updatedAt;
+  const list = state[coll]; const i = list.findIndex((x) => x.id === obj.id);
+  if (i >= 0) list[i] = obj; else list.push(obj);
+  if (state.cloud) {
+    try { await PROFILE_REF.collection(coll).doc(obj.id).set(obj); }
+    catch (e) { toast(e.code === "quota_exceeded" ? "Storage is full — delete some old items." : "Not saved: " + (e.message || e.code), true); throw e; }
+  } else local.set(coll, list);
+  return obj;
+}
+async function remove(coll, id) {
+  state[coll] = state[coll].filter((x) => x.id !== id);
+  if (state.cloud) { try { await PROFILE_REF.collection(coll).doc(id).delete(); } catch (e) { toast("Not deleted: " + (e.message || e.code), true); } }
+  else local.set(coll, state[coll]);
+}
+async function saveProfile() {
+  if (state.cloud) { try { await PROFILE_REF.set(state.profile); } catch (e) { toast("Settings not saved: " + (e.message || e.code), true); } }
+  else local.set("profile", state.profile);
+}
+
+async function init() {
+  applyTheme(local.get("theme") || "dark");
+  render();
+  for (let i = 0; i < 30 && !window.claude?.use; i++) await new Promise((r) => setTimeout(r, 100)); // runtime may attach just after load
+  const use = (n) => (window.claude?.use ? window.claude.use(n).catch(() => null) : Promise.resolve(null));
+  const [db, user, sample, dict] = await Promise.all([use("db"), use("user"), use("sample"), use("dictation")]);
+  state.ai = sample; state.dict = dict;
+  let id = null;
+  if (user) { try { id = await user.id(); state.isOwner = !!user.isOwner?.(); const me = await user.me?.(); if (me?.name && !state.profile.name) state.profile.name = me.name; } catch (_) {} }
+  if (db && id) {
+    DB = db; state.uid = id; state.cloud = true;
+    PROFILE_REF = db.doc("data/users/" + id + "/profile");
+    let pending = COLLS.length + 1;
+    const done = () => { if (--pending === 0) { state.ready = true; clearTimeout(slow); render(); } };
+    const slow = setTimeout(() => { if (!state.ready) { state.ready = true; toast("Your saved data is taking a while to load — showing what has arrived.", true); render(); } }, 10000);
+    PROFILE_REF.onSnapshot((s) => { if (s.exists) state.profile = { ...state.profile, ...s.data() }; applyTheme(state.profile.theme || "dark"); if (pending > 0) done(); else render(true); }, () => { if (pending > 0) done(); });
+    COLLS.forEach((c) => {
+      let first = true;
+      PROFILE_REF.collection(c).onSnapshot((snap) => {
+        state[c] = snap.docs.map((d) => ({ ...d.data(), id: d.id }));
+        if (first) { first = false; done(); } else render(true);
+      }, () => { if (first) { first = false; done(); } });
+    });
+  } else {
+    COLLS.forEach((c) => (state[c] = local.get(c) || []));
+    state.profile = { ...state.profile, ...(local.get("profile") || {}) };
+    state.ready = true; render();
+  }
+}
+
+// ============================================================ layout + routing
+const NAV = [["dashboard", "Dashboard", "dash"], ["assistant", "AI Assistant", "spark"], ["memories", "My Memories", "brain"], ["study", "Study Centre", "cap"], ["planner", "Study Planner", "cal"], ["notes", "Notes", "note"], ["youtube", "YouTube Learning", "yt"], ["flashcards", "Flashcards", "layers"], ["quizzes", "Quizzes", "list"], ["progress", "Progress", "trend"], ["notifications", "Notifications", "bell"], ["settings", "Settings", "cog"]];
+const route = () => { const h = (location.hash || "#dashboard").slice(1); const [page, arg] = h.split("--"); return { page: NAV.some((n) => n[0] === page) ? page : "dashboard", arg }; };
+const go = (h) => { location.hash = h; };
+let ui = {}; // per-page transient UI state
+window.addEventListener("hashchange", () => { ui = {}; render(); window.scrollTo(0, 0); });
+
+function chrome() {
+  const { page } = route(); const n = notifications().filter((x) => !x.read).length;
+  $("#side").innerHTML = `<div class="brand">${LOGO}<div><b>MEMORA<span style="color:rgb(var(--brand))"> AI</span></b><small>Your Memory. Your Studies. Your AI.</small></div></div>
+  <nav class="nav">${NAV.map(([id, l, ic]) => `<a href="#${id}" class="${page === id ? "on" : ""}">${svg(ic)}${l}${id === "notifications" && n ? `<span class="badge-dot">${n}</span>` : ""}</a>`).join("")}</nav>
+  <div style="margin-top:auto;padding:10px" class="xs subtle">${state.cloud ? "● Saved to your account" : "● Saved in this browser only"}</div>`;
+  const mob = ["dashboard", "assistant", "memories", "study"];
+  $("#bottom").innerHTML = mob.map((id) => { const x = NAV.find((n) => n[0] === id); return `<a href="#${id}" class="${page === id ? "on" : ""}">${svg(x[2], 20)}${x[1].replace("My ", "").replace(" Centre", "")}</a>`; }).join("") + `<button data-a="more" class="${mob.includes(page) ? "" : "on"}">${svg("menu", 20)}More${n ? ` <span class="badge-dot" style="margin:0">${n}</span>` : ""}</button>`;
+}
+
+const PAGES = {};
+function render(soft) {
+  if (soft && (ui.busy || document.activeElement?.matches?.("input,textarea,select"))) { chrome(); return; } // don't wipe what the user is typing
+  chrome();
+  const main = $("#main");
+  if (!state.ready) { main.innerHTML = `<div class="empty"><b>Loading your MEMORA…</b>Connecting to your private storage.</div>`; return; }
+  const { page, arg } = route();
+  main.innerHTML = (state.cloud ? "" : `<div class="note w" style="margin-bottom:14px">Private cloud storage isn't available in this view, so data is kept in this browser only. Open the page from claude.ai while signed in to save to your account.</div>`) + PAGES[page](arg);
+  typeset(main);
+  PAGES[page].after?.(arg);
+}
+function applyTheme(t) { const dark = t === "dark" || (t === "system" && matchMedia("(prefers-color-scheme: dark)").matches); document.documentElement.classList.toggle("dark", dark); local.set("theme", t); }
+
+// ============================================================ modal
+function modal(title, body, wide) { $("#modal").innerHTML = `<div class="modal-bg" data-a="closebg"><div class="card modal ${wide ? "wide" : ""}"><h2>${esc(title)}<button class="iconbtn" data-a="close" aria-label="Close">${svg("x")}</button></h2>${body}</div></div>`; typeset($("#modal")); }
+function closeModal() { $("#modal").innerHTML = ""; stopDictation(); }
+const confirmBox = (text, onYes, yes = "Delete") => { modal("Please confirm", `<p class="muted">${esc(text)}</p><div class="row" style="justify-content:flex-end;margin-top:16px"><button class="btn g" data-a="close">Cancel</button><button class="btn d" id="yes">${esc(yes)}</button></div>`); $("#yes").onclick = () => { closeModal(); onYes(); }; };
+
+// ============================================================ AI
+async function ask(prompt, opts = {}) {
+  if (!state.ai) throw new Error("AI isn't available in this view. Open the page on claude.ai while signed in.");
+  try { return (await state.ai(prompt, { cache: false, ...opts })).text; }
+  catch (e) { throw new Error(e.code === "rate_limited" ? "Claude is busy — please wait a moment and try again." : e.code === "not_granted" ? "AI permission wasn't granted for this page." : e.message || "AI request failed."); }
+}
+async function askJSON(prompt, opts = {}) {
+  if (!state.ai) throw new Error("AI isn't available in this view.");
+  try { return await state.ai.json(prompt, { cache: false, ...opts }); }
+  catch (e) { const t = e.text || ""; const a = t.indexOf("{"), b = t.lastIndexOf("}"); if (a >= 0 && b > a) { try { return JSON.parse(t.slice(a, b + 1)); } catch (_) {} } throw new Error(e.code === "rate_limited" ? "Claude is busy — try again shortly." : e.message || "AI request failed."); }
+}
+function keywords(q) { const stop = new Set("a an the and or of to in on at by for with from is are was were be my me i you what which who when where why how do does did have has had this that please tell show remember save about any".split(" ")); return [...new Set(q.toLowerCase().replace(/[^\p{L}\p{N}\s]/gu, " ").split(/\s+/).filter((w) => w.length > 1 && !stop.has(w)))]; }
+function searchMemories(q, n = 8) {
+  const kw = keywords(q); if (!kw.length) return [];
+  return state.memories.filter((m) => !m.archived).map((m) => { const hay = (m.title + " " + m.content + " " + (m.tags || []).join(" ") + " " + m.category).toLowerCase(); let s = 0; kw.forEach((k) => { if (hay.includes(k)) s += m.title.toLowerCase().includes(k) ? 3 : 1; }); return [s, m]; }).filter(([s]) => s > 0).sort((a, b) => b[0] - a[0]).slice(0, n).map(([, m]) => m);
+}
+
+// ============================================================ notifications (derived from real data)
+function notifications() {
+  const now = Date.now(), out = [], read = new Set(state.profile.readNotifs || []);
+  const add = (key, type, title, body, link) => out.push({ key, type, title, body, link, read: read.has(key) });
+  state.tasks.filter((t) => t.status !== "completed").forEach((t) => {
+    if (t.remindAt && new Date(t.remindAt) <= now) add("r:" + t.id + t.remindAt, "Reminder", t.title, t.dueAt ? "Scheduled " + fmtDT(t.dueAt) : "", "#planner");
+    if (t.dueAt && !["study_session", "revision"].includes(t.kind)) {
+      const d = new Date(t.dueAt) - now;
+      if (d < 0 && d > -14 * 864e5) add("o:" + t.id, "Overdue", t.title, "Was due " + fmtDT(t.dueAt), t.kind === "assignment" ? "#planner--assignments" : "#planner");
+      else if (d >= 0 && d < 864e5) add("d:" + t.id, "Due soon", t.title, "Due " + fmtDT(t.dueAt), "#planner");
+    }
+  });
+  const due = state.flashcards.filter((c) => new Date(c.due || 0) <= now).length;
+  if (due) add("f:" + dayKey(now), "Revision", `${due} flashcard${due > 1 ? "s" : ""} due for review`, "A short review keeps them in long-term memory.", "#flashcards");
+  state.progress.filter((p) => p.revisionDue && p.revisionDue <= dayKey(now)).forEach((p) => add("v:" + p.id + p.revisionDue, "Revision", "Revise: " + (chap(p.chapterId)?.title || ""), "Scheduled for " + p.revisionDue, "#study"));
+  if (state.profile.examDate) { const d = Math.round((Date.parse(state.profile.examDate) - Date.parse(dayKey(now))) / 864e5); if (d >= 0 && d <= 30) add("e:" + d, "Exam", d === 0 ? `${state.profile.examName || "Exam"} is today — all the best!` : `${d} day${d > 1 ? "s" : ""} to ${state.profile.examName || "your exam"}`, "", "#planner"); }
+  return out;
+}
+
+// ============================================================ progress helpers
+const trackOf = () => (state.profile.level === "eapcet" ? "eapcet" : "inter");
+const chaptersFor = (s) => CH.filter((c) => (!s || c.subject === s) && (state.profile.level === "eapcet" || c.year === (state.profile.level === "inter1" ? 1 : 2)));
+const progOf = (cid) => state.progress.find((p) => p.chapterId === cid && p.track === trackOf());
+function subjStats(s) { const chs = chaptersFor(s); const done = chs.filter((c) => progOf(c.id)?.status === "completed").length; const ip = chs.filter((c) => progOf(c.id)?.status === "in_progress").length; return { total: chs.length, done, ip, pending: chs.length - done, pct: chs.length ? Math.round((done / chs.length) * 100) : 0, chs }; }
+
+// ============================================================ PAGES: dashboard
+PAGES.dashboard = () => {
+  const p = state.profile, now = new Date(), today = dayKey(now);
+  const h = +new Intl.DateTimeFormat("en-GB", { timeZone: TZ(), hour: "numeric", hour12: false }).format(now);
+  const greet = h < 12 ? "Good morning" : h < 17 ? "Good afternoon" : "Good evening";
+  const motiv = ["Small steps every day add up to big results.", "Revise today what you learned yesterday.", "Focus on understanding — marks will follow.", "One chapter at a time. You've got this.", "Consistency beats intensity.", "Mistakes in practice mean fewer in the exam."][now.getDate() % 6];
+  const examIn = p.examDate ? Math.round((Date.parse(p.examDate) - Date.parse(today)) / 864e5) : null;
+  const sessions = state.tasks.filter((t) => ["study_session", "revision"].includes(t.kind) && t.startAt && dayKey(t.startAt) === today).sort((a, b) => a.startAt.localeCompare(b.startAt));
+  const open = state.tasks.filter((t) => t.status !== "completed" && !["study_session", "revision"].includes(t.kind) && t.dueAt);
+  const overdue = open.filter((t) => new Date(t.dueAt) < now && dayKey(t.dueAt) < today);
+  const soon = open.filter((t) => dayKey(t.dueAt) >= today && dayKey(t.dueAt) <= addDays(today, 7)).sort((a, b) => a.dueAt.localeCompare(b.dueAt));
+  const st = Object.keys(SUBJ).map((s) => ({ s, ...subjStats(s) }));
+  const tot = st.reduce((a, x) => a + x.total, 0), done = st.reduce((a, x) => a + x.done, 0);
+  const week = [...Array(7)].map((_, i) => addDays(today, i - 6)).map((d) => ({ d, m: state.logs.filter((l) => dayKey(l.at) === d).reduce((a, l) => a + l.minutes, 0) }));
+  const wmax = Math.max(30, ...week.map((w) => w.m));
+  const mem = state.memories.filter((m) => !m.archived);
+  const pinned = mem.filter((m) => m.pinned).slice(0, 4), recent = [...mem].sort((a, b) => b.createdAt.localeCompare(a.createdAt)).slice(0, 4);
+  const vids = [...state.videos].sort((a, b) => (b.updatedAt || "").localeCompare(a.updatedAt || "")).slice(0, 4);
+  const taskRow = (t, over) => `<div class="item ${over ? "over" : ""}"><button class="iconbtn" data-a="done" data-id="${t.id}" title="Mark complete">${svg("circle")}</button><div class="grow"><div class="t">${esc(t.title)}</div><div class="s">${KINDS[t.kind]}${t.subject ? " · " + SUBJ[t.subject].n : ""} · ${over ? "was due " : "due "}${rel(t.dueAt)}</div></div>${t.priority === "high" ? '<span class="tag t-danger">High</span>' : ""}</div>`;
+  return `
+  <section class="card hero"><div class="row" style="position:relative;align-items:flex-start">
+    <div class="av">${esc((p.name || "S").trim().split(/\s+/).map((x) => x[0]).slice(0, 2).join("").toUpperCase())}</div>
+    <div class="grow"><div class="xs subtle" style="letter-spacing:.08em;text-transform:uppercase">${fmt(now, { weekday: "long", day: "numeric", month: "long", year: "numeric" })}</div><h1 style="margin:4px 0 2px;font-size:22px">${greet}, ${esc((p.name || "there").split(" ")[0])} 👋</h1><div class="muted small">${motiv}</div></div>
+    ${examIn !== null && examIn >= 0 ? `<div class="card" style="padding:10px 16px;text-align:center"><div style="font-size:24px;font-weight:700;color:rgb(var(--brand))">${examIn}</div><div class="xs muted">days to ${esc(p.examName || "exam")}</div></div>` : ""}
+  </div>
+  <form class="search" id="dsearch"><span>${svg("spark", 20)}</span><input class="inp" id="dq" placeholder="Ask MEMORA anything or search your memories..." autocomplete="off"><button class="btn" type="submit">Ask AI</button><div id="drop"></div></form></section>
+  <div class="grid g6" style="margin:16px 0">
+    ${[["Save a memory", "brain", "newmem"], ["Ask AI", "spark", "goai"], ["Create a task", "plus", "newtask"], ["Add a note", "note", "newnote"], ["Study session", "timer", "timer"], ["YouTube Learning", "yt", "goyt"]].map(([l, ic, a]) => `<button class="card qa" data-a="${a}"><span>${svg(ic)}</span>${l}</button>`).join("")}
+  </div>
+  <div class="grid g3">
+    <div class="card span2"><div class="ct"><div class="i">${svg("cal")}</div><div><h3>Today's schedule</h3><p>Study sessions, deadlines and reminders</p></div><a class="r small" href="#planner">Open planner</a></div>
+      ${overdue.length ? `<div class="xs" style="color:rgb(var(--danger));font-weight:700;margin-bottom:6px">OVERDUE</div>${overdue.map((t) => taskRow(t, 1)).join("")}` : ""}
+      <div class="xs subtle" style="font-weight:700;margin:8px 0 6px">STUDY SESSIONS TODAY</div>
+      ${sessions.length ? sessions.map((s) => `<div class="item"><b class="small" style="color:rgb(var(--brand));width:62px">${fmtT(s.startAt)}</b><div class="grow"><div class="t" style="${s.status === "completed" ? "text-decoration:line-through;opacity:.6" : ""}">${esc(s.title)}</div><div class="s">${mins(s.duration || 60)}${s.subject ? " · " + SUBJ[s.subject].n : ""}</div></div>${s.status === "completed" ? `<span style="color:rgb(var(--ok))">${svg("ok")}</span>` : `<button class="btn s sm" data-a="timer" data-id="${s.id}">${svg("play", 14)}Start</button>`}</div>`).join("") : `<p class="muted small">No sessions today. <a href="#planner--ai">Generate a study plan</a></p>`}
+      <div class="xs subtle" style="font-weight:700;margin:12px 0 6px">COMING UP (7 DAYS)</div>
+      ${soon.length ? soon.slice(0, 6).map((t) => taskRow(t)).join("") : '<p class="muted small">Nothing due this week.</p>'}
+    </div>
+    <div class="card"><div class="ct"><div class="i">${svg("cap")}</div><div><h3>Study progress</h3><p>${LEVELS[p.level]}</p></div><a class="r small" href="#progress">Details</a></div>
+      <div class="row">${ring(tot ? (done / tot) * 100 : 0, 84)}<div class="small"><b>${done} of ${tot} chapters</b><div class="muted">completed overall</div></div></div>
+      <div style="margin-top:14px">${st.map((x) => `<a href="#study--${x.s}" style="display:block;color:inherit;text-decoration:none;margin-bottom:10px"><div class="row xs" style="justify-content:space-between;margin-bottom:4px"><b>${SUBJ[x.s].n}</b><span class="muted">${x.done}/${x.total} · ${x.pending} pending</span></div>${bar(x.pct)}</a>`).join("")}</div>
+      <div class="row xs" style="justify-content:space-between;margin-top:14px"><b>This week</b><span class="muted">${mins(week.reduce((a, w) => a + w.m, 0))} studied</span></div>
+      <div style="display:flex;align-items:flex-end;gap:6px;height:80px;margin-top:8px">${week.map((w) => `<div style="flex:1;text-align:center"><div title="${mins(w.m)}" style="height:${Math.max(3, (w.m / wmax) * 62)}px;border-radius:5px 5px 0 0;background:linear-gradient(180deg,rgb(var(--brand)),rgb(var(--brand2)))"></div><div class="xs subtle">${new Date(w.d + "T12:00:00Z").toLocaleDateString("en-IN", { weekday: "narrow", timeZone: "UTC" })}</div></div>`).join("")}</div>
+    </div>
+    <div class="card span2"><div class="ct"><div class="i">${svg("brain")}</div><div><h3>Memory overview</h3><p>${mem.length} saved memor${mem.length === 1 ? "y" : "ies"}</p></div><a class="r small" href="#memories">All memories</a></div>
+      ${mem.length ? `<div class="grid g2"><div><div class="xs subtle" style="font-weight:700;margin-bottom:6px">PINNED</div>${pinned.length ? pinned.map(memMini).join("") : '<p class="muted small">Pin important memories to keep them here.</p>'}</div><div><div class="xs subtle" style="font-weight:700;margin-bottom:6px">RECENTLY SAVED</div>${recent.map(memMini).join("")}</div></div>` : empty("No memories yet", "Save assignments, teacher instructions, formulas or anything you want MEMORA to remember.", `<button class="btn sm" data-a="newmem">${svg("plus", 14)}Save your first memory</button>`)}
+    </div>
+    <div class="card"><div class="ct"><div class="i">${svg("yt")}</div><div><h3>Keep learning</h3><p>Your saved lessons</p></div><a class="r small" href="#youtube">Open</a></div>
+      ${vids.length ? vids.map((v) => `<div class="item"><div class="grow"><div class="t">${esc(v.title)}</div><div class="s">${(v.notes || []).length} note(s)</div></div><a class="btn s sm" href="https://www.youtube.com/watch?v=${esc(v.vid)}${v.pos ? "&t=" + v.pos + "s" : ""}" target="_blank" rel="noopener">${svg("play", 13)}Watch</a></div>`).join("") : empty("No saved videos", "Find chapter-wise lessons in YouTube Learning.")}
+    </div>
+  </div>`;
+};
+const memMini = (m) => `<a href="#memories--${m.id}" class="item" style="color:inherit;text-decoration:none"><div class="grow"><div class="t te">${esc(m.title)}</div><div class="s trunc te">${esc(m.content || m.category)}</div></div><span class="xs subtle">${fmt(m.createdAt)}</span></a>`;
+PAGES.dashboard.after = () => {
+  const inp = $("#dq"), drop = $("#drop");
+  inp.oninput = () => {
+    const q = inp.value.trim(); if (q.length < 2) { drop.innerHTML = ""; return; }
+    const ms = searchMemories(q, 5), kw = keywords(q);
+    const notes = state.notes.filter((n) => kw.some((k) => (n.title + " " + n.content).toLowerCase().includes(k))).slice(0, 3);
+    const tasks = state.tasks.filter((t) => kw.some((k) => t.title.toLowerCase().includes(k))).slice(0, 3);
+    const chs = CH.filter((c) => kw.some((k) => c.title.toLowerCase().includes(k))).slice(0, 3);
+    const rows = [...ms.map((m) => [`#memories--${m.id}`, "brain", m.title, "Memory"]), ...notes.map((n) => [`#notes--${n.id}`, "note", n.title, "Note"]), ...tasks.map((t) => ["#planner--tasks", "cal", t.title, KINDS[t.kind]]), ...chs.map((c) => [`#study--${c.subject}`, "cap", c.title, "Chapter"])];
+    drop.innerHTML = `<div class="card drop">${rows.length ? rows.map(([h, ic, t, k]) => `<a href="${h}">${svg(ic, 16)}<span class="grow trunc">${esc(t)}</span><span class="xs subtle">${k}</span></a>`).join("") : `<div class="small muted" style="padding:9px 11px">Nothing saved matches. Press <b>Ask AI</b> to ask MEMORA.</div>`}</div>`;
+  };
+  $("#dsearch").onsubmit = (e) => { e.preventDefault(); const q = inp.value.trim(); if (!q) return; pendingAsk = q; go("assistant"); };
+};
+
+// ============================================================ PAGES: memories
+let pendingAsk = null;
+PAGES.memories = (arg) => {
+  const f = (ui.mf ||= { q: "", cat: "all", view: "active", sort: "updated" });
+  let list = state.memories.filter((m) => (f.view === "archived" ? m.archived : !m.archived) && (f.view !== "pinned" || m.pinned) && (f.cat === "all" || m.category === f.cat));
+  if (f.q) { const hits = searchMemories(f.q, 200).map((m) => m.id); list = list.filter((m) => hits.includes(m.id)).sort((a, b) => hits.indexOf(a.id) - hits.indexOf(b.id)); }
+  else { const pr = { high: 0, medium: 1, low: 2 }; const cmp = { updated: (a, b) => b.updatedAt.localeCompare(a.updatedAt), created: (a, b) => b.createdAt.localeCompare(a.createdAt), priority: (a, b) => pr[a.priority] - pr[b.priority], title: (a, b) => a.title.localeCompare(b.title), accessed: (a, b) => (b.accessedAt || "").localeCompare(a.accessedAt || "") }; list.sort((a, b) => (b.pinned - a.pinned) || cmp[f.sort](a, b)); }
+  if (arg && !ui.opened) { ui.opened = 1; setTimeout(() => openMemory(arg), 0); }
+  return header("brain", "My Memories", "Everything you've asked MEMORA to remember — private to your account.", `<button class="btn s" data-a="voice">${svg("mic", 16)}Voice</button><button class="btn" data-a="newmem">${svg("plus", 16)}New memory</button>`) + `
+  <div class="card row wrap" style="padding:12px;margin-bottom:16px"><input class="inp grow" style="min-width:200px" id="mq" placeholder="Search memories (English or Telugu)…" value="${esc(f.q)}">
+    <select id="mview" style="width:auto">${["active", "pinned", "archived"].map((v) => `<option ${f.view === v ? "selected" : ""} value="${v}">${v[0].toUpperCase() + v.slice(1)}</option>`).join("")}</select>
+    <select id="mcat" style="width:auto"><option value="all">All categories</option>${CATS.map((c) => `<option ${f.cat === c ? "selected" : ""}>${c}</option>`).join("")}</select>
+    <select id="msort" style="width:auto">${[["updated", "Last updated"], ["created", "Newest"], ["accessed", "Recently accessed"], ["priority", "Priority"], ["title", "Title A–Z"]].map(([v, l]) => `<option value="${v}" ${f.sort === v ? "selected" : ""}>${l}</option>`).join("")}</select></div>
+  ${list.length ? `<div class="grid g3">${list.map((m) => `<article class="card" style="cursor:pointer;padding:15px;${m.pinned ? "border-color:rgb(var(--brand)/.35)" : ""}" data-a="openmem" data-id="${m.id}">
+    <div class="row" style="align-items:flex-start"><h3 class="te grow" style="margin:0;font-size:15px">${esc(m.title)}</h3>${m.pinned ? `<span style="color:rgb(var(--brand))">${svg("pin", 15)}</span>` : ""}</div>
+    <p class="te muted small clamp3" style="margin:6px 0 10px">${esc(m.content || "—")}</p>
+    <div class="row wrap" style="gap:5px"><span class="tag t-brand">${esc(m.category)}</span><span class="tag ${m.priority === "high" ? "t-danger" : m.priority === "medium" ? "t-warn" : "t-ok"}">${m.priority}</span>${m.source === "voice" ? '<span class="chip">voice</span>' : ""}${(m.tags || []).slice(0, 3).map((t) => `<span class="chip">#${esc(t)}</span>`).join("")}</div>
+    <div class="xs subtle" style="margin-top:10px">Updated ${rel(m.updatedAt)}</div></article>`).join("")}</div>`
+    : empty(f.q ? "No memory matches your search" : "No memories here yet", f.q ? "Try other words, or ask the AI assistant." : "Try: “Remember that my Physics assignment is due on Friday.”", `<button class="btn sm" data-a="newmem">${svg("plus", 14)}New memory</button>`)}`;
+};
+PAGES.memories.after = () => {
+  const f = ui.mf; let t;
+  $("#mq").oninput = (e) => { clearTimeout(t); t = setTimeout(() => { f.q = e.target.value.trim(); render(); const i = $("#mq"); i.focus(); i.setSelectionRange(i.value.length, i.value.length); }, 300); };
+  $("#mview").onchange = (e) => { f.view = e.target.value; render(); }; $("#mcat").onchange = (e) => { f.cat = e.target.value; render(); }; $("#msort").onchange = (e) => { f.sort = e.target.value; render(); };
+};
+function openMemory(id) {
+  const m = state.memories.find((x) => x.id === id); if (!m) return;
+  save("memories", { ...m, accessedAt: new Date().toISOString() }).catch(() => {});
+  modal("Memory", `<h3 class="te" style="margin:0 0 8px">${esc(m.title)}</h3><div class="row wrap" style="gap:5px"><span class="tag t-brand">${esc(m.category)}</span><span class="tag t-warn">${m.priority} priority</span>${m.pinned ? '<span class="chip">pinned</span>' : ""}${m.archived ? '<span class="chip">archived</span>' : ""}</div>
+  <p class="te" style="white-space:pre-wrap;line-height:1.65">${esc(m.content || "—")}</p>${(m.tags || []).length ? `<div class="row wrap" style="gap:5px">${m.tags.map((t) => `<span class="chip">#${esc(t)}</span>`).join("")}</div>` : ""}
+  <div class="card xs muted" style="margin-top:14px;padding:10px">Created ${fmtDT(m.createdAt)} · Last updated ${fmtDT(m.updatedAt)} · Saved via ${esc(m.source || "text")}</div>
+  <div class="row wrap" style="justify-content:flex-end;margin-top:14px"><button class="btn d sm" data-a="delmem" data-id="${m.id}">${svg("trash", 14)}Delete</button><button class="btn s sm" data-a="archmem" data-id="${m.id}">${svg("arch", 14)}${m.archived ? "Restore" : "Archive"}</button><button class="btn s sm" data-a="pinmem" data-id="${m.id}">${svg("pin", 14)}${m.pinned ? "Unpin" : "Pin"}</button><button class="btn sm" data-a="editmem" data-id="${m.id}">${svg("edit", 14)}Edit</button></div>`);
+}
+function memoryEditor(m = {}) {
+  modal(m.id ? "Edit memory" : "Save a memory", `<form id="memf"><label class="f"><span>Title</span><input class="inp te" name="title" required maxlength="200" value="${esc(m.title || "")}" placeholder="e.g. Physics assignment due Friday"></label>
+  <label class="f"><span>What should MEMORA remember?</span><textarea class="te" name="content" maxlength="20000" placeholder="Write it naturally, in English or Telugu…">${esc(m.content || "")}</textarea></label>
+  <div class="grid g2" style="gap:12px"><label class="f"><span>Category</span><select name="category">${CATS.map((c) => `<option ${c === (m.category || "General Notes") ? "selected" : ""}>${c}</option>`).join("")}</select></label><label class="f"><span>Priority</span><select name="priority">${["low", "medium", "high"].map((p) => `<option ${p === (m.priority || "medium") ? "selected" : ""}>${p}</option>`).join("")}</select></label></div>
+  <label class="f"><span>Tags (comma separated)</span><input class="inp" name="tags" value="${esc((m.tags || []).join(", "))}"></label>
+  <label class="row small"><input type="checkbox" name="pinned" ${m.pinned ? "checked" : ""}> Pin to the top</label>
+  <div class="row" style="justify-content:flex-end;margin-top:14px"><button type="button" class="btn g" data-a="close">Cancel</button><button class="btn">${m.id ? "Save changes" : "Save memory"}</button></div></form>`);
+  $("#memf").onsubmit = async (e) => { e.preventDefault(); const d = Object.fromEntries(new FormData(e.target)); try { await save("memories", { ...m, title: d.title.trim(), content: d.content.trim(), category: d.category, priority: d.priority, pinned: !!d.pinned, archived: m.archived || false, source: m.source || "text", tags: d.tags.split(",").map((t) => t.trim().toLowerCase()).filter(Boolean).slice(0, 12) }); closeModal(); toast(m.id ? "Memory updated." : "Memory saved."); render(); } catch (_) {} };
+}
+
+// ============================================================ voice capture (dictation) -> review -> confirm
+let dictOn = false;
+function stopDictation() { if (dictOn && state.dict) { state.dict.stop().catch(() => {}); dictOn = false; } }
+function voiceModal() {
+  modal("Voice memory assistant", `<p class="muted small" style="margin-top:0">Speak naturally — e.g. “Remember that I have a Chemistry test next Monday.” Nothing is saved until you confirm.</p>
+  ${state.dict ? `<button class="mic" id="micb" aria-label="Start listening">${svg("mic", 30)}</button><div class="xs muted" style="text-align:center" id="mics">Tap to speak (English or Telugu)</div>` : `<div class="note w">Voice input isn't available in this browser/app view. Type below instead.</div>`}
+  <label class="f" style="margin-top:12px"><span>Recognised text (you can edit it)</span><textarea class="te" id="vtext" placeholder="Your words appear here. You can also type."></textarea></label>
+  <div class="row" style="justify-content:flex-end"><button class="btn g" data-a="close">Cancel</button><button class="btn" id="vrev">${svg("wand", 16)}Review</button></div>`);
+  const ta = $("#vtext"); let base = "";
+  if (state.dict) {
+    const d = state.dict;
+    d.onPartial?.(({ text }) => { ta.value = (base ? base + " " : "") + text; });
+    d.onFinal?.(({ text }) => { base = (base ? base + " " : "") + text; ta.value = base; });
+    d.onState?.(({ state: s, reason }) => { const b = $("#micb"), l = $("#mics"); if (!b) return; dictOn = s === "listening"; b.classList.toggle("live", dictOn); l.textContent = dictOn ? "Listening… tap to stop" : reason === "not_granted" ? "Microphone not allowed — type instead." : "Tap to speak"; });
+    $("#micb").onclick = () => { if (dictOn) { d.stop().catch(() => {}); return; } base = ta.value.trim(); d.start().catch((e) => { $("#mics").textContent = e.code === "not_granted" ? "Voice not allowed — please type instead." : "Couldn't start the microphone — type instead."; }); };
+  }
+  $("#vrev").onclick = async () => {
+    const text = ta.value.trim(); if (!text) return; stopDictation();
+    const b = $("#vrev"); b.disabled = true; b.textContent = "Reviewing…";
+    let s;
+    try {
+      s = await askJSON(`Convert this student's sentence (English or Telugu) into ONE item for review. Now: ${new Date().toISOString()} (timezone ${TZ()}). Return JSON {"kind":"memory"|"task"|"reminder","title":"short title in the user's language","content":"the full information, faithful to what was said","category":one of ${JSON.stringify(CATS)},"priority":"low"|"medium"|"high","subject":"mathematics"|"physics"|"chemistry"|"","due":"ISO 8601 with offset or null","remind":"ISO 8601 with offset or null"}. Facts to remember → memory; something to do → task; "remind me"/an event at a time (test, exam, class) → reminder (due = event time, remind = 19:00 the evening before). Resolve relative dates against now. Default time 09:00. Never invent details.\n\nSentence: ${text}`, { modelTier: "quick" });
+    } catch (e) { toast(e.message + " — fill in the details yourself.", true); s = { kind: "memory", title: text.slice(0, 80), content: text, category: "General Notes", priority: "medium" }; }
+    reviewItem(s, text);
+  };
+}
+function reviewItem(s, text) {
+  const k = ["memory", "task", "reminder"].includes(s.kind) ? s.kind : "memory";
+  modal("Review before saving", `<div class="note i small" style="margin-bottom:12px">Nothing is saved until you confirm. ✦ AI suggestion</div>
+  <form id="revf"><div class="tabs" id="kinds" style="margin-bottom:12px">${["memory", "task", "reminder"].map((x) => `<button type="button" data-k="${x}" class="${x === k ? "on" : ""}">${x[0].toUpperCase() + x.slice(1)}</button>`).join("")}</div>
+  <label class="f"><span>Title</span><input class="inp te" name="title" required value="${esc(s.title || text.slice(0, 80))}"></label>
+  <label class="f"><span>Details</span><textarea class="te" name="content">${esc(s.content || text)}</textarea></label>
+  <div class="grid g2" style="gap:12px"><label class="f"><span>Category (memory)</span><select name="category">${CATS.map((c) => `<option ${c === s.category ? "selected" : ""}>${c}</option>`).join("")}</select></label><label class="f"><span>Priority</span><select name="priority">${["low", "medium", "high"].map((p) => `<option ${p === (s.priority || "medium") ? "selected" : ""}>${p}</option>`).join("")}</select></label>
+  <label class="f"><span>Due / date & time</span><input class="inp" type="datetime-local" name="due" value="${toLocal(s.due)}"></label><label class="f"><span>Remind me at</span><input class="inp" type="datetime-local" name="remind" value="${toLocal(s.remind)}"></label></div>
+  <div class="row" style="justify-content:flex-end"><button type="button" class="btn g" data-a="voice">Back</button><button class="btn">Confirm & save</button></div></form>`);
+  let kind = k;
+  $("#kinds").onclick = (e) => { const b = e.target.closest("[data-k]"); if (!b) return; kind = b.dataset.k; [...$("#kinds").children].forEach((x) => x.classList.toggle("on", x === b)); };
+  $("#revf").onsubmit = async (e) => {
+    e.preventDefault(); const d = Object.fromEntries(new FormData(e.target));
+    try {
+      if (kind === "memory") await save("memories", { title: d.title.trim(), content: d.content.trim(), category: d.category, priority: d.priority, tags: [], pinned: false, archived: false, source: "voice" });
+      else await save("tasks", { kind, title: d.title.trim(), description: d.content.trim(), subject: SUBJ[s.subject] ? s.subject : null, dueAt: fromLocal(d.due), remindAt: fromLocal(d.remind) || (kind === "reminder" ? fromLocal(d.due) : null), priority: d.priority, status: "not_started", recurrence: "none" });
+      closeModal(); toast(kind === "memory" ? "Memory saved." : kind === "reminder" ? "Reminder created." : "Task created."); render();
+    } catch (_) {}
+  };
+}
+
+// ============================================================ PAGES: assistant
+const SUGG = ["What was my Physics assignment?", "What do I have due this week?", "Explain Newton's second law with an example, in English and Telugu", "Make a 7-day revision plan for Chemistry", "Solve: a car accelerates from 10 m/s to 30 m/s in 5 s. Find a and the distance.", "Remember that I prefer explanations in English and Telugu"];
+PAGES.assistant = () => {
+  const convs = [...state.convs].sort((a, b) => b.updatedAt.localeCompare(a.updatedAt));
+  const cur = state.convs.find((c) => c.id === ui.conv) || null;
+  const msgs = cur?.messages || [];
+  return `<div class="chat"><div class="card convs"><button class="btn" style="width:100%;margin-bottom:10px" data-a="newchat">${svg("plus", 16)}New conversation</button>
+    ${convs.length ? convs.map((c) => `<div class="row" style="gap:2px;border-radius:10px;${c.id === ui.conv ? "background:rgb(var(--brand)/.12)" : ""}"><button class="iconbtn grow" style="text-align:left" data-a="openchat" data-id="${c.id}"><div class="trunc small" style="color:rgb(var(--fg))">${esc(c.title)}</div><div class="xs subtle">${rel(c.updatedAt)}</div></button><button class="iconbtn" data-a="renchat" data-id="${c.id}" title="Rename">${svg("edit", 14)}</button><button class="iconbtn" data-a="delchat" data-id="${c.id}" title="Delete">${svg("trash", 14)}</button></div>`).join("") : '<p class="xs muted">Your conversations appear here.</p>'}</div>
+  <section class="card pane"><div class="row" style="padding:10px 14px;border-bottom:1px solid rgb(var(--border)/.6)"><select id="convpick" class="noprint" style="width:auto;max-width:45%;display:${convs.length ? "" : "none"}"><option value="">New conversation</option>${convs.map((c) => `<option value="${c.id}" ${c.id === ui.conv ? "selected" : ""}>${esc(c.title.slice(0, 40))}</option>`).join("")}</select><b class="small grow trunc">${esc(cur?.title || "New conversation")}</b>
+    <select id="alang" style="width:auto">${Object.entries(LANGS).map(([k, v]) => `<option value="${k}" ${k === (ui.lang || state.profile.lang) ? "selected" : ""}>${v}</option>`).join("")}</select>${cur ? `<button class="iconbtn" data-a="clearchat" title="Clear conversation">${svg("trash", 16)}</button>` : ""}</div>
+    <div class="msgs" id="msgs">${msgs.length ? msgs.map(renderMsg).join("") : `<div style="max-width:620px;margin:30px auto;text-align:center">${LOGO}<h2 style="margin:12px 0 4px">How can I help you today?</h2><p class="muted small">Ask about your saved memories, your schedule, or any Maths, Physics or Chemistry concept. I answer from your own data and tell you when something isn't saved.</p><div class="grid g2" style="gap:8px;margin-top:16px;text-align:left">${SUGG.map((s) => `<button class="card small muted" style="padding:11px 13px;text-align:left" data-a="sugg">${esc(s)}</button>`).join("")}</div></div>`}
+    ${ui.saveDraft ? `<div class="card" style="border-color:rgb(var(--brand)/.4);margin-left:40px"><div class="xs" style="color:rgb(var(--brand));font-weight:700">SAVE AS MEMORY? — not saved yet</div><div class="te small" style="margin:4px 0">${esc(ui.saveDraft.title)}</div><div class="row"><button class="btn sm" data-a="savedraft">Review & confirm</button><button class="btn g sm" data-a="dropdraft">Dismiss</button></div></div>` : ""}</div>
+    <form class="composer" id="chatf"><textarea class="te grow" id="chatin" rows="1" placeholder="Message MEMORA… (Shift+Enter for a new line)"></textarea><button class="btn" style="height:44px;width:44px;padding:0" ${ui.busy ? "disabled" : ""} aria-label="Send">${svg("send", 18)}</button></form>
+    <div class="xs subtle" style="text-align:center;padding:0 0 8px">AI can make mistakes — check important facts. MEMORA only uses your own saved data.</div></section></div>`;
+};
+function renderMsg(m, i, arr) {
+  if (m.role === "user") return `<div class="bub te" style="margin:12px 0 12px auto">${esc(m.content)}</div><div class="xs subtle" style="text-align:right">${fmtT(m.at)}</div>`;
+  const last = i === arr.length - 1;
+  return `<div class="amsg"><div style="flex:none">${LOGO.replace('width="34" height="34"', 'width="28" height="28"')}</div><div class="grow"><div class="md te" id="${m.pending ? "streaming" : ""}">${m.pending && !m.content ? '<span class="dots"><i></i><i></i><i></i></span>' : md(m.content)}</div>
+  ${(m.sources || []).length ? `<div class="row wrap" style="gap:5px;margin-top:6px"><span class="xs subtle">From your saved data:</span>${m.sources.map((s) => `<a class="chip" href="${s.kind === "memory" ? "#memories--" + s.id : s.kind === "note" ? "#notes--" + s.id : "#planner"}">[${esc(s.ref)}] ${esc(s.title)}</a>`).join("")}</div>` : ""}
+  <div class="row xs subtle" style="gap:4px;margin-top:4px">${fmtT(m.at)}${m.pending ? "" : `<button class="iconbtn" data-a="copymsg" data-i="${i}" title="Copy">${svg("copy", 14)}</button>${last ? `<button class="iconbtn" data-a="regen" title="Regenerate">${svg("refresh", 14)}</button>` : ""}`}</div></div></div>`;
+}
+PAGES.assistant.after = () => {
+  const ta = $("#chatin"), msgs = $("#msgs"); msgs.scrollTop = msgs.scrollHeight;
+  ta.onkeydown = (e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); sendChat(ta.value); } };
+  $("#chatf").onsubmit = (e) => { e.preventDefault(); sendChat(ta.value); };
+  $("#alang").onchange = (e) => (ui.lang = e.target.value);
+  $("#convpick").onchange = (e) => { ui.conv = e.target.value || null; ui.saveDraft = null; render(); };
+  if (pendingAsk) { const q = pendingAsk; pendingAsk = null; sendChat(q); }
+};
+async function sendChat(text, regen = false) {
+  text = (text || "").trim(); if ((!text && !regen) || ui.busy) return;
+  let conv = state.convs.find((c) => c.id === ui.conv);
+  if (!conv) { conv = { id: uid(), title: text.slice(0, 60), messages: [] }; ui.conv = conv.id; }
+  conv = { ...conv, messages: [...conv.messages] };
+  if (regen) { while (conv.messages.length && conv.messages.at(-1).role === "assistant") conv.messages.pop(); text = conv.messages.at(-1)?.content || ""; }
+  else conv.messages.push({ role: "user", content: text, at: new Date().toISOString() });
+  const saveIntent = /^\s*(please\s+)?(remember|save|note down|keep in mind|don'?t forget)\b/i.test(text) && !regen;
+  // retrieve the user's own data
+  const mems = searchMemories(text, 6), kw = keywords(text);
+  const notes = state.notes.filter((n) => kw.some((k) => (n.title + " " + n.content).toLowerCase().includes(k))).slice(0, 3);
+  const soon = Date.now() + 14 * 864e5;
+  const tasks = state.tasks.filter((t) => t.status !== "completed" && new Date(t.dueAt || t.startAt || 0) <= soon && (t.dueAt || t.startAt)).sort((a, b) => (a.dueAt || a.startAt).localeCompare(b.dueAt || b.startAt)).slice(0, 10);
+  const sources = [], blocks = [];
+  mems.forEach((m, i) => { sources.push({ kind: "memory", id: m.id, ref: "M" + (i + 1), title: m.title }); blocks.push(`[M${i + 1}] MEMORY (category ${m.category}; saved ${m.createdAt.slice(0, 10)})\nTitle: ${m.title}\n${m.content}`); });
+  notes.forEach((n, i) => { sources.push({ kind: "note", id: n.id, ref: "N" + (i + 1), title: n.title }); blocks.push(`[N${i + 1}] NOTE: ${n.title}\n${n.content.slice(0, 1200)}`); });
+  tasks.forEach((t, i) => { sources.push({ kind: "task", id: t.id, ref: "T" + (i + 1), title: t.title }); blocks.push(`[T${i + 1}] ${KINDS[t.kind]}: ${t.title}${t.subject ? " (" + t.subject + ")" : ""}; ${t.dueAt ? "due " + fmtDT(t.dueAt) : "scheduled " + fmtDT(t.startAt)}; status ${t.status}`); });
+  const lang = ui.lang || state.profile.lang;
+  const system = `You are MEMORA, a warm, precise personal memory assistant and study tutor for ${state.profile.name || "a student"} (${LEVELS[state.profile.level]}, Andhra Pradesh/Telangana boards and EAPCET). Now: ${fmtDT(new Date())} (${TZ()}).
+${LANG_TXT[lang]}
+${FORMAT}
+PERSONAL DATA RULES: "USER'S SAVED DATA" below is the ONLY personal information you have. Cite it like [M1]. Clearly separate (1) what the user saved (cite), (2) what you infer ("I infer…"), (3) suggestions ("Suggestion:"). NEVER invent memories, notes, tasks, dates or people. If the answer isn't in the saved data, say plainly "I couldn't find that in your saved memories." You cannot save anything yourself. ${saveIntent ? 'The user wants something remembered: reply in 1–2 sentences that you prepared it and they should tap "Review & confirm" on the card below. Do NOT say it is saved.' : "Never claim you saved anything."} For study questions answer accurately with steps. Never call AI-generated practice questions official or previous-year EAPCET questions.
+USER'S SAVED DATA:
+${blocks.join("\n\n") || "(nothing relevant found)"}`;
+  const history = conv.messages.slice(-12).map((m) => ({ role: m.role, content: m.content }));
+  history[0] = { role: "user", content: system + "\n\n---\n\n" + history[0].content };
+  if (history.length > 1) history[history.length - 1] = { ...history[history.length - 1] };
+  const pending = { role: "assistant", content: "", at: new Date().toISOString(), pending: true };
+  conv.messages.push(pending);
+  ui.busy = true; tmpConv(conv); render();
+  try {
+    const text2 = await ask(history.length === 1 ? history[0].content : history, { onText: ({ text }) => { pending.content = text; const el = $("#streaming"); if (el) { el.innerHTML = md(text); } const ms = $("#msgs"); if (ms) ms.scrollTop = ms.scrollHeight; } });
+    pending.content = text2; delete pending.pending;
+    pending.sources = sources.filter((s) => text2.includes(`[${s.ref}]`));
+    ui.busy = false;
+    try { await save("convs", conv); } catch (_) { toast("This reply couldn't be saved to your history.", true); }
+    if (saveIntent) ui.saveDraft = { title: text.replace(/^\s*(please\s+)?(remember|save|note down|keep in mind|don'?t forget)( that)?\s*/i, "").slice(0, 80) || text.slice(0, 80), content: text };
+  } catch (e) {
+    ui.busy = false; conv.messages = conv.messages.filter((m) => !m.pending);
+    tmpConv(conv); toast(e.message, true);
+  }
+  render(); const i = $("#chatin"); if (i) i.focus();
+}
+function tmpConv(conv) { const i = state.convs.findIndex((c) => c.id === conv.id); if (i >= 0) state.convs[i] = { ...conv, updatedAt: new Date().toISOString() }; else state.convs.push({ ...conv, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() }); }
+
+// ============================================================ PAGES: study centre
+const FORMULAS = {
+  mathematics: [["Pythagorean identity", "\\sin^2\\theta+\\cos^2\\theta=1"], ["Compound angle", "\\sin(A\\pm B)=\\sin A\\cos B\\pm\\cos A\\sin B"], ["Double angle", "\\cos 2A=\\cos^2A-\\sin^2A=1-2\\sin^2A"], ["Sine rule", "\\frac{a}{\\sin A}=\\frac{b}{\\sin B}=\\frac{c}{\\sin C}=2R"], ["Cosine rule", "a^2=b^2+c^2-2bc\\cos A"], ["Quadratic roots", "x=\\frac{-b\\pm\\sqrt{b^2-4ac}}{2a}"], ["Sum & product of roots", "\\alpha+\\beta=-\\frac{b}{a},\\ \\alpha\\beta=\\frac{c}{a}"], ["Permutations / combinations", "{}^nP_r=\\frac{n!}{(n-r)!},\\ {}^nC_r=\\frac{n!}{r!(n-r)!}"], ["Binomial general term", "T_{r+1}={}^nC_r\\,x^{n-r}a^r"], ["De Moivre", "(\\cos\\theta+i\\sin\\theta)^n=\\cos n\\theta+i\\sin n\\theta"], ["Distance of point from line", "d=\\frac{|ax_1+by_1+c|}{\\sqrt{a^2+b^2}}"], ["Circle", "(x-h)^2+(y-k)^2=r^2"], ["Parabola", "y^2=4ax"], ["Ellipse", "\\frac{x^2}{a^2}+\\frac{y^2}{b^2}=1,\\ b^2=a^2(1-e^2)"], ["Product rule", "(uv)'=u'v+uv'"], ["Chain rule", "\\frac{dy}{dx}=\\frac{dy}{du}\\cdot\\frac{du}{dx}"], ["Power rule (integration)", "\\int x^n dx=\\frac{x^{n+1}}{n+1}+C"], ["Integration by parts", "\\int u\\,dv=uv-\\int v\\,du"], ["Probability addition", "P(A\\cup B)=P(A)+P(B)-P(A\\cap B)"]],
+  physics: [["Equations of motion", "v=u+at,\\ s=ut+\\tfrac12at^2,\\ v^2=u^2+2as"], ["Projectile range & height", "R=\\frac{u^2\\sin2\\theta}{g},\\ H=\\frac{u^2\\sin^2\\theta}{2g}"], ["Newton's second law", "F=ma=\\frac{dp}{dt}"], ["Work, KE, power", "W=Fs\\cos\\theta,\\ K=\\tfrac12mv^2,\\ P=Fv"], ["Torque & angular momentum", "\\tau=I\\alpha,\\ L=I\\omega"], ["SHM period", "T=2\\pi\\sqrt{m/k},\\ T=2\\pi\\sqrt{l/g}"], ["Gravitation", "F=\\frac{Gm_1m_2}{r^2}"], ["Escape speed", "v_e=\\sqrt{2gR}"], ["Young's modulus", "Y=\\frac{F/A}{\\Delta L/L}"], ["First law of thermodynamics", "\\Delta Q=\\Delta U+\\Delta W"], ["Ideal gas", "PV=nRT"], ["Wave speed", "v=f\\lambda"], ["Lens formula", "\\frac1v-\\frac1u=\\frac1f"], ["Coulomb's law", "F=\\frac{1}{4\\pi\\varepsilon_0}\\frac{q_1q_2}{r^2}"], ["Capacitor energy", "C=\\frac{\\varepsilon_0A}{d},\\ U=\\tfrac12CV^2"], ["Ohm's law & power", "V=IR,\\ P=VI=I^2R"], ["Magnetic force", "\\vec F=q(\\vec v\\times\\vec B)"], ["Faraday's law", "\\varepsilon=-\\frac{d\\Phi_B}{dt}"], ["Photoelectric / de Broglie", "h\\nu=\\phi_0+K_{max},\\ \\lambda=\\frac{h}{p}"]],
+  chemistry: [["Mole", "n=\\frac{m}{M}=\\frac{N}{N_A}"], ["Molarity", "M=\\frac{n_{solute}}{V(L)}"], ["Ideal gas", "PV=nRT"], ["Photon energy / Bohr", "E=h\\nu,\\ E_n=-\\frac{13.6}{n^2}\\,\\mathrm{eV}"], ["Rydberg", "\\frac1\\lambda=R_H\\left(\\frac1{n_1^2}-\\frac1{n_2^2}\\right)"], ["Gibbs energy", "\\Delta G=\\Delta H-T\\Delta S,\\ \\Delta G^\\circ=-RT\\ln K"], ["pH", "\\mathrm{pH}=-\\log[\\mathrm{H^+}],\\ K_w=10^{-14}"], ["Kp and Kc", "K_p=K_c(RT)^{\\Delta n_g}"], ["Nernst (298 K)", "E=E^\\circ-\\frac{0.0591}{n}\\log Q"], ["First-order kinetics", "k=\\frac{2.303}{t}\\log\\frac{[R]_0}{[R]},\\ t_{1/2}=\\frac{0.693}{k}"], ["Arrhenius", "k=Ae^{-E_a/RT}"], ["Raoult / ΔTb", "p_A=x_Ap_A^\\circ,\\ \\Delta T_b=K_bm"], ["Osmotic pressure", "\\pi=CRT"], ["Unit-cell density", "\\rho=\\frac{zM}{a^3N_A}"], ["Methane combustion", "\\mathrm{CH_4+2O_2\\rightarrow CO_2+2H_2O}"]],
+};
+PAGES.study = (arg) => {
+  if (arg && SUBJ[arg]) return subjectPage(arg);
+  const st = Object.keys(SUBJ).map((s) => ({ s, ...subjStats(s) }));
+  const imp = state.progress.filter((p) => p.important && p.track === trackOf()).map((p) => chap(p.chapterId)).filter(Boolean);
+  return header("cap", "Study Centre", "Intermediate & EAPCET — Mathematics, Physics and Chemistry") + `
+  <div class="tabs" id="lvl" style="margin-bottom:16px">${Object.entries(LEVELS).map(([k, v]) => `<button data-l="${k}" class="${k === state.profile.level ? "on" : ""}">${v}</button>`).join("")}</div>
+  <div class="grid g3">${st.map((x) => { const next = x.chs.find((c) => progOf(c.id)?.status === "in_progress") || x.chs.find((c) => progOf(c.id)?.status !== "completed"); return `<div class="card"><div class="row"><div class="hico" style="background:rgb(var(--${{ m: "math", p: "phys", c: "chem" }[SUBJ[x.s].c]}))">${svg("cap", 20)}</div><div class="grow"></div><div style="text-align:right"><b style="font-size:22px">${x.pct}%</b><div class="xs muted">complete</div></div></div><h2 style="margin:14px 0 4px;font-size:18px">${SUBJ[x.s].n}</h2><div class="xs muted" style="margin-bottom:8px">${x.done} completed · ${x.pending} pending${x.ip ? " · " + x.ip + " in progress" : ""}</div>${bar(x.pct)}${next ? `<p class="xs muted trunc">Next: <span style="color:rgb(var(--fg))">${esc(next.title)}</span></p>` : ""}<a class="btn s" style="width:100%;margin-top:10px;text-decoration:none" href="#study--${x.s}">Continue learning →</a></div>`; }).join("")}</div>
+  <div class="grid g3" style="margin-top:16px"><div class="card span2"><div class="ct"><div class="i">${svg("wand")}</div><div><h3>AI study tutor</h3><p>English, Telugu or both — with notebook-style exam answers</p></div></div>${tutorPanel("mathematics", true)}</div>
+  <div class="card"><div class="ct"><div class="i">${svg("star")}</div><div><h3>Important topics</h3><p>Chapters you starred</p></div></div>${imp.length ? imp.map((c) => `<a class="item" style="color:inherit;text-decoration:none" href="#study--${c.subject}"><span class="grow trunc small">${esc(c.title)}</span><span class="tag t-${SUBJ[c.subject].c}">${c.paper}</span></a>`).join("") : empty("No starred chapters", "Star chapters inside a subject to collect them here.")}<p class="xs muted" style="margin-top:12px">Chapters follow the AP BIEAP structure — check with your college. EAPCET mode covers both years.</p></div></div>`;
+};
+PAGES.study.after = (arg) => {
+  const l = $("#lvl"); if (l) l.onclick = async (e) => { const b = e.target.closest("[data-l]"); if (!b) return; state.profile.level = b.dataset.l; render(); await saveProfile(); };
+  tutorAfter();
+  quizFormAfter();
+  const ft = $("#ftab"); if (ft) ft.onclick = (e) => { const b = e.target.closest("[data-t]"); if (b) { ui.stab = b.dataset.t; render(); } };
+};
+function subjectPage(s) {
+  const tab = ui.stab || "chapters", chs = chaptersFor(s);
+  const done = chs.filter((c) => progOf(c.id)?.status === "completed").length;
+  const tabs = [["chapters", "Chapters"], ["tutor", "AI Tutor"], ["formulas", "Formula library"], ["practice", "Practice"], ...(s === "chemistry" ? [["periodic", "Periodic table"]] : [])];
+  let body = "";
+  if (tab === "chapters") {
+    body = [...new Set(chs.map((c) => c.paper))].map((paper) => `<div class="xs subtle" style="font-weight:700;margin:14px 0 8px">${s === "mathematics" ? "PAPER " + paper : (paper === "I" ? "FIRST" : "SECOND") + " YEAR"}</div>` + chs.filter((c) => c.paper === paper).map((c) => {
+      const p = progOf(c.id) || {}, st = p.status || "not_started", open = ui.openCh === c.id;
+      return `<div class="card" style="padding:0;margin-bottom:8px;${open ? "border-color:rgb(var(--brand)/.4)" : ""}"><div class="row" style="padding:11px 14px"><button class="iconbtn" data-a="chstat" data-id="${c.id}" title="not started → in progress → completed" style="color:${st === "completed" ? "rgb(var(--ok))" : st === "in_progress" ? "rgb(var(--warn))" : "rgb(var(--subtle))"}">${svg(st === "completed" ? "ok" : "circle", 22)}</button>
+      <button class="iconbtn grow" style="text-align:left" data-a="chopen" data-id="${c.id}"><div class="small trunc" style="color:rgb(var(--fg));font-weight:500">${c.title}</div><div class="xs subtle">${st.replace("_", " ")}${p.revisionDue ? " · revise " + p.revisionDue : ""}${p.notes ? " · has notes" : ""}</div></button>
+      <button class="iconbtn" data-a="chstar" data-id="${c.id}" style="color:${p.important ? "rgb(var(--warn))" : ""}" title="Important">${svg("star")}</button></div>
+      ${open ? `<div style="border-top:1px solid rgb(var(--border)/.6);padding:14px"><div class="row wrap" style="margin-bottom:12px"><button class="btn sm" data-a="chtutor" data-id="${c.id}">${svg("wand", 14)}Explain with AI</button><button class="btn s sm" data-a="chquiz" data-id="${c.id}">${svg("list", 14)}Practice quiz</button><button class="btn s sm" data-a="chcards" data-id="${c.id}">${svg("layers", 14)}Flashcards</button><a class="btn s sm" style="text-decoration:none" target="_blank" rel="noopener" href="https://www.youtube.com/results?search_query=${encodeURIComponent(c.title + " " + s + " intermediate")}">${svg("yt", 14)}Video lessons</a></div>
+      <div class="grid g3" style="gap:12px"><label class="f span2"><span>My notes for this chapter</span><textarea class="te" id="chn">${esc(p.notes || "")}</textarea></label><label class="f"><span>Revision date</span><input class="inp" type="date" id="chr" value="${esc(p.revisionDue || "")}"><span class="xs subtle" style="text-transform:none;letter-spacing:0;font-weight:400">You'll see a reminder that day.</span></label></div><div class="row" style="justify-content:flex-end"><button class="btn sm" data-a="chsave" data-id="${c.id}">Save</button></div></div>` : ""}</div>`;
+    }).join("")).join("");
+  } else if (tab === "tutor") body = `<div class="card">${tutorPanel(s)}</div>`;
+  else if (tab === "formulas") body = `<div class="grid g2">${FORMULAS[s].map(([n, t]) => `<div class="card" style="padding:14px"><b class="small">${esc(n)}</b><div class="md" style="overflow-x:auto">${esc("$$" + t + "$$")}</div><button class="iconbtn xs" style="color:rgb(var(--brand))" data-a="fexplain" data-n="${esc(n)}" data-t="${esc(t)}">Explain with AI →</button></div>`).join("")}</div>`;
+  else if (tab === "practice") body = `<div class="card"><h3 style="margin-top:0">Practice test</h3><p class="muted small">Generate a timed MCQ test for ${SUBJ[s].n}. ${state.profile.level === "eapcet" ? "EAPCET-style." : "Board-exam level."}</p>${quizForm(s, ui.openCh)}</div>`;
+  else if (tab === "periodic") body = periodicTable();
+  return `<a href="#study" class="small muted" style="text-decoration:none">← Study Centre</a>` + header("cap", SUBJ[s].n, `${LEVELS[state.profile.level]} · ${done}/${chs.length} chapters complete`) + `<div class="tabs" id="ftab" style="margin-bottom:16px">${tabs.map(([k, l]) => `<button data-t="${k}" class="${k === tab ? "on" : ""}">${l}</button>`).join("")}</div>${body}`;
+}
+async function setProgress(cid, patch, msg) {
+  const p = progOf(cid) || { id: trackOf() + "_" + cid, chapterId: cid, track: trackOf(), status: "not_started", important: false, notes: "", revisionDue: null };
+  const n = { ...p, ...patch }; if (patch.status) n.completedAt = patch.status === "completed" ? new Date().toISOString() : null;
+  try { await save("progress", n); if (msg) toast(msg); render(); } catch (_) {}
+}
+
+// ---------- tutor
+function tutorPanel(subject, pick) {
+  const t = (ui.tutor ||= { subject, q: "", lang: state.profile.lang, style: "steps", nb: true, ans: "", asked: "" });
+  if (!pick) t.subject = subject;
+  return `<div class="grid g3" style="gap:12px">${pick ? `<label class="f"><span>Subject</span><select id="tsub">${Object.entries(SUBJ).map(([k, v]) => `<option value="${k}" ${k === t.subject ? "selected" : ""}>${v.n}</option>`).join("")}</select></label>` : `<label class="f"><span>Chapter</span><select id="tch"><option value="">Any chapter</option>${CH.filter((c) => c.subject === t.subject).map((c) => `<option value="${c.id}" ${c.id === t.ch ? "selected" : ""}>${c.paper} · ${esc(c.title)}</option>`).join("")}</select></label>`}
+  <label class="f"><span>Language</span><select id="tlang">${Object.entries(LANGS).map(([k, v]) => `<option value="${k}" ${k === t.lang ? "selected" : ""}>${v}</option>`).join("")}</select></label>
+  <label class="f"><span>Explanation style</span><select id="tsty">${Object.entries(STYLES).map(([k, v]) => `<option value="${k}" ${k === t.style ? "selected" : ""}>${v}</option>`).join("")}</select></label></div>
+  <label class="row small" style="margin-bottom:10px"><input type="checkbox" id="tnb" ${t.nb ? "checked" : ""}> Notebook-style exam answer (Question → Given → Formula → Solution → Final Answer)</label>
+  <label class="f"><span>Your question</span><textarea class="te" id="tq" placeholder="Ask a concept, a formula, or paste a full problem with values.">${esc(t.q)}</textarea></label>
+  <div class="row wrap"><button class="btn" id="task" ${ui.busy ? "disabled" : ""}>${svg("wand", 16)}${ui.busy ? "Explaining…" : "Explain"}</button>${state.ai ? "" : '<span class="xs" style="color:rgb(var(--warn))">AI isn\'t available in this view.</span>'}</div>
+  ${t.ans || ui.busy ? `<div style="margin-top:16px"><div class="row wrap" style="margin-bottom:8px"><span class="tag t-brand">✦ AI tutor answer</span><span class="xs muted grow">Check important results with your textbook.</span>${t.ans && !ui.busy ? `<button class="btn g sm" data-a="tcopy">${svg("copy", 14)}Copy</button><button class="btn g sm" data-a="tsave">Save to notes</button><button class="btn s sm" data-a="tprint">${svg("print", 14)}Print</button>` : ""}</div><div class="${t.nb ? "notebook" : "card"}" id="tans"><div class="md te" id="tmd">${t.ans ? md(t.ans) : '<span class="muted small">Thinking it through step by step…</span>'}</div></div></div>` : ""}`;
+}
+function tutorAfter() {
+  const t = ui.tutor; if (!t || !$("#tq")) return;
+  $("#tq").oninput = (e) => (t.q = e.target.value); $("#tlang").onchange = (e) => (t.lang = e.target.value); $("#tsty").onchange = (e) => (t.style = e.target.value); $("#tnb").onchange = (e) => (t.nb = e.target.checked);
+  if ($("#tsub")) $("#tsub").onchange = (e) => (t.subject = e.target.value); if ($("#tch")) $("#tch").onchange = (e) => (t.ch = e.target.value);
+  $("#task").onclick = async () => {
+    if (t.q.trim().length < 2 || ui.busy) return;
+    ui.busy = true; t.asked = t.q.trim(); t.ans = ""; render();
+    const c = chap(t.ch);
+    const NB = `NOTEBOOK FORMAT (mandatory), these level-3 headings in order: ### Question, ### Given (bullets with symbols and SI units), ### To Find, ### Formula (display LaTeX + one line why it applies), ### Solution (**Step 1:** … every substitution and calculation), ### Final Answer (boxed, e.g. $$\\boxed{v = 20\\ \\mathrm{m\\,s^{-1}}}$$). Skip Given/Formula only for pure theory questions. No other sections.`;
+    const sub = { mathematics: "Correct notation; show intermediate algebra; verify the answer.", physics: "State given, what to find, which formula and WHY, substitute with units. Describe diagrams in words when useful.", chemistry: "Balanced equations with states; IUPAC names; say when a reaction is condition-dependent." }[t.subject];
+    try {
+      t.ans = await ask(`You are MEMORA's AI tutor for ${LEVELS[state.profile.level]} students (AP/TS boards). Subject: ${t.subject}${c ? `; chapter "${c.title}"` : ""}.\n${LANG_TXT[t.lang]}\n${FORMAT}\n${sub}\nStyle: ${STYLE_TXT[t.style]}\n${t.nb ? NB : ""}\nDouble-check arithmetic. If data is missing, say what is missing. Never claim a question is from an official/previous-year EAPCET paper; label practice questions "AI-generated practice".\n\nQUESTION:\n${t.asked}`,
+        { modelTier: "default", onText: ({ text }) => { t.ans = text; const el = $("#tmd"); if (el) el.innerHTML = md(text); } });
+    } catch (e) { toast(e.message, true); }
+    ui.busy = false; render();
+  };
+}
+
+// ---------- periodic table
+function periodicTable() {
+  const els = PT_RAW.split("|").map((r) => { const [z, sym, name, mass, g, p, cat] = r.split(","); return { z: +z, sym, name, mass, g: g ? +g : null, p: +p, cat }; });
+  const col = { am: "#f43f5e", ae: "#f97316", tm: "#f59e0b", pt: "#14b8a6", md: "#84cc16", nm: "#0ea5e9", hg: "#06b6d4", ng: "#8b5cf6", ln: "#ec4899", ac: "#d946ef" };
+  const names = { am: "Alkali metal", ae: "Alkaline earth", tm: "Transition metal", pt: "Post-transition", md: "Metalloid", nm: "Non-metal", hg: "Halogen", ng: "Noble gas", ln: "Lanthanide", ac: "Actinide" };
+  const sel = els.find((e) => e.z === (ui.el || 26));
+  const pos = (e) => (e.cat === "ln" && e.z <= 71 ? [9, e.z - 54] : e.cat === "ac" && e.z <= 103 ? [10, e.z - 86] : [e.p, e.g]);
+  return `<div class="card"><div class="row" style="margin-bottom:12px"><div style="width:74px;height:74px;border-radius:16px;display:grid;place-items:center;text-align:center;border:2px solid ${col[sel.cat]}"><div><div class="xs muted">${sel.z}</div><b style="font-size:26px">${sel.sym}</b></div></div><div class="grid g4 grow small" style="gap:6px"><div><div class="xs subtle">NAME</div>${sel.name}</div><div><div class="xs subtle">ATOMIC MASS</div>${sel.mass} u</div><div><div class="xs subtle">GROUP / PERIOD</div>${sel.g ?? "—"} / ${sel.p}</div><div><div class="xs subtle">CATEGORY</div>${names[sel.cat]}</div></div></div>
+  <div style="overflow-x:auto"><div class="pt">${els.map((e) => { const [r, c] = pos(e); return `<button data-a="el" data-z="${e.z}" style="grid-row:${r};grid-column:${c};border-color:${col[e.cat]}66;background:${col[e.cat]}1f;${e.z === sel.z ? "outline:2px solid rgb(var(--brand))" : ""}" title="${e.name}"><small>${e.z}</small>${e.sym}</button>`; }).join("")}<div style="grid-row:8;grid-column:1/19;height:6px"></div></div></div>
+  <div class="row wrap" style="gap:5px;margin-top:10px">${Object.entries(names).map(([k, v]) => `<span class="chip" style="border-color:${col[k]}66">${v}</span>`).join("")}</div><p class="xs subtle">IUPAC standard atomic weights (rounded); [ ] = mass number of the most stable isotope.</p></div>`;
+}
+
+// ============================================================ PAGES: planner
+PAGES.planner = (arg) => {
+  const tab = ui.ptab || arg || "today";
+  const tabs = [["today", "Today"], ["week", "Week"], ["month", "Month"], ["tasks", "Tasks"], ["assignments", "Assignments"], ["ai", "✦ AI plan"]];
+  const p = state.profile, today = dayKey(new Date());
+  const examIn = p.examDate ? Math.round((Date.parse(p.examDate) - Date.parse(today)) / 864e5) : null;
+  let body = "";
+  const when = (t) => t.startAt || t.dueAt;
+  const onDay = (d) => state.tasks.filter((t) => when(t) && dayKey(when(t)) === d).sort((a, b) => when(a).localeCompare(when(b)));
+  if (tab === "today") {
+    const items = onDay(today), ses = items.filter((t) => ["study_session", "revision"].includes(t.kind)), other = items.filter((t) => !ses.includes(t));
+    const over = state.tasks.filter((t) => t.status !== "completed" && t.dueAt && dayKey(t.dueAt) < today && !["study_session", "revision"].includes(t.kind));
+    body = `<div class="grid g2"><div class="card"><div class="ct"><div class="i">${svg("clock")}</div><div><h3>Study timetable</h3><p>${mins(ses.reduce((a, t) => a + (t.duration || 0), 0))} planned today</p></div><button class="r btn s sm" data-a="newtask" data-k="study_session">${svg("plus", 14)}Session</button></div>${ses.length ? ses.map(taskItem).join("") : empty("No study sessions today", "Add one, or let the AI build a realistic timetable.")}</div>
+    <div>${over.length ? `<div class="card" style="border-color:rgb(var(--danger)/.35);margin-bottom:16px"><div class="ct"><h3>Overdue</h3></div>${over.map((t) => taskItem(t, true)).join("")}</div>` : ""}<div class="card"><div class="ct"><h3>Due today & reminders</h3><button class="r btn s sm" data-a="newtask">${svg("plus", 14)}Task</button></div>${other.length ? other.map(taskItem).join("") : '<p class="muted small">Nothing else today.</p>'}</div></div></div>`;
+  } else if (tab === "week") {
+    const off = ui.woff || 0, dow = (new Date(today + "T12:00:00Z").getUTCDay() + 6) % 7, mon = addDays(today, -dow + off * 7), days = [...Array(7)].map((_, i) => addDays(mon, i));
+    body = `<div class="row" style="margin-bottom:12px"><button class="btn g sm" data-a="woff" data-d="-1">‹</button><b class="small">${fmt(days[0] + "T12:00:00Z")} – ${fmt(days[6] + "T12:00:00Z", { day: "numeric", month: "short", year: "numeric" })}</b><button class="btn g sm" data-a="woff" data-d="1">›</button></div>
+    <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(130px,1fr))">${days.map((d) => `<div class="card" style="padding:10px;min-height:120px;${d === today ? "border-color:rgb(var(--brand)/.6)" : ""}"><div class="xs" style="font-weight:700;color:${d === today ? "rgb(var(--brand))" : "rgb(var(--muted))"}">${new Date(d + "T12:00:00Z").toLocaleDateString("en-IN", { weekday: "short", day: "numeric", timeZone: "UTC" })}</div>${onDay(d).map((t) => `<button class="card xs" data-a="edittask" data-id="${t.id}" style="display:block;width:100%;text-align:left;padding:6px 8px;margin-top:6px;${t.status === "completed" ? "opacity:.5;text-decoration:line-through" : ""}"><b class="trunc" style="display:block">${esc(t.title)}</b><span class="muted">${fmtT(when(t))} · ${KINDS[t.kind]}</span></button>`).join("")}</div>`).join("")}</div>`;
+  } else if (tab === "month") {
+    const ym = ui.ym || today.slice(0, 7), [y, m] = ym.split("-").map(Number), first = ym + "-01", sd = (new Date(first + "T12:00:00Z").getUTCDay() + 6) % 7, dim = new Date(Date.UTC(y, m, 0)).getUTCDate();
+    const cells = [...Array(Math.ceil((sd + dim) / 7) * 7)].map((_, i) => addDays(first, i - sd)), sel = ui.selDay || today;
+    body = `<div class="grid g3"><div class="card span2"><div class="row" style="margin-bottom:10px"><button class="btn g sm" data-a="mon" data-d="-1">‹</button><b class="small">${new Date(Date.UTC(y, m - 1, 1)).toLocaleDateString("en-IN", { month: "long", year: "numeric", timeZone: "UTC" })}</b><button class="btn g sm" data-a="mon" data-d="1">›</button></div>
+    <div class="cal">${["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map((d) => `<div class="xs subtle" style="text-align:center">${d}</div>`).join("")}${cells.map((d) => { const it = onDay(d); return `<button data-a="selday" data-d="${d}" class="${d === sel ? "sel" : ""}" style="${d.startsWith(ym) ? "" : "opacity:.35"}"><b style="${d === today ? "color:rgb(var(--brand))" : ""}">${+d.slice(8)}</b><br>${it.slice(0, 4).map(() => '<span class="dot"></span>').join("")}</button>`; }).join("")}</div></div>
+    <div class="card"><div class="ct"><h3>${fmt(sel + "T12:00:00Z", { weekday: "long", day: "numeric", month: "long" })}</h3></div>${onDay(sel).map(taskItem).join("") || '<p class="muted small">Nothing scheduled.</p>'}</div></div>`;
+  } else if (tab === "tasks" || tab === "assignments") {
+    const f = (ui.tf ||= { status: "open", subject: "all" });
+    const list = state.tasks.filter((t) => (tab === "assignments" ? t.kind === "assignment" : !["study_session", "revision", "assignment"].includes(t.kind)) && (f.status === "all" || (f.status === "open" ? t.status !== "completed" : f.status === "overdue" ? t.status !== "completed" && t.dueAt && new Date(t.dueAt) < new Date() : t.status === f.status)) && (f.subject === "all" || t.subject === f.subject)).sort((a, b) => (when(a) || "9").localeCompare(when(b) || "9"));
+    const overN = state.tasks.filter((t) => t.kind === "assignment" && t.status !== "completed" && t.dueAt && new Date(t.dueAt) < new Date()).length;
+    body = `${tab === "assignments" && overN ? `<div class="note" style="color:rgb(var(--danger));border-color:rgb(var(--danger)/.4);margin-bottom:12px">${overN} overdue assignment${overN > 1 ? "s" : ""}</div>` : ""}<div class="row wrap" style="margin-bottom:12px"><select id="tfs" style="width:auto">${[["open", "Open"], ["not_started", "Not started"], ["in_progress", "In progress"], ["completed", "Completed"], ["overdue", "Overdue"], ["all", "All"]].map(([v, l]) => `<option value="${v}" ${f.status === v ? "selected" : ""}>${l}</option>`).join("")}</select><select id="tfsub" style="width:auto"><option value="all">All subjects</option>${Object.entries(SUBJ).map(([k, v]) => `<option value="${k}" ${f.subject === k ? "selected" : ""}>${v.n}</option>`).join("")}</select><button class="btn sm" data-a="newtask" data-k="${tab === "assignments" ? "assignment" : "task"}">${svg("plus", 14)}Add ${tab === "assignments" ? "assignment" : "task"}</button></div>${list.length ? list.map((t) => taskItem(t, false, true)).join("") : empty(tab === "assignments" ? "No assignments" : "No tasks here", "")}`;
+  } else body = aiPlanPage();
+  return header("cal", "Study Planner", `Timetable, homework and revision · ${TZ()}`, `<button class="btn s" data-a="ptab" data-t="ai">${svg("wand", 16)}AI study plan</button><button class="btn" data-a="newtask">${svg("plus", 16)}Add</button>`) + `
+  <div class="card row wrap" style="margin-bottom:16px"><div class="hico">${svg("flag", 20)}</div><div class="grow">${examIn !== null ? `<b style="font-size:20px">${examIn > 0 ? examIn + " days" : examIn === 0 ? "Today!" : "Finished"}</b><div class="small muted">${examIn >= 0 ? "until" : "since"} ${esc(p.examName || "your exam")} · ${fmt(p.examDate + "T12:00:00Z", { day: "numeric", month: "short", year: "numeric" })}</div>` : `<b>Exam countdown</b><div class="small muted">Set your exam date for a countdown and reminders.</div>`}</div><button class="btn s sm" data-a="setexam">${p.examDate ? "Change" : "Set exam date"}</button></div>
+  <div class="tabs" id="ptabs" style="margin-bottom:16px">${tabs.map(([k, l]) => `<button data-t="${k}" class="${k === tab ? "on" : ""}">${l}</button>`).join("")}</div>${body}`;
+};
+PAGES.planner.after = () => {
+  $("#ptabs").onclick = (e) => { const b = e.target.closest("[data-t]"); if (b) { ui.ptab = b.dataset.t; render(); } };
+  if ($("#tfs")) { $("#tfs").onchange = (e) => { ui.tf.status = e.target.value; render(); }; $("#tfsub").onchange = (e) => { ui.tf.subject = e.target.value; render(); }; }
+  aiPlanAfter();
+};
+function taskItem(t, overdue, showDate) {
+  const ses = ["study_session", "revision"].includes(t.kind), w = t.startAt || t.dueAt;
+  overdue = overdue || (t.status !== "completed" && !ses && t.dueAt && new Date(t.dueAt) < new Date());
+  return `<div class="item ${overdue ? "over" : ""}"><button class="iconbtn" data-a="done" data-id="${t.id}" style="color:${t.status === "completed" ? "rgb(var(--ok))" : ""}" title="${t.status === "completed" ? "Mark not done" : "Mark complete"}">${svg(t.status === "completed" ? "ok" : "circle")}</button>
+  <div class="grow"><div class="t" style="${t.status === "completed" ? "text-decoration:line-through;opacity:.6" : ""}">${esc(t.title)}</div><div class="s">${KINDS[t.kind]}${w ? " · " + (showDate ? fmtDT(w) : fmtT(w)) : ""}${t.duration ? " · " + mins(t.duration) : ""}${t.subject ? " · " + SUBJ[t.subject].n : ""}${overdue ? ' · <b style="color:rgb(var(--danger))">overdue</b>' : ""}${t.recurrence && t.recurrence !== "none" ? " · repeats " + t.recurrence : ""}</div></div>
+  ${t.priority === "high" && t.status !== "completed" ? '<span class="tag t-danger">High</span>' : ""}${ses && t.status !== "completed" ? `<button class="iconbtn" data-a="timer" data-id="${t.id}" title="Start session" style="color:rgb(var(--brand))">${svg("play", 16)}</button>` : ""}
+  ${t.status !== "completed" ? `<button class="iconbtn" data-a="postpone" data-id="${t.id}" title="Move to next day">»</button>` : ""}<button class="iconbtn" data-a="edittask" data-id="${t.id}" title="Edit">${svg("edit", 15)}</button><button class="iconbtn" data-a="deltask" data-id="${t.id}" title="Delete">${svg("trash", 15)}</button></div>`;
+}
+function taskEditor(t = {}) {
+  const k = t.kind || "task", sch = ["study_session", "revision"].includes(k);
+  modal(t.id ? "Edit " + KINDS[k].toLowerCase() : "New item", `<form id="tkf"><div class="grid g2" style="gap:12px"><label class="f"><span>Type</span><select name="kind" id="tkk">${Object.entries(KINDS).map(([a, b]) => `<option value="${a}" ${a === k ? "selected" : ""}>${b}</option>`).join("")}</select></label><label class="f"><span>Priority</span><select name="priority">${["low", "medium", "high"].map((p) => `<option ${p === (t.priority || "medium") ? "selected" : ""}>${p}</option>`).join("")}</select></label></div>
+  <label class="f"><span>Title</span><input class="inp te" name="title" required maxlength="200" value="${esc(t.title || "")}"></label><label class="f"><span>Description</span><textarea class="te" name="description" style="min-height:60px">${esc(t.description || "")}</textarea></label>
+  <div class="grid g2" style="gap:12px"><label class="f"><span>Subject</span><select name="subject"><option value="">—</option>${Object.entries(SUBJ).map(([a, b]) => `<option value="${a}" ${a === t.subject ? "selected" : ""}>${b.n}</option>`).join("")}</select></label><label class="f"><span>Status</span><select name="status">${[["not_started", "Not started"], ["in_progress", "In progress"], ["completed", "Completed"]].map(([a, b]) => `<option value="${a}" ${a === (t.status || "not_started") ? "selected" : ""}>${b}</option>`).join("")}</select></label>
+  <label class="f"><span>${sch ? "Starts" : "Due / date & time"}</span><input class="inp" type="datetime-local" name="when" value="${toLocal(sch ? t.startAt : t.dueAt)}"></label><label class="f"><span>Minutes (sessions, 5–240)</span><input class="inp" type="number" min="5" max="240" name="duration" value="${t.duration || (sch ? 60 : "")}"></label>
+  <label class="f"><span>Repeat</span><select name="recurrence">${["none", "daily", "weekly", "monthly"].map((r) => `<option ${r === (t.recurrence || "none") ? "selected" : ""}>${r}</option>`).join("")}</select></label><label class="f"><span>Remind me at</span><input class="inp" type="datetime-local" name="remind" value="${toLocal(t.remindAt)}"></label></div>
+  <div class="row" style="justify-content:flex-end"><button type="button" class="btn g" data-a="close">Cancel</button><button class="btn">${t.id ? "Save changes" : "Add"}</button></div></form>`);
+  $("#tkf").onsubmit = async (e) => {
+    e.preventDefault(); const d = Object.fromEntries(new FormData(e.target)), s2 = ["study_session", "revision"].includes(d.kind), w = fromLocal(d.when);
+    if (s2 && !w) return toast("Choose when this session starts.", true);
+    try { await save("tasks", { ...t, kind: d.kind, title: d.title.trim(), description: d.description.trim(), subject: d.subject || null, status: d.status, priority: d.priority, startAt: s2 ? w : null, dueAt: s2 ? null : w, duration: d.duration ? Math.min(240, Math.max(5, +d.duration)) : null, recurrence: d.recurrence, remindAt: fromLocal(d.remind), completedAt: d.status === "completed" ? t.completedAt || new Date().toISOString() : null }); closeModal(); toast(t.id ? "Updated." : KINDS[d.kind] + " added."); render(); } catch (_) {}
+  };
+}
+async function completeTask(t) {
+  if (t.status === "completed") { await save("tasks", { ...t, status: "not_started", completedAt: null }); render(); return; }
+  await save("tasks", { ...t, status: "completed", completedAt: new Date().toISOString() });
+  if (t.recurrence && t.recurrence !== "none") {
+    const sh = (iso) => { if (!iso) return null; const d = new Date(iso); if (t.recurrence === "daily") d.setUTCDate(d.getUTCDate() + 1); else if (t.recurrence === "weekly") d.setUTCDate(d.getUTCDate() + 7); else d.setUTCMonth(d.getUTCMonth() + 1); return d.toISOString(); };
+    await save("tasks", { ...t, id: undefined, createdAt: undefined, status: "not_started", completedAt: null, startAt: sh(t.startAt), dueAt: sh(t.dueAt), remindAt: sh(t.remindAt) });
+    toast("Done! Next repeat scheduled.");
+  } else toast("Marked complete.");
+  render();
+}
+// ---------- AI plan
+function aiPlanPage() {
+  const f = (ui.plan ||= { exam: state.profile.examName || "", date: state.profile.examDate || "", hours: 3, subjects: ["mathematics", "physics", "chemistry"], times: ["morning", "evening"], level: "average", rest: [], draft: null });
+  const TIMES = { early_morning: ["Early morning", "05:30", "07:30"], morning: ["Morning", "08:00", "12:00"], afternoon: ["Afternoon", "14:00", "17:00"], evening: ["Evening", "17:30", "20:30"], night: ["Night", "20:30", "22:30"] };
+  const chip = (on, a, v, l) => `<button type="button" class="chip" data-a="${a}" data-v="${v}" style="${on ? "border-color:rgb(var(--brand));color:rgb(var(--brand));background:rgb(var(--brand)/.12)" : ""}">${l}</button>`;
+  const byDay = {}; (f.draft || []).forEach((s) => { const k = dayKey(s.startAt); (byDay[k] ||= []).push(s); });
+  return `<div class="grid g3"><div class="card"><div class="ct"><div class="i">${svg("wand")}</div><div><h3>AI study plan generator</h3><p>Realistic sessions with breaks and revision</p></div></div>
+  <div class="grid g2" style="gap:10px"><label class="f"><span>Exam</span><input class="inp" id="pe" value="${esc(f.exam)}" placeholder="EAPCET"></label><label class="f"><span>Exam date</span><input class="inp" type="date" id="pd" value="${esc(f.date)}"></label></div>
+  <div class="label xs subtle" style="font-weight:700;margin-bottom:6px">SUBJECTS</div><div class="row wrap" style="gap:6px;margin-bottom:12px">${Object.entries(SUBJ).map(([k, v]) => chip(f.subjects.includes(k), "psub", k, v.n)).join("")}</div>
+  <label class="f"><span>Study hours per day: ${f.hours} h</span><input type="range" id="ph" min="0.5" max="8" step="0.5" value="${f.hours}" style="width:100%"></label>
+  <div class="xs subtle" style="font-weight:700;margin-bottom:6px">PREFERRED TIMES</div><div class="row wrap" style="gap:6px;margin-bottom:12px">${Object.entries(TIMES).map(([k, v]) => chip(f.times.includes(k), "ptime", k, v[0])).join("")}</div>
+  <div class="xs subtle" style="font-weight:700;margin-bottom:6px">REST DAYS</div><div class="row wrap" style="gap:6px;margin-bottom:12px">${["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((d, i) => chip(f.rest.includes(i), "prest", i, d)).join("")}</div>
+  <label class="f"><span>Current preparation</span><select id="pl">${[["beginner", "Just starting"], ["average", "Covered some chapters"], ["good", "Covered most chapters"], ["revision_only", "Revision only"]].map(([a, b]) => `<option value="${a}" ${a === f.level ? "selected" : ""}>${b}</option>`).join("")}</select></label>
+  <button class="btn" style="width:100%" id="pgen" ${ui.busy ? "disabled" : ""}>${svg("wand", 16)}${ui.busy ? "Planning your days…" : "Generate timetable"}</button><p class="xs subtle">Sessions are capped at 90 min with breaks and never exceed your daily hours.</p></div>
+  <div class="card span2">${f.draft ? `<div class="row wrap" style="margin-bottom:12px"><div class="grow"><b>Your draft plan</b> <span class="tag t-brand">✦ AI-generated</span><div class="xs muted">${f.draft.length} sessions · ${Object.keys(byDay).length} days — not saved yet</div></div><button class="btn g sm" data-a="pdiscard">Discard</button><button class="btn sm" data-a="psave">Save to planner</button></div><div style="max-height:600px;overflow:auto">${Object.entries(byDay).map(([d, l]) => `<div class="xs subtle" style="font-weight:700;margin:10px 0 4px">${fmt(d + "T12:00:00Z", { weekday: "short", day: "numeric", month: "short" })}</div>${l.map((s) => `<div class="item" style="padding:7px 10px;margin-bottom:4px"><b class="xs" style="color:rgb(var(--brand));width:62px">${fmtT(s.startAt)}</b><span class="grow small trunc">${esc(s.title)}</span><span class="xs muted">${s.kind === "revision" ? "Revision · " : ""}${mins(s.duration)}</span></div>`).join("")}`).join("")}</div>` : empty("Your AI timetable appears here", "Enter your exam date, subjects and the hours you can really study. You'll review it before anything is saved.")}</div></div>`;
+}
+function aiPlanAfter() {
+  const f = ui.plan; if (!f || !$("#pgen")) return;
+  $("#pe").oninput = (e) => (f.exam = e.target.value); $("#pd").onchange = (e) => (f.date = e.target.value); $("#ph").oninput = (e) => { f.hours = +e.target.value; e.target.previousElementSibling.textContent = `Study hours per day: ${f.hours} h`; }; $("#pl").onchange = (e) => (f.level = e.target.value);
+  $("#pgen").onclick = async () => {
+    const today = dayKey(new Date()); if (!f.date || f.date <= today) return toast("Choose an exam date in the future.", true);
+    if (!f.subjects.length || !f.times.length) return toast("Choose at least one subject and one time slot.", true);
+    const days = Math.round((Date.parse(f.date) - Date.parse(today)) / 864e5); if (days > 240) return toast("Plan at most 8 months ahead.", true);
+    const W = { early_morning: ["05:30", "07:30"], morning: ["08:00", "12:00"], afternoon: ["14:00", "17:00"], evening: ["17:30", "20:30"], night: ["20:30", "22:30"] };
+    const chs = CH.filter((c) => f.subjects.includes(c.subject));
+    ui.busy = true; render();
+    try {
+      const out = await askJSON(`You are a study-planning coach for Intermediate/EAPCET students. Create a realistic day-by-day plan. Start ${today}, exam (${f.exam || "Exam"}) ${f.date} (${days} days). Hours/day: ${f.hours}. Level: ${f.level}. Preferred: ${f.times.join(", ")}. Rest days (0=Sun): ${f.rest.join(",") || "none"}. Chapters (id: subject — title): ${chs.map((c) => `${c.id}: ${c.subject} — ${c.title}`).join("; ")}.
+Rules: sessions 30–90 min; interleave subjects; harder chapters get more time; last ${Math.min(7, Math.max(1, Math.floor(days / 5)))} days for revision/practice; a weekly revision session; never exceed the daily hours; nothing on rest days or the exam day. Return JSON {"sessions":[{"date":"YYYY-MM-DD","minutes":60,"subject":"physics","chapterId":"pi-03","kind":"study"|"revision"|"practice","title":"short title"}]} (at most 300).`, { modelTier: "default" });
+      // enforce limits deterministically
+      const toM = (s) => +s.slice(0, 2) * 60 + +s.slice(3), toHM = (m) => `${String(Math.floor(m / 60)).padStart(2, "0")}:${String(m % 60).padStart(2, "0")}`;
+      const wins = f.times.map((t) => W[t]).sort((a, b) => a[0].localeCompare(b[0])), cap = Math.round(f.hours * 60), by = {};
+      (out.sessions || []).forEach((s) => { if (!/^\d{4}-\d{2}-\d{2}$/.test(s.date) || s.date < today || s.date >= f.date || f.rest.includes(new Date(s.date + "T12:00:00Z").getUTCDay()) || !SUBJ[s.subject]) return; (by[s.date] ||= []).push(s); });
+      const nowHM = new Intl.DateTimeFormat("en-GB", { timeZone: TZ(), hour: "2-digit", minute: "2-digit", hour12: false }).format(new Date());
+      const draft = [];
+      Object.keys(by).sort().forEach((d) => {
+        let used = 0, wi = 0, cur = toM(wins[0][0]); if (d === today) cur = Math.max(cur, Math.ceil((toM(nowHM) + 10) / 15) * 15);
+        by[d].forEach((s) => { const m = Math.min(90, Math.max(30, +s.minutes || 60)); if (used + m > cap) return; while (wi < wins.length && cur + m > toM(wins[wi][1])) { wi++; if (wi < wins.length) cur = Math.max(cur, toM(wins[wi][0])); } if (wi >= wins.length) return; draft.push({ title: String(s.title || "Study").slice(0, 160), subject: s.subject, chapterId: chap(s.chapterId) ? s.chapterId : null, startAt: zoned(d, toHM(cur)).toISOString(), duration: m, kind: s.kind === "study" ? "study_session" : "revision" }); used += m; cur += m + (m >= 60 ? 15 : 10); });
+      });
+      if (!draft.length) throw new Error("The AI couldn't produce a usable plan — try more hours or time slots.");
+      f.draft = draft;
+    } catch (e) { toast(e.message, true); }
+    ui.busy = false; render();
+  };
+}
+
+// ---------- study timer
+function timerModal(task) {
+  let el = 0, run = false, iv = null, startedAt = null;
+  modal(task ? "Study: " + task.title : "Study session", `<div class="grid g2" style="gap:12px"><label class="f"><span>Subject</span><select id="tsj"><option value="">General</option>${Object.entries(SUBJ).map(([k, v]) => `<option value="${k}" ${task?.subject === k ? "selected" : ""}>${v.n}</option>`).join("")}</select></label><label class="f"><span>Note</span><input class="inp" id="tnote" placeholder="What did you cover?"></label></div>
+  <div style="text-align:center;padding:10px"><div style="width:150px;height:150px;margin:0 auto;border-radius:50%;border:4px solid rgb(var(--brand)/.35);display:grid;place-items:center;font:600 30px ui-monospace,monospace" id="tclock">0:00</div>
+  <div class="row" style="justify-content:center;margin-top:14px"><button class="btn" id="tgo">${svg("play", 15)}Start</button><button class="btn s" id="tfin" disabled>Finish & log</button></div><p class="xs muted">Tip: take a 5–10 minute break every 45–60 minutes.</p></div>`);
+  const clock = $("#tclock"), go = $("#tgo"), fin = $("#tfin");
+  const tick = () => { const s = Math.round(el); clock.textContent = `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`; fin.disabled = el < 60; };
+  go.onclick = () => { if (run) { clearInterval(iv); run = false; go.innerHTML = svg("play", 15) + "Resume"; return; } startedAt ||= new Date().toISOString(); run = true; go.textContent = "Pause"; let last = Date.now(); iv = setInterval(() => { if (!$("#tclock")) return clearInterval(iv); el += (Date.now() - last) / 1000; last = Date.now(); tick(); }, 500); };
+  fin.onclick = async () => { clearInterval(iv); const m = Math.min(600, Math.round(el / 60)); try { await save("logs", { minutes: m, subject: $("#tsj").value || null, note: $("#tnote").value, at: startedAt, taskId: task?.id || null }); if (task) await save("tasks", { ...task, status: "completed", completedAt: new Date().toISOString() }); closeModal(); toast(`Logged ${m} minute${m > 1 ? "s" : ""} of study. Well done!`); render(); } catch (_) {} };
+}
+
+// ============================================================ PAGES: notes
+PAGES.notes = (arg) => {
+  if (arg) return noteEditor(arg);
+  const q = (ui.nq || "").toLowerCase();
+  const list = state.notes.filter((n) => !q || (n.title + " " + n.content).toLowerCase().includes(q) && true).filter((n) => !ui.nsub || n.subject === ui.nsub).sort((a, b) => (b.pinned - a.pinned) || b.updatedAt.localeCompare(a.updatedAt));
+  return header("note", "Notes", "Your digital notebook — with AI that stays grounded in your own notes.", `<button class="btn" data-a="newnote">${svg("plus", 16)}New note</button>`) + `
+  <div class="card row wrap" style="padding:12px;margin-bottom:16px"><input class="inp grow" style="min-width:200px" id="nq" placeholder="Search notes…" value="${esc(ui.nq || "")}"><select id="nsub" style="width:auto"><option value="">All subjects</option>${Object.entries(SUBJ).map(([k, v]) => `<option value="${k}" ${ui.nsub === k ? "selected" : ""}>${v.n}</option>`).join("")}</select></div>
+  ${list.length ? `<div class="grid g3">${list.map((n) => `<a class="card" href="#notes--${n.id}" style="color:inherit;text-decoration:none;padding:15px"><div class="row"><b class="grow te trunc">${esc(n.title)}</b>${n.pinned ? `<span style="color:rgb(var(--brand))">${svg("pin", 14)}</span>` : ""}${n.fav ? "♥" : ""}</div><p class="small muted te clamp3">${esc(n.content.replace(/[#*_`$\\]/g, "").slice(0, 240) || "Empty note")}</p><div class="row wrap" style="gap:5px">${n.subject ? `<span class="tag t-${SUBJ[n.subject].c}">${SUBJ[n.subject].n}</span>` : ""}${(n.tags || []).slice(0, 3).map((t) => `<span class="chip">#${esc(t)}</span>`).join("")}<span class="xs subtle" style="margin-left:auto">${rel(n.updatedAt)}</span></div></a>`).join("")}</div>`
+    : empty("No notes yet", "Write class notes, formulas and doubts. Use AI to summarise them or turn them into flashcards.", `<button class="btn sm" data-a="newnote">${svg("plus", 14)}New note</button>`)}
+  <div class="note i small" style="margin-top:16px">Uploading PDFs isn't possible in this artifact version — paste text from a document into a note and use the AI tools on it.</div>`;
+};
+PAGES.notes.after = (arg) => {
+  if (arg) return noteAfter(arg);
+  let t; $("#nq").oninput = (e) => { clearTimeout(t); t = setTimeout(() => { ui.nq = e.target.value; render(); const i = $("#nq"); i.focus(); i.setSelectionRange(i.value.length, i.value.length); }, 300); };
+  $("#nsub").onchange = (e) => { ui.nsub = e.target.value; render(); };
+};
+function noteEditor(id) {
+  const n = state.notes.find((x) => x.id === id); if (!n) return empty("Note not found", "", `<a class="btn sm" href="#notes">Back to notes</a>`);
+  const mode = ui.nmode || (n.content ? "preview" : "write");
+  return `<div class="row" style="margin-bottom:12px"><a href="#notes" class="small muted" style="text-decoration:none">← Notes</a><span class="grow"></span><span class="xs subtle" id="nsaved">Saved · ${rel(n.updatedAt)}</span><button class="iconbtn" data-a="npin" title="Pin" style="color:${n.pinned ? "rgb(var(--brand))" : ""}">${svg("pin")}</button><button class="iconbtn" data-a="nfav" title="Favourite" style="color:${n.fav ? "rgb(var(--danger))" : ""}">♥</button><button class="iconbtn" data-a="ndel" title="Delete">${svg("trash")}</button></div>
+  <input class="inp te" id="ntitle" value="${esc(n.title)}" style="font-size:22px;font-weight:600;background:none;border:0;padding:4px 0" placeholder="Note title">
+  <div class="row wrap" style="margin:8px 0 14px"><select id="nsubj" style="width:auto"><option value="">No subject</option>${Object.entries(SUBJ).map(([k, v]) => `<option value="${k}" ${n.subject === k ? "selected" : ""}>${v.n}</option>`).join("")}</select><input class="inp" id="ntags" style="width:240px" placeholder="tags, comma separated" value="${esc((n.tags || []).join(", "))}"></div>
+  <div class="grid g3"><div class="card span2" style="padding:0"><div class="row wrap" style="padding:8px 12px;border-bottom:1px solid rgb(var(--border)/.6)"><div class="tabs" id="nmode"><button data-m="write" class="${mode === "write" ? "on" : ""}">Write</button><button data-m="preview" class="${mode === "preview" ? "on" : ""}">Preview</button></div>${mode === "write" ? `<span class="grow"></span>${[["**", "**", "B"], ["_", "_", "I"], ["## ", "", "H"], ["- ", "", "•"], ["1. ", "", "1."], ["$", "$", "∑"], ["`", "`", "</>"]].map(([a, b, l]) => `<button class="iconbtn small" data-a="nfmt" data-b="${esc(a)}" data-e="${esc(b)}" style="font-weight:700">${esc(l)}</button>`).join("")}` : ""}</div>
+  ${mode === "write" ? `<textarea id="nbody" class="te" style="border:0;border-radius:0 0 18px 18px;min-height:55vh;font-family:ui-monospace,monospace;font-size:14px;background:none" placeholder="Start writing… use **bold**, ## headings, - lists and $E = mc^2$ for formulas.">${esc(n.content)}</textarea>` : `<div class="md te" style="padding:18px;min-height:55vh">${n.content ? md(n.content) : '<p class="muted">Nothing written yet.</p>'}</div>`}</div>
+  <div class="card"><div class="ct"><div class="i">${svg("spark")}</div><h3>AI study tools</h3></div>${n.content.trim().length < 40 ? '<p class="muted small">Write a few sentences to use AI summaries, revision notes, questions and flashcards.</p>' : `<div class="row wrap" style="gap:6px">${[["summary", "Summarise"], ["key", "Key points"], ["rev", "Revision notes"], ["q", "Practice questions"], ["cards", "Flashcards"]].map(([a, l]) => `<button class="btn s sm" data-a="nai" data-k="${a}" ${ui.busy ? "disabled" : ""}>${l}</button>`).join("")}</div><form id="nask" class="row" style="margin-top:10px"><input class="inp" id="naskq" placeholder="Ask a question about this note…"><button class="btn sm">Ask</button></form>`}
+  ${ui.nout ? `<div class="card" style="margin-top:12px;padding:12px"><div class="row" style="margin-bottom:6px"><b class="small grow">${esc(ui.nout.label)}</b><span class="tag t-brand">From your note only</span></div><div class="md te" id="nouttext">${md(ui.nout.text)}</div>${ui.busy ? "" : `<button class="btn g sm" data-a="noutsave">Save as new note</button>`}</div>` : ""}</div></div>`;
+}
+function noteAfter(id) {
+  const n = state.notes.find((x) => x.id === id); if (!n) return;
+  let t; const persist = (patch) => { Object.assign(n, patch); $("#nsaved").textContent = "Saving…"; clearTimeout(t); t = setTimeout(async () => { try { await save("notes", n); const s = $("#nsaved"); if (s) s.textContent = "Saved · just now"; } catch (_) { const s = $("#nsaved"); if (s) s.textContent = "Not saved"; } }, 800); };
+  $("#ntitle").oninput = (e) => persist({ title: e.target.value.slice(0, 200) || "Untitled note" });
+  $("#nsubj").onchange = (e) => persist({ subject: e.target.value || null });
+  $("#ntags").onchange = (e) => persist({ tags: e.target.value.split(",").map((x) => x.trim().toLowerCase()).filter(Boolean).slice(0, 15) });
+  if ($("#nbody")) $("#nbody").oninput = (e) => persist({ content: e.target.value });
+  $("#nmode").onclick = (e) => { const b = e.target.closest("[data-m]"); if (b) { ui.nmode = b.dataset.m; render(); } };
+  if ($("#nask")) $("#nask").onsubmit = (e) => { e.preventDefault(); const q = $("#naskq").value.trim(); if (q) noteAI(n, "ask", q); };
+}
+async function noteAI(n, k, q) {
+  if (k === "cards") return flashGen({ source: "text", text: n.content, deck: n.title, subject: n.subject, from: "note" });
+  const TASK = { summary: "Write a clear, well-structured summary (headings + bullets).", key: "Extract the most important points as a numbered list, keeping definitions and formulas exactly.", rev: "Turn it into compact revision notes with a 'Remember' box at the end.", q: "Write 8 practice questions with brief answers at the end, under the heading 'AI-generated practice questions'.", ask: "Answer the student's question: " + q };
+  ui.busy = true; ui.nout = { label: k === "ask" ? "Q: " + q : { summary: "Summary", key: "Key points", rev: "Revision notes", q: "Practice questions" }[k], text: "…" }; render();
+  try {
+    ui.nout.text = await ask(`You help a student study their OWN note titled "${n.title}". ${LANG_TXT[state.profile.lang]}\n${FORMAT}\nUse ONLY the note below. If it doesn't contain the answer, say exactly "This isn't covered in your note." and you may add a clearly labelled "General knowledge (not from your note):" paragraph. Never invent content.\nTask: ${TASK[k]}\n\nNOTE:\n"""\n${n.content.slice(0, 30000)}\n"""`, { onText: ({ text }) => { ui.nout.text = text; const el = $("#nouttext"); if (el) el.innerHTML = md(text); } });
+  } catch (e) { toast(e.message, true); ui.nout = null; }
+  ui.busy = false; render();
+}
+
+// ============================================================ PAGES: youtube (links out — artifact pages can't embed other sites)
+const YT_CATS = [["Mathematics", "intermediate mathematics lecture"], ["Physics", "intermediate physics lecture"], ["Chemistry", "intermediate chemistry lecture"], ["Intermediate 1st Year", "intermediate first year lessons AP TS"], ["Intermediate 2nd Year", "intermediate second year lessons AP TS"], ["EAPCET Preparation", "EAPCET preparation"], ["Chapter-wise Lessons", "intermediate chapter wise explanation"], ["Formula Revision", "formula revision intermediate"], ["Numerical Problems", "physics numerical problems intermediate"], ["Previous-Year Question Explanations", "EAPCET previous year questions explained"], ["Quick Revision", "quick revision one shot intermediate"]];
+const ytId = (s) => { const m = String(s).match(/(?:youtu\.be\/|v=|shorts\/|embed\/)([A-Za-z0-9_-]{11})/) || String(s).match(/^([A-Za-z0-9_-]{11})$/); return m ? m[1] : null; };
+const ytUrl = (id, t) => `https://www.youtube.com/watch?v=${id}${t ? "&t=" + Math.floor(t) + "s" : ""}`;
+PAGES.youtube = (arg) => {
+  if (arg) return videoPage(arg);
+  const vids = [...state.videos].sort((a, b) => (b.updatedAt || "").localeCompare(a.updatedAt || ""));
+  const pls = [...new Set(vids.flatMap((v) => v.playlists || []))];
+  return header("yt", "YouTube Learning", "Find lessons, save them with your own notes and timestamps.") + `
+  <div class="note w small" style="margin-bottom:14px">Claude artifact pages can't play other websites inside them, so lessons open in the YouTube app or site. Your saved list, notes and timestamps stay here.</div>
+  <form id="ytf" class="row" style="margin-bottom:12px"><input class="inp grow" id="ytq" placeholder="Search lessons, e.g. “projectile motion numericals”"><button class="btn">${svg("search", 16)}Search on YouTube</button></form>
+  <div class="row wrap" style="gap:6px;margin-bottom:20px">${YT_CATS.map(([l, q]) => `<a class="chip" style="text-decoration:none;padding:6px 11px" target="_blank" rel="noopener" href="https://www.youtube.com/results?search_query=${encodeURIComponent(q)}">${l}</a>`).join("")}</div>
+  <div class="card"><div class="ct"><div class="i">${svg("plus")}</div><div><h3>Save a lesson</h3><p>Paste a YouTube link after you find a good video</p></div></div>
+  <form id="ytadd" class="grid g3" style="gap:10px"><input class="inp" name="url" placeholder="https://youtu.be/…" required><input class="inp" name="title" placeholder="Title (e.g. Projectile motion – full chapter)" required><div class="row"><select name="subject" class="grow"><option value="">Subject…</option>${Object.entries(SUBJ).map(([k, v]) => `<option value="${k}">${v.n}</option>`).join("")}</select><button class="btn">Save</button></div></form></div>
+  <h2 style="font-size:17px;margin:22px 0 10px">My video library</h2>
+  <div class="tabs" id="ylt" style="margin-bottom:12px">${[["all", "All saved"], ["subjects", "By subject"], ["playlists", "Playlists"]].map(([k, l]) => `<button data-t="${k}" class="${(ui.ylt || "all") === k ? "on" : ""}">${l}</button>`).join("")}</div>
+  ${!vids.length ? empty("No saved lessons yet", "Search, then paste the link here to keep your notes and timestamps with it.") : (ui.ylt === "subjects" ? Object.entries({ ...Object.fromEntries(Object.entries(SUBJ).map(([k, v]) => [k, v.n])), "": "Unsorted" }).map(([k, l]) => { const vs = vids.filter((v) => (v.subject || "") === k); return vs.length ? `<div class="xs subtle" style="font-weight:700;margin:12px 0 6px">${l.toUpperCase()}</div>${vs.map(vidRow).join("")}` : ""; }).join("") : ui.ylt === "playlists" ? (pls.length ? pls.map((p) => `<div class="xs subtle" style="font-weight:700;margin:12px 0 6px">${esc(p.toUpperCase())}</div>${vids.filter((v) => (v.playlists || []).includes(p)).map(vidRow).join("")}`).join("") : empty("No playlists", "Open a saved lesson and add it to a playlist.")) : vids.map(vidRow).join(""))}`;
+};
+const vidRow = (v) => `<div class="item"><div class="grow"><a href="#youtube--${v.id}" class="t" style="display:block;color:rgb(var(--fg));text-decoration:none">${esc(v.title)}</a><div class="s">${v.subject ? SUBJ[v.subject].n + " · " : ""}${(v.notes || []).length} note(s)${v.watched ? " · watched" : ""}${(v.playlists || []).length ? " · " + v.playlists.map(esc).join(", ") : ""}</div></div><a class="btn s sm" target="_blank" rel="noopener" href="${ytUrl(v.vid, v.pos)}">${svg("play", 13)}${v.pos ? "Resume" : "Watch"}</a></div>`;
+PAGES.youtube.after = (arg) => {
+  if (arg) return videoAfter(arg);
+  $("#ytf").onsubmit = (e) => { e.preventDefault(); const q = $("#ytq").value.trim(); if (!q) return; const a = document.createElement("a"); a.href = "https://www.youtube.com/results?search_query=" + encodeURIComponent(q); a.target = "_blank"; a.rel = "noopener"; document.body.appendChild(a); a.click(); a.remove(); };
+  $("#ytadd").onsubmit = async (e) => { e.preventDefault(); const d = Object.fromEntries(new FormData(e.target)); const id = ytId(d.url); if (!id) return toast("That doesn't look like a YouTube link.", true); if (state.videos.some((v) => v.vid === id)) return toast("Already in your library."); try { await save("videos", { vid: id, title: d.title.trim(), subject: d.subject || null, notes: [], playlists: [], pos: 0, watched: false }); toast("Lesson saved."); render(); } catch (_) {} };
+  $("#ylt").onclick = (e) => { const b = e.target.closest("[data-t]"); if (b) { ui.ylt = b.dataset.t; render(); } };
+};
+function videoPage(id) {
+  const v = state.videos.find((x) => x.id === id); if (!v) return empty("Lesson not found", "", `<a class="btn sm" href="#youtube">Back</a>`);
+  const notes = [...(v.notes || [])].sort((a, b) => (a.t ?? -1) - (b.t ?? -1));
+  return `<a href="#youtube" class="small muted" style="text-decoration:none">← YouTube Learning</a>` + header("yt", v.title, (v.subject ? SUBJ[v.subject].n + " · " : "") + (v.watched ? "Watched" : "Not finished")) + `
+  <div class="grid g3"><div class="card span2"><div class="row wrap"><a class="btn" target="_blank" rel="noopener" href="${ytUrl(v.vid, v.pos)}">${svg("play", 16)}${v.pos ? "Resume at " + Math.floor(v.pos / 60) + ":" + String(v.pos % 60).padStart(2, "0") : "Watch on YouTube"}</a><button class="btn s" data-a="vwatched">${v.watched ? "Mark not watched" : "Mark watched"}</button><button class="btn s" data-a="vpl">Add to playlist</button><button class="btn g" data-a="vdel">${svg("trash", 15)}Remove</button></div>
+  <label class="f" style="margin-top:14px"><span>Where I stopped (mm:ss) — for “Resume”</span><input class="inp" id="vpos" style="max-width:140px" placeholder="12:30" value="${v.pos ? Math.floor(v.pos / 60) + ":" + String(v.pos % 60).padStart(2, "0") : ""}"></label>
+  <div class="ct" style="margin-top:8px"><h3>My notes & timestamps</h3><button class="r btn g sm" data-a="vcards" ${notes.length ? "" : "disabled"}>${svg("layers", 14)}Flashcards from notes</button></div>
+  <form id="vnf" class="row wrap"><input class="inp" id="vnt" style="width:90px" placeholder="mm:ss"><input class="inp grow te" id="vnc" placeholder="What did you learn at this point?" required><button class="btn">Add</button></form>
+  <div style="margin-top:12px">${notes.length ? notes.map((n, i) => `<div class="item">${n.t != null ? `<a class="chip" target="_blank" rel="noopener" href="${ytUrl(v.vid, n.t)}" style="text-decoration:none;color:rgb(var(--brand))">${Math.floor(n.t / 60)}:${String(n.t % 60).padStart(2, "0")}</a>` : '<span class="chip">note</span>'}<span class="grow small te" style="white-space:pre-wrap">${esc(n.c)}</span><button class="iconbtn" data-a="vndel" data-i="${v.notes.indexOf(n)}">${svg("trash", 14)}</button></div>`).join("") : '<p class="muted small">Your notes stay private and link to the moment in the video.</p>'}</div>
+  <p class="xs subtle">MEMORA doesn't watch or analyse the video — AI flashcards are made only from your own notes.</p></div>
+  <div class="card"><div class="ct"><h3>Organise</h3></div><label class="f"><span>Subject</span><select id="vsub"><option value="">—</option>${Object.entries(SUBJ).map(([k, s]) => `<option value="${k}" ${v.subject === k ? "selected" : ""}>${s.n}</option>`).join("")}</select></label><label class="f"><span>Chapter</span><select id="vch"><option value="">—</option>${CH.filter((c) => c.subject === v.subject).map((c) => `<option value="${c.id}" ${v.chapterId === c.id ? "selected" : ""}>${esc(c.title)}</option>`).join("")}</select></label><div class="xs muted">Playlists: ${(v.playlists || []).map(esc).join(", ") || "none"}</div></div></div>`;
+}
+function videoAfter(id) {
+  const v = state.videos.find((x) => x.id === id); if (!v) return;
+  const ts = (s) => { const m = String(s || "").match(/^(\d+):(\d{1,2})$/); return m ? +m[1] * 60 + +m[2] : null; };
+  $("#vnf").onsubmit = async (e) => { e.preventDefault(); const c = $("#vnc").value.trim(); if (!c) return; try { await save("videos", { ...v, notes: [...(v.notes || []), { t: ts($("#vnt").value), c }] }); render(); } catch (_) {} };
+  $("#vpos").onchange = async (e) => { const p = ts(e.target.value); try { await save("videos", { ...v, pos: p || 0 }); toast("Resume point saved."); render(); } catch (_) {} };
+  $("#vsub").onchange = async (e) => { try { await save("videos", { ...v, subject: e.target.value || null, chapterId: null }); render(); } catch (_) {} };
+  $("#vch").onchange = async (e) => { try { await save("videos", { ...v, chapterId: e.target.value || null }); } catch (_) {} };
+}
+
+// ============================================================ PAGES: flashcards (SM-2)
+function srs(c, r) {
+  let { ease = 2.5, interval = 0, reps = 0, lapses = 0 } = c, due;
+  if (r === 0) { lapses++; reps = 0; interval = 0; ease = Math.max(1.3, ease - 0.2); due = Date.now() + 600000; }
+  else { const q = [0, 3, 4, 5][r]; ease = Math.max(1.3, ease + (0.1 - (5 - q) * (0.08 + (5 - q) * 0.02))); reps++; interval = reps === 1 ? (r === 3 ? 3 : 1) : reps === 2 ? (r === 1 ? 3 : 6) : Math.round(interval * (r === 1 ? 1.2 : r === 3 ? ease * 1.3 : ease)); interval = Math.min(interval, 365); due = Date.now() + interval * 864e5; }
+  const st = reps === 0 ? "learning" : interval >= 21 ? "mastered" : interval >= 3 ? "review" : "learning";
+  return { ease: Math.round(ease * 100) / 100, interval, reps, lapses, state: st, due: new Date(due).toISOString(), reviewedAt: new Date().toISOString(), reviews: [...(c.reviews || []).slice(-30), { r, at: new Date().toISOString() }] };
+}
+const hard = (c) => (c.lapses || 0) >= 2 || (c.ease || 2.5) < 1.9;
+PAGES.flashcards = () => {
+  if (ui.session) return reviewPage();
+  const cards = state.flashcards, now = Date.now();
+  const st = { new: cards.filter((c) => (c.state || "new") === "new").length, learning: cards.filter((c) => c.state === "learning").length, review: cards.filter((c) => c.state === "review").length, difficult: cards.filter(hard).length, mastered: cards.filter((c) => c.state === "mastered").length };
+  const rec = [...cards.filter((c) => new Date(c.due || 0) <= now && (c.state || "new") !== "new").sort((a, b) => hard(b) - hard(a)), ...cards.filter((c) => (c.state || "new") === "new").slice(0, 10)];
+  const f = (ui.ff ||= { deck: "all", state: "all" }), decks = [...new Set(cards.map((c) => c.deck || "General"))];
+  const list = cards.filter((c) => (f.deck === "all" || c.deck === f.deck) && (f.state === "all" || (f.state === "difficult" ? hard(c) : f.state === "due" ? new Date(c.due || 0) <= now : (c.state || "new") === f.state)));
+  return header("layers", "Flashcards", "Spaced repetition: review each card just before you'd forget it.", `<button class="btn s" data-a="fgen">${svg("wand", 16)}Generate with AI</button><button class="btn" data-a="fnew">${svg("plus", 16)}New card</button>`) + `
+  <div class="grid g3" style="margin-bottom:16px"><div class="card span2"><div class="ct"><div class="i">${svg("flag")}</div><div><h3>Today's revision</h3><p>Recommended from your review schedule</p></div></div>${rec.length ? `<div class="row wrap"><b style="font-size:34px">${rec.length}</b><span class="muted small grow">cards — about ${Math.max(1, Math.round(rec.length / 4))} min</span><button class="btn" data-a="fstart">Start review</button></div>` : '<p class="muted small">All caught up! Come back later, or create cards.</p>'}</div>
+  <div class="card grid g3" style="gap:6px;text-align:center">${Object.entries(st).map(([k, v]) => `<button class="card" style="padding:8px" data-a="fstate" data-s="${k}"><b style="font-size:18px">${v}</b><div class="xs muted">${k}</div></button>`).join("")}<button class="card" style="padding:8px" data-a="fstate" data-s="all"><b style="font-size:18px">${cards.length}</b><div class="xs muted">total</div></button></div></div>
+  <div class="row wrap" style="margin-bottom:12px"><select id="fdeck" style="width:auto"><option value="all">All decks</option>${decks.map((d) => `<option ${f.deck === d ? "selected" : ""}>${esc(d)}</option>`).join("")}</select><select id="fst" style="width:auto">${["all", "due", "new", "learning", "review", "difficult", "mastered"].map((s) => `<option ${f.state === s ? "selected" : ""}>${s}</option>`).join("")}</select>${list.length ? `<button class="btn s sm" data-a="fstudy">Study these ${list.length}</button>` : ""}</div>
+  ${list.length ? `<div class="grid g3">${list.slice(0, 200).map((c) => `<div class="card" style="padding:14px"><div class="md te small" style="font-weight:600">${md(c.front)}</div><div class="md te small muted clamp3">${md(c.back)}</div><div class="row wrap" style="gap:5px;margin-top:8px"><span class="tag ${c.state === "mastered" ? "t-ok" : c.state === "review" ? "t-p" : c.state === "learning" ? "t-warn" : "t-brand"}">${c.state || "new"}</span>${hard(c) ? '<span class="tag t-danger">difficult</span>' : ""}${c.source && c.source !== "manual" ? '<span class="chip">✦ AI</span>' : ""}<span class="xs subtle trunc">${esc(c.deck || "General")}</span><span class="grow"></span><button class="iconbtn" data-a="fedit" data-id="${c.id}">${svg("edit", 14)}</button><button class="iconbtn" data-a="fdel" data-id="${c.id}">${svg("trash", 14)}</button></div></div>`).join("")}</div>` : empty("No flashcards here", "Make cards yourself, or generate them from a chapter or your notes.")}`;
+};
+PAGES.flashcards.after = () => { if (ui.session) return; $("#fdeck").onchange = (e) => { ui.ff.deck = e.target.value; render(); }; $("#fst").onchange = (e) => { ui.ff.state = e.target.value; render(); }; };
+function reviewPage() {
+  const s = ui.session, c = s.queue[s.i];
+  if (!c) return `<div class="card" style="max-width:620px;margin:40px auto;text-align:center;padding:40px"><div style="font-size:44px">🏆</div><h2>Session complete!</h2><p class="muted">${s.done} reviews · ${s.again} needed another look. Next reviews are scheduled automatically.</p><button class="btn" data-a="fexit">Done</button></div>`;
+  return `<div style="max-width:640px;margin:0 auto"><div class="row" style="margin-bottom:16px"><button class="iconbtn" data-a="fexit">${svg("x")}</button><div class="grow">${bar((s.i / s.queue.length) * 100)}</div><span class="small muted">${s.i}/${s.queue.length}</span></div>
+  <div class="flip ${s.flip ? "on" : ""}" data-a="fflip"><div class="in"><div class="card fc"><span class="chip" style="margin-bottom:12px">${esc(c.deck || "General")}</span><div class="md te" style="font-size:19px">${md(c.front)}</div><div class="xs subtle" style="margin-top:18px">Tap to reveal</div></div><div class="card fc bk" style="border-color:rgb(var(--brand)/.4)"><div class="xs" style="color:rgb(var(--brand));font-weight:700;margin-bottom:10px">ANSWER</div><div class="md te" style="font-size:17px">${md(c.back)}</div></div></div></div>
+  <div class="grid g4" style="margin-top:16px;gap:8px;${s.flip ? "" : "opacity:.35;pointer-events:none"}">${["Again", "Hard", "Good", "Easy"].map((l, r) => `<button class="card" style="padding:12px;text-align:center;border-color:${["rgb(var(--danger)/.5)", "rgb(var(--warn)/.5)", "rgb(var(--ok)/.5)", "rgb(var(--brand)/.5)"][r]}" data-a="frate" data-r="${r}"><b>${l}</b></button>`).join("")}</div></div>`;
+}
+function cardEditor(c = {}) {
+  modal(c.id ? "Edit flashcard" : "New flashcard", `<form id="cf"><label class="f"><span>Front (question) — $LaTeX$ works</span><textarea class="te" name="front" required>${esc(c.front || "")}</textarea></label><label class="f"><span>Back (answer)</span><textarea class="te" name="back" required>${esc(c.back || "")}</textarea></label>
+  <div class="grid g2" style="gap:12px"><label class="f"><span>Subject</span><select name="subject"><option value="">—</option>${Object.entries(SUBJ).map(([k, v]) => `<option value="${k}" ${c.subject === k ? "selected" : ""}>${v.n}</option>`).join("")}</select></label><label class="f"><span>Deck / chapter</span><input class="inp" name="deck" value="${esc(c.deck || "General")}"></label></div>
+  <div class="row" style="justify-content:flex-end"><button type="button" class="btn g" data-a="close">Cancel</button><button class="btn">Save</button></div></form>`);
+  $("#cf").onsubmit = async (e) => { e.preventDefault(); const d = Object.fromEntries(new FormData(e.target)); try { await save("flashcards", { state: "new", due: new Date().toISOString(), source: "manual", ...c, front: d.front.trim(), back: d.back.trim(), subject: d.subject || null, deck: d.deck.trim() || "General" }); closeModal(); toast(c.id ? "Card updated." : "Card created."); render(); } catch (_) {} };
+}
+function flashGenPicker() {
+  modal("Generate flashcards with AI", `<form id="fgf"><label class="f"><span>Source</span><select id="fgs"><option value="chapter">A syllabus chapter</option><option value="note">One of my notes</option><option value="text">Paste text</option></select></label>
+  <div id="fgx"></div><label class="f"><span>How many</span><select name="count">${[5, 10, 15, 20].map((n) => `<option ${n === 10 ? "selected" : ""}>${n}</option>`).join("")}</select></label>
+  <p class="xs muted">You review and edit every card before saving.</p><div class="row" style="justify-content:flex-end"><button type="button" class="btn g" data-a="close">Cancel</button><button class="btn">${svg("wand", 15)}Generate</button></div></form>`);
+  const x = $("#fgx"), sel = $("#fgs");
+  const draw = () => { x.innerHTML = sel.value === "chapter" ? `<label class="f"><span>Chapter</span><select name="ch">${CH.map((c) => `<option value="${c.id}">${SUBJ[c.subject].n} ${c.paper} · ${esc(c.title)}</option>`).join("")}</select></label>` : sel.value === "note" ? `<label class="f"><span>Note</span><select name="note">${state.notes.map((n) => `<option value="${n.id}">${esc(n.title)}</option>`).join("") || "<option value=''>No notes yet</option>"}</select></label>` : `<label class="f"><span>Text</span><textarea class="te" name="text" placeholder="Paste class notes or a textbook paragraph…"></textarea></label>`; };
+  sel.onchange = draw; draw();
+  $("#fgf").onsubmit = (e) => { e.preventDefault(); const d = Object.fromEntries(new FormData(e.target)); const count = +d.count;
+    if (sel.value === "chapter") { const c = chap(d.ch); flashGen({ source: "chapter", chapter: c, deck: c.title, subject: c.subject, count }); }
+    else if (sel.value === "note") { const n = state.notes.find((z) => z.id === d.note); if (!n) return toast("Choose a note.", true); flashGen({ source: "text", text: n.content, deck: n.title, subject: n.subject, count, from: "note" }); }
+    else { if ((d.text || "").trim().length < 40) return toast("Paste a bit more text.", true); flashGen({ source: "text", text: d.text, deck: "My text", count }); } };
+}
+async function flashGen(o) {
+  modal("Generating flashcards…", `<p class="muted"><span class="dots"><i></i><i></i><i></i></span> Writing cards${o.source === "chapter" ? " from standard textbook knowledge" : " from your material only"}…</p>`);
+  try {
+    const out = await askJSON(`Create ${o.count || 10} high-quality study flashcards ${o.source === "chapter" ? `for the Intermediate chapter "${o.chapter.title}" (${o.chapter.subject}), using only well-established textbook facts` : "using ONLY facts in the material below; never invent"}. ${LANG_TXT[state.profile.lang]} Each card tests ONE idea (definition, formula in $LaTeX$, law, unit, reaction or key fact). Return JSON {"cards":[{"front":"...","back":"..."}]}.${o.text ? `\n\nMATERIAL:\n"""\n${o.text.slice(0, 20000)}\n"""` : ""}`, { modelTier: "default" });
+    const cards = (out.cards || []).filter((c) => c && c.front && c.back).slice(0, 25);
+    if (!cards.length) throw new Error("No cards could be made from this source.");
+    modal("Review generated flashcards", `<div class="row" style="margin-bottom:10px"><span class="tag t-brand">✦ AI-generated</span><span class="xs muted grow">Untick any card you don't want. Edit text freely.</span></div><div id="fglist" style="max-height:55vh;overflow:auto">${cards.map((c, i) => `<div class="card" style="padding:10px;margin-bottom:8px"><label class="row xs"><input type="checkbox" checked data-i="${i}"> Keep</label><div class="grid g2" style="gap:8px;margin-top:6px"><textarea class="te" data-f="${i}" style="min-height:60px">${esc(c.front)}</textarea><textarea class="te" data-b="${i}" style="min-height:60px">${esc(c.back)}</textarea></div></div>`).join("")}</div><div class="row" style="justify-content:flex-end;margin-top:10px"><button class="btn g" data-a="close">Cancel</button><button class="btn" id="fgsave">Save selected</button></div>`, true);
+    $("#fgsave").onclick = async () => {
+      const keep = cards.map((c, i) => ({ front: $(`[data-f="${i}"]`).value.trim(), back: $(`[data-b="${i}"]`).value.trim(), keep: $(`[data-i="${i}"]`).checked })).filter((c) => c.keep && c.front && c.back);
+      try { for (const c of keep) await save("flashcards", { front: c.front, back: c.back, deck: (o.deck || "General").slice(0, 80), subject: o.subject || null, state: "new", due: new Date().toISOString(), source: o.from || "ai" }); closeModal(); toast(`Saved ${keep.length} flashcard${keep.length === 1 ? "" : "s"}.`); render(); } catch (_) {}
+    };
+  } catch (e) { closeModal(); toast(e.message, true); }
+}
+
+// ============================================================ PAGES: quizzes
+function quizForm(subject, ch) {
+  return `<form id="qzf" class="grid g3" style="gap:10px">${subject ? `<input type="hidden" name="subject" value="${subject}">` : `<label class="f"><span>Subject</span><select name="subject" id="qzs">${Object.entries(SUBJ).map(([k, v]) => `<option value="${k}">${v.n}</option>`).join("")}</select></label>`}
+  <label class="f"><span>Chapter</span><select name="ch" id="qzc"><option value="">Whole subject (level-wise)</option>${CH.filter((c) => c.subject === (subject || "mathematics")).map((c) => `<option value="${c.id}" ${c.id === ch ? "selected" : ""}>${c.paper} · ${esc(c.title)}</option>`).join("")}</select></label>
+  <label class="f"><span>Level</span><select name="level">${Object.entries(LEVELS).map(([k, v]) => `<option value="${k}" ${k === state.profile.level ? "selected" : ""}>${v}</option>`).join("")}</select></label>
+  <label class="f"><span>Difficulty</span><select name="difficulty"><option>easy</option><option selected>medium</option><option>hard</option></select></label>
+  <label class="f"><span>Questions</span><select name="count">${[5, 10, 15, 20].map((n) => `<option ${n === 10 ? "selected" : ""}>${n}</option>`).join("")}</select></label>
+  <div class="row" style="align-items:flex-end;padding-bottom:12px"><button class="btn" ${ui.busy ? "disabled" : ""}>${svg("wand", 15)}${ui.busy ? "Writing your quiz…" : "Generate quiz"}</button></div></form><span class="tag t-brand">✦ AI-generated practice — not official EAPCET questions</span>`;
+}
+function quizFormAfter() {
+  const f = $("#qzf"); if (!f) return;
+  if ($("#qzs")) $("#qzs").onchange = (e) => { $("#qzc").innerHTML = `<option value="">Whole subject (level-wise)</option>` + CH.filter((c) => c.subject === e.target.value).map((c) => `<option value="${c.id}">${c.paper} · ${esc(c.title)}</option>`).join(""); };
+  f.onsubmit = async (e) => {
+    e.preventDefault(); if (ui.busy) return; const d = Object.fromEntries(new FormData(f)); const c = chap(d.ch);
+    const chs = c ? [c] : CH.filter((x) => x.subject === d.subject && (d.level === "eapcet" || x.year === (d.level === "inter1" ? 1 : 2)));
+    ui.busy = true; render();
+    try {
+      const out = await askJSON(`Write ${d.count} accurate multiple-choice practice questions for ${LEVELS[d.level]} (${d.level === "eapcet" ? "entrance level, conceptual + quick numerical" : "board level"}). Subject: ${d.subject}. Difficulty: ${d.difficulty}. Chapters: ${chs.map((x) => x.title).join("; ")}.
+Rules: exactly 4 options; exactly one correct (answer = 0-based index); plausible distractors; vary the correct position; every LaTeX command inside a matching pair of $ signs in questions AND options; solve each numerical yourself before writing options; short explanation with the working; "topic" = chapter/sub-topic. These are original AI practice questions — never claim they're official or previous-year.
+Return JSON {"questions":[{"question":"...","options":["...","...","...","..."],"answer":0,"explanation":"...","topic":"..."}]}`, { modelTier: "default" });
+      const qs = (out.questions || []).filter((q) => q && q.question && Array.isArray(q.options) && q.options.length === 4 && Number.isInteger(q.answer) && q.answer >= 0 && q.answer < 4);
+      if (qs.length < 3) throw new Error("The AI couldn't produce a valid quiz — please try again.");
+      const quiz = await save("quizzes", { title: `${c ? c.title : SUBJ[d.subject].n} · ${d.difficulty} practice`, subject: d.subject, level: d.level, difficulty: d.difficulty, limit: Math.round(qs.length * (d.level === "eapcet" ? 60 : 90)), questions: qs, attempts: [] });
+      ui = { take: quiz.id }; go("quizzes--" + quiz.id);
+    } catch (err) { toast(err.message, true); }
+    ui.busy = false; render();
+  };
+}
+PAGES.quizzes = (arg) => {
+  if (arg) return quizTake(arg);
+  const qs = [...state.quizzes].sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+  return header("list", "Quizzes", "Timed practice tests with explanations and topic-wise analysis.") + `<div class="card" style="margin-bottom:18px"><div class="ct"><div class="i">${svg("wand")}</div><div><h3>Create a practice test</h3><p>Choose subject, chapter, level and difficulty</p></div></div>${quizForm(null)}</div>
+  <h2 style="font-size:17px">Your tests</h2>${qs.length ? `<div class="grid g3">${qs.map((q) => { const last = (q.attempts || []).at(-1); return `<div class="card" style="padding:14px"><a href="#quizzes--${q.id}" style="color:rgb(var(--fg));font-weight:600;text-decoration:none">${esc(q.title)}</a><div class="row wrap" style="gap:5px;margin:8px 0"><span class="tag t-${SUBJ[q.subject]?.c || "brand"}">${SUBJ[q.subject]?.n || ""}</span><span class="chip">${q.questions.length} Q</span><span class="chip">${q.difficulty}</span><span class="tag t-brand">✦ AI</span></div><div class="small muted">${last ? `Last score <b style="color:rgb(var(--fg))">${last.score}/${last.total}</b> · ${q.attempts.length} attempt(s)` : "Not attempted yet"}</div><div class="row" style="margin-top:10px"><span class="xs subtle grow">${rel(q.createdAt)}</span><button class="iconbtn" data-a="qdel" data-id="${q.id}">${svg("trash", 14)}</button><a class="btn sm ${last ? "s" : ""}" href="#quizzes--${q.id}" style="text-decoration:none">${last ? "Retake" : "Start"}</a></div></div>`; }).join("")}</div>` : empty("No quizzes yet", "Generate your first practice test above.")}`;
+};
+PAGES.quizzes.after = (arg) => { if (!arg) quizFormAfter(); else quizAfter(arg); };
+function quizTake(id) {
+  const q = state.quizzes.find((x) => x.id === id); if (!q) return empty("Quiz not found", "", `<a class="btn sm" href="#quizzes">Back</a>`);
+  const t = ui.qt;
+  if (!t) return `<a href="#quizzes" class="small muted" style="text-decoration:none">← Quizzes</a><div class="card" style="max-width:640px;margin:20px auto;text-align:center;padding:32px"><h2 style="margin-top:0">${esc(q.title)}</h2><div class="row wrap" style="justify-content:center;gap:5px"><span class="chip">${LEVELS[q.level]}</span><span class="chip">${q.difficulty}</span><span class="tag t-brand">✦ AI-generated practice</span></div><div class="grid g2" style="max-width:300px;margin:20px auto;gap:10px"><div class="card"><b style="font-size:20px">${q.questions.length}</b><div class="xs muted">questions</div></div><div class="card"><b style="font-size:20px">${Math.round(q.limit / 60)} min</b><div class="xs muted">time limit</div></div></div><p class="xs muted">One mark each, no negative marking. Mark questions for review and move freely. These are AI-written practice questions, not official or previous-year papers.</p><button class="btn" data-a="qstart">Start test</button></div>`;
+  if (t.result) return quizResult(q, t.result);
+  const cur = q.questions[t.i], left = Math.max(0, q.limit - Math.round((Date.now() - t.start) / 1000));
+  return `<div class="card row" style="position:sticky;top:8px;z-index:5;padding:10px 14px;margin-bottom:12px"><b class="small">Question ${t.i + 1}/${q.questions.length}</b><div class="grow">${bar((t.ans.filter((a) => a !== null).length / q.questions.length) * 100)}</div><b id="qclock" style="font-family:ui-monospace,monospace">${Math.floor(left / 60)}:${String(left % 60).padStart(2, "0")}</b></div>
+  <div class="grid g3"><div class="card span2"><span class="chip">${esc(cur.topic || "General")}</span><div class="md te" style="font-weight:500;margin:10px 0">${md(cur.question)}</div>${cur.options.map((o, i) => `<button class="item" data-a="qans" data-i="${i}" style="width:100%;text-align:left;${t.ans[t.i] === i ? "border-color:rgb(var(--brand));background:rgb(var(--brand)/.1)" : ""}"><b style="width:26px;height:26px;border-radius:50%;display:grid;place-items:center;flex:none;${t.ans[t.i] === i ? "background:rgb(var(--brand));color:#fff" : "border:1px solid rgb(var(--border))"}">${"ABCD"[i]}</b><span class="md te grow">${md(o)}</span></button>`).join("")}
+  <div class="row wrap" style="margin-top:12px"><button class="btn g sm" data-a="qmark">${svg("flag", 14)}${t.mark[t.i] ? "Marked for review" : "Mark for review"}</button><span class="grow"></span><button class="btn s sm" data-a="qprev" ${t.i ? "" : "disabled"}>‹ Previous</button>${t.i < q.questions.length - 1 ? `<button class="btn sm" data-a="qnext">Next ›</button>` : `<button class="btn sm" data-a="qsubmit">Submit</button>`}</div></div>
+  <div class="card"><div class="xs subtle" style="font-weight:700;margin-bottom:8px">QUESTIONS</div><div class="grid" style="grid-template-columns:repeat(5,1fr);gap:5px">${q.questions.map((_, i) => `<button class="card xs" data-a="qgo" data-i="${i}" style="padding:7px 0;${i === t.i ? "border-color:rgb(var(--brand))" : ""};${t.ans[i] !== null ? "background:rgb(var(--brand)/.15);color:rgb(var(--brand))" : ""}">${i + 1}${t.mark[i] ? "•" : ""}</button>`).join("")}</div><button class="btn s" style="width:100%;margin-top:12px" data-a="qsubmit">Submit test</button></div></div>`;
+}
+let qTimer;
+function quizAfter(id) {
+  clearInterval(qTimer); const q = state.quizzes.find((x) => x.id === id), t = ui.qt; if (!q || !t || t.result) return;
+  qTimer = setInterval(() => { const el = $("#qclock"); if (!el) return clearInterval(qTimer); const left = Math.max(0, q.limit - Math.round((Date.now() - t.start) / 1000)); el.textContent = `${Math.floor(left / 60)}:${String(left % 60).padStart(2, "0")}`; if (left <= 0) { clearInterval(qTimer); submitQuiz(q, true); } }, 1000);
+}
+async function submitQuiz(q, auto) {
+  const t = ui.qt, un = t.ans.filter((a) => a === null).length;
+  if (!auto && un && !t.confirm) { t.confirm = 1; toast(`${un} unanswered — press Submit again to finish.`); return; }
+  clearInterval(qTimer);
+  const topics = {}; let correct = 0;
+  q.questions.forEach((x, i) => { const k = x.topic || "General"; (topics[k] ||= { c: 0, n: 0 }).n++; if (t.ans[i] === x.answer) { correct++; topics[k].c++; } });
+  const r = { score: correct, total: q.questions.length, correct, incorrect: q.questions.length - correct - un, unanswered: un, time: Math.min(q.limit, Math.round((Date.now() - t.start) / 1000)), topics, answers: t.ans, at: new Date().toISOString() };
+  t.result = r; if (auto) toast("Time's up — your test was submitted.");
+  try { await save("quizzes", { ...q, attempts: [...(q.attempts || []), r] }); } catch (_) { toast("Result couldn't be saved.", true); }
+  render(); window.scrollTo(0, 0);
+}
+function quizResult(q, r) {
+  const acc = Math.round((r.correct / r.total) * 100), tops = Object.entries(r.topics).map(([k, v]) => [k, v, Math.round((v.c / v.n) * 100)]).sort((a, b) => a[2] - b[2]);
+  return `<a href="#quizzes" class="small muted" style="text-decoration:none">← Quizzes</a><div class="card row wrap" style="margin:12px 0;gap:20px">${ring(acc, 110, acc >= 75 ? "rgb(var(--ok))" : acc >= 50 ? "rgb(var(--warn))" : "rgb(var(--danger))")}<div class="grow"><h2 style="margin:0">${acc >= 85 ? "Excellent work! 🎉" : acc >= 60 ? "Good effort — keep going!" : "Keep practising — you'll get there."}</h2><p class="muted small">${esc(q.title)}</p><div class="grid g4" style="gap:8px">${[["Marks", r.score + "/" + r.total], ["Correct", r.correct], ["Incorrect", r.incorrect], ["Time", Math.floor(r.time / 60) + ":" + String(r.time % 60).padStart(2, "0")]].map(([l, v]) => `<div class="card" style="padding:8px;text-align:center"><b>${v}</b><div class="xs muted">${l}</div></div>`).join("")}</div><p class="xs muted">Unanswered: ${r.unanswered} · accuracy on attempted: ${r.correct + r.incorrect ? Math.round((r.correct / (r.correct + r.incorrect)) * 100) : 0}%</p></div><button class="btn s" data-a="qstart">Retake</button></div>
+  <div class="grid g2" style="margin-bottom:16px"><div class="card"><div class="ct"><h3>Topic-wise performance</h3></div>${tops.map(([k, v, p]) => `<div style="margin-bottom:10px"><div class="row xs" style="justify-content:space-between"><span>${esc(k)}</span><span class="muted">${v.c}/${v.n}</span></div>${bar(p)}</div>`).join("")}</div><div class="card"><div class="ct"><h3>Suggested revision</h3></div>${tops.filter((x) => x[2] < 60).map(([k, , p]) => `<div class="item"><span class="grow small">${esc(k)} (${p}%)</span><a class="xs" target="_blank" rel="noopener" href="https://www.youtube.com/results?search_query=${encodeURIComponent(k + " " + q.subject + " intermediate")}">Find a lesson</a></div>`).join("") || '<p class="muted small">No weak topics in this test. Try a harder level next!</p>'}<p class="xs subtle">Based only on this attempt.</p></div></div>
+  <div class="card"><div class="ct"><h3>Answers & explanations</h3><p class="r xs">AI-generated practice — verify anything that looks wrong.</p></div>${q.questions.map((x, i) => `<div class="card" style="padding:12px;margin-bottom:8px;border-color:${r.answers[i] === x.answer ? "rgb(var(--ok)/.4)" : r.answers[i] === null ? "" : "rgb(var(--danger)/.4)"}"><div class="md te small"><b>Q${i + 1}.</b> ${md(x.question)}</div><div class="grid g2" style="gap:6px">${x.options.map((o, j) => `<div class="small md te" style="padding:6px 10px;border-radius:9px;border:1px solid ${j === x.answer ? "rgb(var(--ok)/.6);background:rgb(var(--ok)/.1)" : j === r.answers[i] ? "rgb(var(--danger)/.6);background:rgb(var(--danger)/.1)" : "rgb(var(--border)/.6)"}"><b>${"ABCD"[j]}.</b> ${md(o)}</div>`).join("")}</div><div class="md te small muted" style="margin-top:6px"><b>Explanation:</b> ${md(x.explanation)}</div></div>`).join("")}</div>`;
+}
+
+// ============================================================ PAGES: progress
+PAGES.progress = () => {
+  const today = dayKey(new Date()), n = ui.range || 28, days = [...Array(n)].map((_, i) => addDays(today, i - n + 1));
+  const inR = (iso, a, b) => { const k = dayKey(iso); return k >= a && k <= b; };
+  const st = Object.keys(SUBJ).map((s) => ({ s, ...subjStats(s) })), tot = st.reduce((a, x) => a + x.total, 0), done = st.reduce((a, x) => a + x.done, 0);
+  const daily = days.map((d) => { const r = { d }; Object.keys(SUBJ).concat("general").forEach((s) => (r[s] = state.logs.filter((l) => dayKey(l.at) === d && (l.subject || "general") === s).reduce((a, l) => a + l.minutes, 0))); r.tot = r.mathematics + r.physics + r.chemistry + r.general; return r; });
+  const max = Math.max(30, ...daily.map((r) => r.tot)), totalMin = daily.reduce((a, r) => a + r.tot, 0);
+  const attempts = state.quizzes.flatMap((q) => (q.attempts || []).map((a) => ({ ...a, title: q.title }))).sort((a, b) => a.at.localeCompare(b.at));
+  const asg = state.tasks.filter((t) => t.kind === "assignment"), asgDone = asg.filter((t) => t.status === "completed").length;
+  const revs = state.tasks.filter((t) => t.kind === "revision" && t.startAt && new Date(t.startAt) <= new Date()), revDone = revs.filter((t) => t.status === "completed").length;
+  const reviews = state.flashcards.flatMap((c) => c.reviews || []);
+  // weekly summary from recorded data only
+  const w0 = addDays(today, -6), w1a = addDays(today, -13), w1b = addDays(today, -7), sum = [];
+  const mm = (a, b, s) => state.logs.filter((l) => inR(l.at, a, b) && (!s || l.subject === s)).reduce((x, l) => x + l.minutes, 0);
+  const tm = mm(w0, today), lm = mm(w1a, w1b);
+  if (tm || lm) sum.push([tm >= lm ? "▲" : "▼", `You studied ${mins(tm)} this week${lm ? ` (${mins(lm)} the week before)` : ""}.`]);
+  Object.entries(SUBJ).forEach(([s, v]) => { const a = mm(w0, today, s), b = mm(w1a, w1b, s); if (a && b && a > b * 1.2) sum.push(["▲", `Your ${v.n} study time improved this week (${mins(b)} → ${mins(a)}).`]); if (b && a < b * 0.6) sum.push(["▼", `${v.n} study time dropped this week (${mins(b)} → ${mins(a)}).`]); });
+  const cd = state.progress.filter((p) => p.completedAt && inR(p.completedAt, w0, today)).length; if (cd) sum.push(["▲", `You completed ${cd} chapter${cd > 1 ? "s" : ""} this week.`]);
+  const qa = attempts.filter((a) => inR(a.at, w0, today)); if (qa.length) sum.push(["•", `Average quiz score this week: ${Math.round((qa.reduce((x, a) => x + a.score / a.total, 0) / qa.length) * 100)}% over ${qa.length} test(s).`]);
+  const rv = reviews.filter((r) => inR(r.at, w0, today)).length; if (rv) sum.push(["•", `${rv} flashcard review${rv > 1 ? "s" : ""} completed this week.`]);
+  const col = { mathematics: "rgb(var(--math))", physics: "rgb(var(--phys))", chemistry: "rgb(var(--chem))", general: "rgb(var(--subtle))" };
+  return header("trend", "Progress", `${LEVELS[state.profile.level]} · built only from what you've recorded`, `<div class="tabs" id="rng"><button data-n="7" class="${n === 7 ? "on" : ""}">7 days</button><button data-n="28" class="${n === 28 ? "on" : ""}">28 days</button></div>`) + `
+  <div class="card" style="margin-bottom:16px"><div class="ct"><div class="i">${svg("trend")}</div><div><h3>Weekly summary</h3><p>Compared with the previous 7 days</p></div></div>${sum.length ? sum.map(([i, t]) => `<div class="small" style="margin-bottom:6px"><b style="color:${i === "▲" ? "rgb(var(--ok))" : i === "▼" ? "rgb(var(--warn))" : "rgb(var(--subtle))"}">${i}</b> ${esc(t)}</div>`).join("") : '<p class="muted small">Not enough activity recorded yet. Log study sessions, complete chapters, take quizzes or review flashcards — your summary appears here.</p>'}</div>
+  <div class="grid g4" style="margin-bottom:16px">${[["Chapters completed", `${done}/${tot}`, `${tot - done} pending`], [`Study time (${n} days)`, mins(totalMin), mins(Math.round(totalMin / n)) + " per day"], ["Quizzes taken", attempts.length, attempts.length ? "avg " + Math.round((attempts.reduce((a, x) => a + x.score / x.total, 0) / attempts.length) * 100) + "%" : "—"], ["Assignments done", `${asgDone}/${asg.length}`, asg.length ? Math.round((asgDone / asg.length) * 100) + "% complete" : "—"]].map(([l, v, s]) => `<div class="card"><div class="xs muted">${l}</div><b style="font-size:22px;display:block;margin:6px 0 2px">${v}</b><div class="xs subtle">${s}</div></div>`).join("")}</div>
+  <div class="grid g3"><div class="card"><div class="ct"><h3>Syllabus progress</h3></div><div style="text-align:center">${ring(tot ? (done / tot) * 100 : 0, 120)}</div>${st.map((x) => `<div style="margin-top:12px"><div class="row xs" style="justify-content:space-between;margin-bottom:4px"><b>${SUBJ[x.s].n}</b><span class="muted">${x.done} done · ${x.ip} in progress · ${x.pending} pending</span></div>${bar(x.pct)}</div>`).join("")}</div>
+  <div class="card span2"><div class="ct"><h3>Study time by day</h3><p class="r xs">from the study timer</p></div>${totalMin ? `<div style="display:flex;align-items:flex-end;gap:${n > 7 ? 3 : 10}px;height:200px">${daily.map((r) => `<div style="flex:1;display:flex;flex-direction:column;justify-content:flex-end;height:100%" title="${r.d}: ${mins(r.tot)}">${["general", "chemistry", "physics", "mathematics"].map((s) => r[s] ? `<div style="height:${(r[s] / max) * 180}px;background:${col[s]}"></div>` : "").join("")}<div class="xs subtle" style="text-align:center;height:16px;overflow:hidden">${n === 7 || +r.d.slice(8) % 4 === 1 ? +r.d.slice(8) : ""}</div></div>`).join("")}</div><div class="row wrap xs muted" style="gap:10px;margin-top:8px">${Object.entries(col).map(([k, c]) => `<span><i style="display:inline-block;width:9px;height:9px;border-radius:2px;background:${c}"></i> ${k === "general" ? "General" : SUBJ[k].n}</span>`).join("")}</div>` : empty("No study time logged in this period", "Use “Study session” on the dashboard or planner to record time.")}</div>
+  <div class="card span2"><div class="ct"><h3>Quiz scores</h3></div>${attempts.length ? `<svg viewBox="0 0 400 140" style="width:100%;height:160px"><polyline fill="none" stroke="rgb(var(--brand))" stroke-width="2.5" points="${attempts.map((a, i) => `${attempts.length > 1 ? (i / (attempts.length - 1)) * 380 + 10 : 200},${130 - (a.score / a.total) * 120}`).join(" ")}"/>${attempts.map((a, i) => `<circle cx="${attempts.length > 1 ? (i / (attempts.length - 1)) * 380 + 10 : 200}" cy="${130 - (a.score / a.total) * 120}" r="4" fill="rgb(var(--brand))"><title>${esc(a.title)}: ${Math.round((a.score / a.total) * 100)}%</title></circle>`).join("")}</svg>` : empty("No quiz attempts yet", "")}</div>
+  <div class="card"><div class="ct"><h3>Revision completion</h3></div><div class="row xs" style="justify-content:space-between"><span>Scheduled revision sessions done</span><span class="muted">${revDone}/${revs.length}</span></div>${bar(revs.length ? (revDone / revs.length) * 100 : 0)}<div class="row xs" style="justify-content:space-between;margin-top:12px"><span>Assignments completed</span><span class="muted">${asgDone}/${asg.length}</span></div>${bar(asg.length ? (asgDone / asg.length) * 100 : 0)}<div class="row xs" style="justify-content:space-between;margin-top:12px"><span>Flashcard reviews (all time)</span><span class="muted">${reviews.length}</span></div></div></div>`;
+};
+PAGES.progress.after = () => { $("#rng").onclick = (e) => { const b = e.target.closest("[data-n]"); if (b) { ui.range = +b.dataset.n; render(); } }; };
+
+// ============================================================ PAGES: notifications
+PAGES.notifications = () => {
+  const ns = notifications(), list = ui.unread ? ns.filter((x) => !x.read) : ns;
+  return header("bell", "Notifications", "Reminders, deadlines, revision and exam alerts — made from your own schedule.", `<button class="btn s" data-a="nreadall">${svg("check", 16)}Mark all read</button>`) + `
+  <div class="note i small" style="margin-bottom:14px">Alerts appear here and in the sidebar badge while you have MEMORA open. Phone push alerts aren't available for artifact pages.</div>
+  <div class="tabs" id="ntab" style="margin-bottom:14px"><button data-u="0" class="${ui.unread ? "" : "on"}">All</button><button data-u="1" class="${ui.unread ? "on" : ""}">Unread (${ns.filter((x) => !x.read).length})</button></div>
+  ${list.length ? list.map((x) => `<a class="card row" href="${x.link}" data-a="nread" data-k="${esc(x.key)}" style="text-decoration:none;color:inherit;margin-bottom:8px;padding:12px;${x.read ? "" : "border-color:rgb(var(--brand)/.35)"}"><div class="i" style="width:36px;height:36px;border-radius:11px;display:grid;place-items:center;background:rgb(var(--brand)/.12);color:rgb(var(--brand))">${svg("bell", 17)}</div><div class="grow"><div class="small" style="font-weight:${x.read ? 400 : 700}">${esc(x.type)}: ${esc(x.title)}</div>${x.body ? `<div class="xs muted">${esc(x.body)}</div>` : ""}</div></a>`).join("") : empty(ui.unread ? "You're all caught up" : "No notifications", "Add due dates and reminders in the planner, schedule chapter revisions, or add flashcards — alerts appear automatically.")}`;
+};
+PAGES.notifications.after = () => { $("#ntab").onclick = (e) => { const b = e.target.closest("[data-u]"); if (b) { ui.unread = b.dataset.u === "1"; render(); } }; };
+
+// ============================================================ PAGES: settings
+PAGES.settings = () => {
+  const p = state.profile;
+  return header("cog", "Settings", "Your profile, study preferences and data") + `<form id="setf"><div class="grid g2">
+  <div class="card"><div class="ct"><h3>Profile</h3></div><label class="f"><span>Your name</span><input class="inp" name="name" value="${esc(p.name)}" maxlength="80"></label><p class="xs muted">You're signed in with your Claude account — that's your MEMORA login. Your data is stored privately for your account${state.cloud ? "" : " (currently this browser only)"}.</p></div>
+  <div class="card"><div class="ct"><h3>Study preferences</h3></div><div class="grid g2" style="gap:12px"><label class="f"><span>Level</span><select name="level">${Object.entries(LEVELS).map(([k, v]) => `<option value="${k}" ${k === p.level ? "selected" : ""}>${v}</option>`).join("")}</select></label><label class="f"><span>AI answer language</span><select name="lang">${Object.entries(LANGS).map(([k, v]) => `<option value="${k}" ${k === p.lang ? "selected" : ""}>${v}</option>`).join("")}</select></label><label class="f"><span>Exam name</span><input class="inp" name="examName" value="${esc(p.examName)}" placeholder="AP EAPCET 2027"></label><label class="f"><span>Exam date</span><input class="inp" type="date" name="examDate" value="${esc(p.examDate)}"></label><label class="f"><span>Daily goal (minutes)</span><input class="inp" type="number" name="goal" min="0" max="960" value="${p.goal || 120}"></label><label class="f"><span>Timezone</span><select name="timezone">${[...new Set([p.timezone, "Asia/Kolkata", "Asia/Dubai", "Asia/Singapore", "Europe/London", "America/New_York", "America/Los_Angeles", "Australia/Sydney", "UTC"])].map((t) => `<option ${t === p.timezone ? "selected" : ""}>${t}</option>`).join("")}</select></label></div></div>
+  <div class="card"><div class="ct"><h3>Appearance</h3></div><div class="tabs" id="thm">${["dark", "light", "system"].map((t) => `<button type="button" data-t="${t}" class="${(p.theme || "dark") === t ? "on" : ""}">${t[0].toUpperCase() + t.slice(1)}</button>`).join("")}</div></div>
+  <div class="card"><div class="ct"><h3>Your data</h3></div><button type="button" class="btn s" data-a="export">${svg("copy", 15)}Copy all my data (JSON)</button><div class="card" style="margin-top:12px;border-color:rgb(var(--danger)/.35)"><b class="small" style="color:rgb(var(--danger))">Delete all my data</b><p class="xs muted">Removes every memory, chat, note, task, flashcard, quiz and video from your account.</p><button type="button" class="btn d sm" data-a="wipe">Delete everything</button></div></div>
+  </div><div class="row" style="justify-content:flex-end;margin-top:16px"><button class="btn">Save changes</button></div></form>`;
+};
+PAGES.settings.after = () => {
+  $("#setf").onsubmit = async (e) => { e.preventDefault(); const d = Object.fromEntries(new FormData(e.target)); Object.assign(state.profile, { name: d.name.trim(), level: d.level, lang: d.lang, examName: d.examName.trim(), examDate: d.examDate, goal: +d.goal || 120, timezone: d.timezone }); await saveProfile(); toast("Settings saved."); render(); };
+  $("#thm").onclick = async (e) => { const b = e.target.closest("[data-t]"); if (!b) return; state.profile.theme = b.dataset.t; applyTheme(b.dataset.t); render(); await saveProfile(); };
+};
+
+// ============================================================ global click actions
+document.addEventListener("click", async (e) => {
+  const el = e.target.closest("[data-a]"); if (!el) return;
+  const a = el.dataset.a, id = el.dataset.id;
+  const task = () => state.tasks.find((t) => t.id === id);
+  switch (a) {
+    case "close": closeModal(); break;
+    case "closebg": if (e.target === el) closeModal(); break;
+    case "more": modal("All sections", `<div class="grid" style="gap:8px;grid-template-columns:repeat(3,minmax(0,1fr))">${NAV.map(([h, l, ic]) => `<a href="#${h}" class="card qa" style="text-decoration:none" data-a="close">${`<span>${svg(ic)}</span>`}${l}</a>`).join("")}</div>`); break;
+    case "newmem": memoryEditor(); break;
+    case "openmem": openMemory(id); break;
+    case "editmem": memoryEditor(state.memories.find((m) => m.id === id)); break;
+    case "pinmem": { const m = state.memories.find((x) => x.id === id); await save("memories", { ...m, pinned: !m.pinned }); closeModal(); toast(m.pinned ? "Unpinned." : "Pinned."); render(); break; }
+    case "archmem": { const m = state.memories.find((x) => x.id === id); await save("memories", { ...m, archived: !m.archived, pinned: false }); closeModal(); toast(m.archived ? "Restored." : "Archived."); render(); break; }
+    case "delmem": confirmBox("Delete this memory permanently?", async () => { await remove("memories", id); toast("Memory deleted."); render(); }); break;
+    case "voice": voiceModal(); break;
+    case "goai": go("assistant"); break;
+    case "goyt": go("youtube"); break;
+    case "newnote": { const n = await save("notes", { title: "Untitled note", content: "", subject: null, tags: [], pinned: false, fav: false }); ui = {}; go("notes--" + n.id); break; }
+    case "newtask": taskEditor(el.dataset.k ? { kind: el.dataset.k } : {}); break;
+    case "edittask": taskEditor(task()); break;
+    case "deltask": confirmBox("Delete this item?", async () => { await remove("tasks", id); render(); }); break;
+    case "done": await completeTask(task()); break;
+    case "postpone": { const t = task(), sh = (s) => (s ? new Date(new Date(s).getTime() + 864e5).toISOString() : null); await save("tasks", { ...t, startAt: sh(t.startAt), dueAt: sh(t.dueAt), remindAt: sh(t.remindAt) }); toast("Moved to the next day."); render(); break; }
+    case "timer": timerModal(id ? task() : null); break;
+    case "ptab": ui.ptab = el.dataset.t; render(); break;
+    case "woff": ui.woff = (ui.woff || 0) + +el.dataset.d; render(); break;
+    case "mon": { const [y, m] = (ui.ym || dayKey(new Date()).slice(0, 7)).split("-").map(Number); ui.ym = new Date(Date.UTC(y, m - 1 + +el.dataset.d, 1)).toISOString().slice(0, 7); render(); break; }
+    case "selday": ui.selDay = el.dataset.d; render(); break;
+    case "setexam": go("settings"); break;
+    case "psub": case "ptime": case "prest": { const f = ui.plan, k = { psub: "subjects", ptime: "times", prest: "rest" }[a], v = a === "prest" ? +el.dataset.v : el.dataset.v; f[k] = f[k].includes(v) ? f[k].filter((x) => x !== v) : [...f[k], v]; render(); break; }
+    case "pdiscard": ui.plan.draft = null; render(); break;
+    case "psave": { const pid = uid(); try { for (const s of ui.plan.draft) await save("tasks", { ...s, planId: pid, status: "not_started", priority: "medium", recurrence: "none", description: "From your AI study plan" }); toast(`Saved ${ui.plan.draft.length} study sessions.`); ui.plan.draft = null; ui.ptab = "week"; render(); } catch (_) {} break; }
+    // chat
+    case "newchat": ui.conv = null; ui.saveDraft = null; render(); break;
+    case "openchat": ui.conv = id; ui.saveDraft = null; render(); break;
+    case "delchat": confirmBox("Delete this conversation?", async () => { await remove("convs", id); if (ui.conv === id) ui.conv = null; render(); }); break;
+    case "renchat": { const c = state.convs.find((x) => x.id === id); modal("Rename conversation", `<form id="rnf"><input class="inp" id="rni" maxlength="120" value="${esc(c.title)}"><div class="row" style="justify-content:flex-end;margin-top:12px"><button class="btn">Save</button></div></form>`); $("#rnf").onsubmit = async (ev) => { ev.preventDefault(); await save("convs", { ...c, title: $("#rni").value.trim() || c.title }); closeModal(); render(); }; break; }
+    case "clearchat": { const c = state.convs.find((x) => x.id === ui.conv); confirmBox("Clear all messages in this conversation?", async () => { await save("convs", { ...c, messages: [] }); render(); }, "Clear"); break; }
+    case "sugg": sendChat(el.textContent); break;
+    case "copymsg": { const c = state.convs.find((x) => x.id === ui.conv); try { await navigator.clipboard.writeText(c.messages[+el.dataset.i].content); toast("Copied."); } catch (_) { toast("Copy isn't allowed here.", true); } break; }
+    case "regen": sendChat("", true); break;
+    case "savedraft": memoryEditor({ ...ui.saveDraft, source: "chat" }); ui.saveDraft = null; break;
+    case "dropdraft": ui.saveDraft = null; render(); break;
+    // study
+    case "chopen": ui.openCh = ui.openCh === id ? null : id; render(); break;
+    case "chstat": { const s = progOf(id)?.status || "not_started"; await setProgress(id, { status: s === "not_started" ? "in_progress" : s === "in_progress" ? "completed" : "not_started" }, s === "in_progress" ? "Chapter completed! 🎉" : null); break; }
+    case "chstar": await setProgress(id, { important: !progOf(id)?.important }); break;
+    case "chsave": await setProgress(id, { notes: $("#chn").value, revisionDue: $("#chr").value || null }, "Chapter notes saved."); break;
+    case "chtutor": { const c = chap(id); ui.stab = "tutor"; ui.tutor = { subject: c.subject, ch: id, q: `Explain the chapter "${c.title}" — key concepts, important formulas and typical exam questions.`, lang: state.profile.lang, style: "exam", nb: false, ans: "" }; render(); break; }
+    case "chquiz": ui.stab = "practice"; ui.openCh = id; render(); break;
+    case "chcards": { const c = chap(id); flashGen({ source: "chapter", chapter: c, deck: c.title, subject: c.subject, count: 10 }); break; }
+    case "fexplain": ui.stab = "tutor"; ui.tutor = { ...(ui.tutor || {}), subject: route().arg, q: `Explain the formula "${el.dataset.n}": $${el.dataset.t}$`, style: "formula", nb: false, lang: state.profile.lang, ans: "" }; render(); break;
+    case "el": ui.el = +el.dataset.z; render(); break;
+    case "tcopy": try { await navigator.clipboard.writeText(ui.tutor.ans); toast("Copied."); } catch (_) { toast("Copy isn't allowed here.", true); } break;
+    case "tsave": { const n = await save("notes", { title: ui.tutor.asked.slice(0, 100), content: `**Question:** ${ui.tutor.asked}\n\n${ui.tutor.ans}\n\n---\n_AI tutor answer saved from MEMORA Study Centre._`, subject: SUBJ[ui.tutor.subject] ? ui.tutor.subject : null, tags: ["ai-tutor"], pinned: false, fav: false }); toast("Saved to your notes."); void n; break; }
+    case "tprint": modal("Printable answer", `<p class="xs muted noprint">Printing from inside an artifact isn't allowed. Take a screenshot, or use Copy and paste the answer into a document.</p><div class="notebook"><div class="md te">${md(ui.tutor.ans)}</div></div>`, true); break;
+    // notes
+    case "npin": case "nfav": { const n = state.notes.find((x) => x.id === route().arg); await save("notes", { ...n, [a === "npin" ? "pinned" : "fav"]: !n[a === "npin" ? "pinned" : "fav"] }); render(); break; }
+    case "ndel": confirmBox("Delete this note permanently?", async () => { await remove("notes", route().arg); go("notes"); }); break;
+    case "nfmt": { const ta = $("#nbody"); if (!ta) break; const b = el.dataset.b, en = el.dataset.e, s = ta.selectionStart, f = ta.selectionEnd, v = ta.value; ta.value = v.slice(0, s) + b + (v.slice(s, f) || "text") + en + v.slice(f); ta.dispatchEvent(new Event("input")); ta.focus(); break; }
+    case "nai": noteAI(state.notes.find((x) => x.id === route().arg), el.dataset.k); break;
+    case "noutsave": { const n = state.notes.find((x) => x.id === route().arg); await save("notes", { title: `${ui.nout.label} — ${n.title}`.slice(0, 200), content: ui.nout.text + "\n\n---\n_AI-generated from your note._", subject: n.subject, tags: ["ai-generated"], pinned: false, fav: false }); toast("Saved as a new note."); break; }
+    // youtube
+    case "vwatched": { const v = state.videos.find((x) => x.id === route().arg); await save("videos", { ...v, watched: !v.watched }); render(); break; }
+    case "vdel": confirmBox("Remove this lesson and its notes?", async () => { await remove("videos", route().arg); go("youtube"); }); break;
+    case "vndel": { const v = state.videos.find((x) => x.id === route().arg); await save("videos", { ...v, notes: v.notes.filter((_, i) => i !== +el.dataset.i) }); render(); break; }
+    case "vpl": { const v = state.videos.find((x) => x.id === route().arg); modal("Add to playlist", `<form id="plf"><input class="inp" id="pli" list="pll" placeholder="Playlist name, e.g. Electrostatics revision" required><datalist id="pll">${[...new Set(state.videos.flatMap((x) => x.playlists || []))].map((p) => `<option value="${esc(p)}">`).join("")}</datalist><div class="row" style="justify-content:flex-end;margin-top:12px"><button class="btn">Add</button></div></form>`); $("#plf").onsubmit = async (ev) => { ev.preventDefault(); const p = $("#pli").value.trim(); await save("videos", { ...v, playlists: [...new Set([...(v.playlists || []), p])] }); closeModal(); toast("Added to " + p + "."); render(); }; break; }
+    case "vcards": { const v = state.videos.find((x) => x.id === route().arg); flashGen({ source: "text", text: (v.notes || []).map((n) => n.c).join("\n"), deck: v.title.slice(0, 80), subject: v.subject, count: 8, from: "video" }); break; }
+    // flashcards
+    case "fnew": cardEditor(); break;
+    case "fedit": cardEditor(state.flashcards.find((c) => c.id === id)); break;
+    case "fdel": confirmBox("Delete this flashcard?", async () => { await remove("flashcards", id); render(); }); break;
+    case "fgen": flashGenPicker(); break;
+    case "fstate": ui.ff = { ...(ui.ff || { deck: "all" }), state: el.dataset.s }; render(); break;
+    case "fstart": case "fstudy": { const now = Date.now(), cards = state.flashcards; const q = a === "fstart" ? [...cards.filter((c) => new Date(c.due || 0) <= now && (c.state || "new") !== "new").sort((x, y) => hard(y) - hard(x)), ...cards.filter((c) => (c.state || "new") === "new").slice(0, 10)] : cards.filter((c) => (ui.ff.deck === "all" || c.deck === ui.ff.deck)); ui.session = { queue: q, i: 0, flip: false, done: 0, again: 0 }; render(); break; }
+    case "fflip": ui.session.flip = !ui.session.flip; $(".flip")?.classList.toggle("on", ui.session.flip); const rb = $(".grid.g4"); if (rb) { rb.style.opacity = ui.session.flip ? 1 : 0.35; rb.style.pointerEvents = ui.session.flip ? "" : "none"; } break;
+    case "frate": { const s = ui.session, c = s.queue[s.i], r = +el.dataset.r; try { const upd = { ...c, ...srs(c, r) }; await save("flashcards", upd); s.done++; if (r === 0) { s.again++; s.queue.push(upd); } s.i++; s.flip = false; render(); } catch (_) {} break; }
+    case "fexit": ui.session = null; render(); break;
+    // quizzes
+    case "qdel": confirmBox("Delete this quiz and its results?", async () => { await remove("quizzes", id); render(); }); break;
+    case "qstart": { const q = state.quizzes.find((x) => x.id === route().arg); ui.qt = { i: 0, ans: Array(q.questions.length).fill(null), mark: Array(q.questions.length).fill(false), start: Date.now() }; render(); break; }
+    case "qans": { const i = +el.dataset.i; ui.qt.ans[ui.qt.i] = ui.qt.ans[ui.qt.i] === i ? null : i; ui.qt.confirm = 0; render(); break; }
+    case "qmark": ui.qt.mark[ui.qt.i] = !ui.qt.mark[ui.qt.i]; render(); break;
+    case "qprev": ui.qt.i--; render(); break;
+    case "qnext": ui.qt.i++; render(); break;
+    case "qgo": ui.qt.i = +el.dataset.i; render(); break;
+    case "qsubmit": submitQuiz(state.quizzes.find((x) => x.id === route().arg)); break;
+    // notifications
+    case "nread": { const k = el.dataset.k; state.profile.readNotifs = [...new Set([...(state.profile.readNotifs || []), k])].slice(-300); saveProfile(); break; }
+    case "nreadall": state.profile.readNotifs = [...new Set([...(state.profile.readNotifs || []), ...notifications().map((x) => x.key)])].slice(-300); await saveProfile(); render(); break;
+    // settings
+    case "export": { const data = { exportedAt: new Date().toISOString(), profile: state.profile }; COLLS.forEach((c) => (data[c] = state[c])); try { await navigator.clipboard.writeText(JSON.stringify(data, null, 2)); toast("All your data was copied as JSON — paste it into a file to keep a backup."); } catch (_) { modal("Your data (JSON)", `<p class="xs muted">Select all and copy:</p><textarea style="min-height:50vh;font-family:ui-monospace,monospace;font-size:12px">${esc(JSON.stringify(data, null, 2))}</textarea>`, true); } break; }
+    case "wipe": confirmBox("This permanently deletes ALL your memories, chats, notes, tasks, flashcards, quizzes and videos.", async () => { for (const c of COLLS) for (const x of [...state[c]]) await remove(c, x.id); toast("All your data has been deleted."); render(); }, "Delete everything"); break;
+  }
+});
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape" && $("#modal").innerHTML) closeModal();
+  if (ui.session && !$("#modal").innerHTML) { if (e.key === " ") { e.preventDefault(); $(".flip")?.click(); } if (ui.session.flip && "1234".includes(e.key) && e.key.length === 1) $(`[data-a="frate"][data-r="${+e.key - 1}"]`)?.click(); }
+});
+init();
+</script>
+</body>
+</html>
