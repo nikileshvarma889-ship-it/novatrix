@@ -99,6 +99,8 @@ label.f{display:block;margin-bottom:12px}label.f>span{display:block;font-size:11
 .amsg{display:flex;gap:10px;margin:14px 0}.amsg .md{flex:1;min-width:0}
 .composer{border-top:1px solid rgb(var(--border)/.7);padding:12px;display:flex;gap:8px;align-items:flex-end}
 .composer textarea{min-height:44px;max-height:160px}
+.imgprev{display:flex;align-items:center;gap:10px;padding:8px 12px 0}.imgprev img{height:64px;border-radius:10px;border:1px solid rgb(var(--border))}
+.msgimg{display:block;max-width:220px;max-height:220px;border-radius:12px;margin:0 0 6px auto;border:1px solid rgb(255 255 255/.25)}
 .dots i{display:inline-block;width:7px;height:7px;margin:0 2px;border-radius:50%;background:rgb(var(--brand));animation:b 1s infinite}.dots i:nth-child(2){animation-delay:.15s}.dots i:nth-child(3){animation-delay:.3s}
 @keyframes b{0%,100%{opacity:.3;transform:none}50%{opacity:1;transform:translateY(-3px)}}
 /* flip */
@@ -161,6 +163,7 @@ const I = {
   refresh: '<path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8M21 3v5h-5M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16M8 16H3v5"/>',
   ext: '<path d="M15 3h6v6M10 14 21 3M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>', wand: '<path d="m21.64 3.64-1.28-1.28a1.21 1.21 0 0 0-1.72 0L2.36 18.64a1.21 1.21 0 0 0 0 1.72l1.28 1.28a1.2 1.2 0 0 0 1.72 0L21.64 5.36a1.2 1.2 0 0 0 0-1.72M14 7l3 3M5 6v4M19 14v4M10 2v2M7 8H3M21 16h-4M11 3H9"/>',
   print: '<path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect width="12" height="8" x="6" y="14"/>',
+  camera: '<path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/>',
   clock: '<circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>', flag: '<path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1zM4 22v-7"/>',
 };
 const svg = (n, s = 18) => `<svg class="ic" viewBox="0 0 24 24" width="${s}" height="${s}" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${I[n] || ""}</svg>`;
@@ -517,7 +520,7 @@ function reviewItem(s, text) {
 }
 
 // ============================================================ PAGES: assistant
-const SUGG = ["What was my Physics assignment?", "What do I have due this week?", "Explain Newton's second law with an example, in English and Telugu", "Make a 7-day revision plan for Chemistry", "Solve: a car accelerates from 10 m/s to 30 m/s in 5 s. Find a and the distance.", "Remember that I prefer explanations in English and Telugu"];
+const SUGG = ["📷 Tap the camera to solve a question from a photo", "What was my Physics assignment?", "What do I have due this week?", "Explain Newton's second law with an example, in English and Telugu", "Make a 7-day revision plan for Chemistry", "Solve: a car accelerates from 10 m/s to 30 m/s in 5 s. Find a and the distance.", "Remember that I prefer explanations in English and Telugu"];
 PAGES.assistant = () => {
   const convs = [...state.convs].sort((a, b) => b.updatedAt.localeCompare(a.updatedAt));
   const cur = state.convs.find((c) => c.id === ui.conv) || null;
@@ -526,13 +529,14 @@ PAGES.assistant = () => {
     ${convs.length ? convs.map((c) => `<div class="row" style="gap:2px;border-radius:10px;${c.id === ui.conv ? "background:rgb(var(--brand)/.12)" : ""}"><button class="iconbtn grow" style="text-align:left" data-a="openchat" data-id="${c.id}"><div class="trunc small" style="color:rgb(var(--fg))">${esc(c.title)}</div><div class="xs subtle">${rel(c.updatedAt)}</div></button><button class="iconbtn" data-a="renchat" data-id="${c.id}" title="Rename">${svg("edit", 14)}</button><button class="iconbtn" data-a="delchat" data-id="${c.id}" title="Delete">${svg("trash", 14)}</button></div>`).join("") : '<p class="xs muted">Your conversations appear here.</p>'}</div>
   <section class="card pane"><div class="row" style="padding:10px 14px;border-bottom:1px solid rgb(var(--border)/.6)"><select id="convpick" class="noprint" style="width:auto;max-width:45%;display:${convs.length ? "" : "none"}"><option value="">New conversation</option>${convs.map((c) => `<option value="${c.id}" ${c.id === ui.conv ? "selected" : ""}>${esc(c.title.slice(0, 40))}</option>`).join("")}</select><b class="small grow trunc">${esc(cur?.title || "New conversation")}</b>
     <select id="alang" style="width:auto">${Object.entries(LANGS).map(([k, v]) => `<option value="${k}" ${k === (ui.lang || state.profile.lang) ? "selected" : ""}>${v}</option>`).join("")}</select>${cur ? `<button class="iconbtn" data-a="clearchat" title="Clear conversation">${svg("trash", 16)}</button>` : ""}</div>
-    <div class="msgs" id="msgs">${msgs.length ? msgs.map(renderMsg).join("") : `<div style="max-width:620px;margin:30px auto;text-align:center">${LOGO}<h2 style="margin:12px 0 4px">How can I help you today?</h2><p class="muted small">Ask about your saved memories, your schedule, or any Maths, Physics or Chemistry concept. I answer from your own data and tell you when something isn't saved.</p><div class="grid g2" style="gap:8px;margin-top:16px;text-align:left">${SUGG.map((s) => `<button class="card small muted" style="padding:11px 13px;text-align:left" data-a="sugg">${esc(s)}</button>`).join("")}</div></div>`}
+    <div class="msgs" id="msgs">${msgs.length ? msgs.map(renderMsg).join("") : `<div style="max-width:620px;margin:30px auto;text-align:center">${LOGO}<h2 style="margin:12px 0 4px">How can I help you today?</h2><p class="muted small">Ask about your saved memories, your schedule, or any Maths, Physics or Chemistry concept. I answer from your own data and tell you when something isn't saved.</p><div class="grid g2" style="gap:8px;margin-top:16px;text-align:left">${SUGG.map((s) => `<button class="card small muted" style="padding:11px 13px;text-align:left" data-a="${s.startsWith("📷") ? "pickimg" : "sugg"}">${esc(s)}</button>`).join("")}</div></div>`}
     ${ui.saveDraft ? `<div class="card" style="border-color:rgb(var(--brand)/.4);margin-left:40px"><div class="xs" style="color:rgb(var(--brand));font-weight:700">SAVE AS MEMORY? — not saved yet</div><div class="te small" style="margin:4px 0">${esc(ui.saveDraft.title)}</div><div class="row"><button class="btn sm" data-a="savedraft">Review & confirm</button><button class="btn g sm" data-a="dropdraft">Dismiss</button></div></div>` : ""}</div>
-    <form class="composer" id="chatf"><textarea class="te grow" id="chatin" rows="1" placeholder="Message MEMORA… (Shift+Enter for a new line)"></textarea><button class="btn" style="height:44px;width:44px;padding:0" ${ui.busy ? "disabled" : ""} aria-label="Send">${svg("send", 18)}</button></form>
+    ${ui.img ? `<div class="imgprev"><img src="${ui.img.url}" alt="Attached question"><div class="grow small muted">Photo attached — I'll read it and solve it. Add a note if you like.</div><button class="iconbtn" data-a="rmimg" title="Remove photo">${svg("x", 16)}</button></div>` : ""}
+    <form class="composer" id="chatf"><label class="btn s" style="height:44px;width:44px;padding:0;flex:none" title="Upload or take a photo of a question" aria-label="Upload image">${svg("camera", 19)}<input type="file" id="chatimg" accept="image/*" hidden></label><textarea class="te grow" id="chatin" rows="1" placeholder="Ask MEMORA or attach a photo…"></textarea><button class="btn" style="height:44px;width:44px;padding:0" ${ui.busy ? "disabled" : ""} aria-label="Send">${svg("send", 18)}</button></form>
     <div class="xs subtle" style="text-align:center;padding:0 0 8px">AI can make mistakes — check important facts. MEMORA only uses your own saved data.</div></section></div>`;
 };
 function renderMsg(m, i, arr) {
-  if (m.role === "user") return `<div class="bub te" style="margin:12px 0 12px auto">${esc(m.content)}</div><div class="xs subtle" style="text-align:right">${fmtT(m.at)}</div>`;
+  if (m.role === "user") { const url = imgCache[m.at]; return `${url ? `<img class="msgimg" src="${url}" alt="Attached image">` : m.img ? `<div style="text-align:right"><span class="chip">${svg("camera", 12)} photo</span></div>` : ""}<div class="bub te" style="margin:6px 0 12px auto">${esc(m.content)}</div><div class="xs subtle" style="text-align:right">${fmtT(m.at)}</div>`; }
   const last = i === arr.length - 1;
   return `<div class="amsg"><div style="flex:none">${LOGO.replace('width="34" height="34"', 'width="28" height="28"')}</div><div class="grow"><div class="md te" id="${m.pending ? "streaming" : ""}">${m.pending && !m.content ? '<span class="dots"><i></i><i></i><i></i></span>' : md(m.content)}</div>
   ${(m.sources || []).length ? `<div class="row wrap" style="gap:5px;margin-top:6px"><span class="xs subtle">From your saved data:</span>${m.sources.map((s) => `<a class="chip" href="${s.kind === "memory" ? "#memories--" + s.id : s.kind === "note" ? "#notes--" + s.id : "#planner"}">[${esc(s.ref)}] ${esc(s.title)}</a>`).join("")}</div>` : ""}
@@ -543,16 +547,24 @@ PAGES.assistant.after = () => {
   ta.onkeydown = (e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); sendChat(ta.value); } };
   $("#chatf").onsubmit = (e) => { e.preventDefault(); sendChat(ta.value); };
   $("#alang").onchange = (e) => (ui.lang = e.target.value);
+  $("#chatimg").onchange = async (e) => { const f = e.target.files?.[0]; e.target.value = ""; if (!f) return; if (!/^image\//.test(f.type)) return toast("Please choose an image.", true); try { const blob = await shrinkImage(f); if (ui.img) URL.revokeObjectURL(ui.img.url); ui.img = { blob, url: URL.createObjectURL(blob) }; render(); $("#chatin")?.focus(); } catch (_) { toast("That image couldn't be opened. Try a JPG or PNG photo.", true); } };
   $("#convpick").onchange = (e) => { ui.conv = e.target.value || null; ui.saveDraft = null; render(); };
   if (pendingAsk) { const q = pendingAsk; pendingAsk = null; sendChat(q); }
 };
 async function sendChat(text, regen = false) {
-  text = (text || "").trim(); if ((!text && !regen) || ui.busy) return;
+  text = (text || "").trim();
+  const img = regen ? null : ui.img;
+  if ((!text && !img && !regen) || ui.busy) return;
+  if (img) {
+    const lim = await state.ai?.limits?.().catch(() => null);
+    if (!state.ai || !lim?.images) { toast("Reading images isn't available in this view. Open the page on claude.ai (signed in) and try again.", true); return; }
+    if (!text) text = "Read the question in this image and solve it.";
+  }
   let conv = state.convs.find((c) => c.id === ui.conv);
   if (!conv) { conv = { id: uid(), title: text.slice(0, 60), messages: [] }; ui.conv = conv.id; }
   conv = { ...conv, messages: [...conv.messages] };
   if (regen) { while (conv.messages.length && conv.messages.at(-1).role === "assistant") conv.messages.pop(); text = conv.messages.at(-1)?.content || ""; }
-  else conv.messages.push({ role: "user", content: text, at: new Date().toISOString() });
+  else { const at = new Date().toISOString(); conv.messages.push({ role: "user", content: text, at, img: !!img }); if (img) { imgCache[at] = img.url; ui.img = null; } }
   const saveIntent = /^\s*(please\s+)?(remember|save|note down|keep in mind|don'?t forget)\b/i.test(text) && !regen;
   // retrieve the user's own data
   const mems = searchMemories(text, 6), kw = keywords(text);
@@ -567,7 +579,8 @@ async function sendChat(text, regen = false) {
   const system = `You are MEMORA, a warm, precise personal memory assistant and study tutor for ${state.profile.name || "a student"} (${LEVELS[state.profile.level]}, Andhra Pradesh/Telangana boards and EAPCET). Now: ${fmtDT(new Date())} (${TZ()}).
 ${LANG_TXT[lang]}
 ${FORMAT}
-PERSONAL DATA RULES: "USER'S SAVED DATA" below is the ONLY personal information you have. Cite it like [M1]. Clearly separate (1) what the user saved (cite), (2) what you infer ("I infer…"), (3) suggestions ("Suggestion:"). NEVER invent memories, notes, tasks, dates or people. If the answer isn't in the saved data, say plainly "I couldn't find that in your saved memories." You cannot save anything yourself. ${saveIntent ? 'The user wants something remembered: reply in 1–2 sentences that you prepared it and they should tap "Review & confirm" on the card below. Do NOT say it is saved.' : "Never claim you saved anything."} For study questions answer accurately with steps. Never call AI-generated practice questions official or previous-year EAPCET questions.
+PERSONAL DATA RULES: "USER'S SAVED DATA" below is the ONLY personal information you have. Cite it like [M1]. Clearly separate (1) what the user saved (cite), (2) what you infer ("I infer…"), (3) suggestions ("Suggestion:"). NEVER invent memories, notes, tasks, dates or people. If the answer isn't in the saved data, say plainly "I couldn't find that in your saved memories." You cannot save anything yourself. ${saveIntent ? 'The user wants something remembered: reply in 1–2 sentences that you prepared it and they should tap "Review & confirm" on the card below. Do NOT say it is saved.' : "Never claim you saved anything."} For study questions answer accurately with steps. Never call AI-generated practice questions official or previous-year EAPCET questions.${img ? `
+IMAGE ATTACHED: the user attached a photo (homework, textbook or exam question). First write "**Question (from your photo):**" and transcribe it exactly, with all values, units and options, using LaTeX. If any part is unreadable or cut off, say which part and state your assumption instead of guessing silently. Then solve it fully: Given → Formula → numbered steps with every substitution and calculation → **Final Answer** (and the correct option letter if it is multiple choice). Re-check the arithmetic and units before giving the final answer. If the image has no question, describe what you see and ask what they need.` : ""}
 USER'S SAVED DATA:
 ${blocks.join("\n\n") || "(nothing relevant found)"}`;
   const history = conv.messages.slice(-12).map((m) => ({ role: m.role, content: m.content }));
@@ -577,7 +590,7 @@ ${blocks.join("\n\n") || "(nothing relevant found)"}`;
   conv.messages.push(pending);
   ui.busy = true; tmpConv(conv); render();
   try {
-    const text2 = await ask(history.length === 1 ? history[0].content : history, { onText: ({ text }) => { pending.content = text; const el = $("#streaming"); if (el) { el.innerHTML = md(text); } const ms = $("#msgs"); if (ms) ms.scrollTop = ms.scrollHeight; } });
+    const text2 = await ask(history.length === 1 ? history[0].content : history, { ...(img ? { images: [img.blob], modelTier: "complex" } : {}), onText: ({ text }) => { pending.content = text; const el = $("#streaming"); if (el) { el.innerHTML = md(text); } const ms = $("#msgs"); if (ms) ms.scrollTop = ms.scrollHeight; } });
     pending.content = text2; delete pending.pending;
     pending.sources = sources.filter((s) => text2.includes(`[${s.ref}]`));
     ui.busy = false;
@@ -585,9 +598,18 @@ ${blocks.join("\n\n") || "(nothing relevant found)"}`;
     if (saveIntent) ui.saveDraft = { title: text.replace(/^\s*(please\s+)?(remember|save|note down|keep in mind|don'?t forget)( that)?\s*/i, "").slice(0, 80) || text.slice(0, 80), content: text };
   } catch (e) {
     ui.busy = false; conv.messages = conv.messages.filter((m) => !m.pending);
+    if (img && !ui.img) ui.img = img; // keep the photo so they can retry
     tmpConv(conv); toast(e.message, true);
   }
   render(); const i = $("#chatin"); if (i) i.focus();
+}
+const imgCache = {}; // photos shown in this visit (not stored: keeps your account storage small)
+async function shrinkImage(file, max = 1600) {
+  const bmp = await createImageBitmap(file);
+  const k = Math.min(1, max / Math.max(bmp.width, bmp.height));
+  const c = document.createElement("canvas"); c.width = Math.round(bmp.width * k); c.height = Math.round(bmp.height * k);
+  c.getContext("2d").drawImage(bmp, 0, 0, c.width, c.height);
+  return await new Promise((res, rej) => c.toBlob((b) => (b ? res(b) : rej(new Error("encode"))), "image/jpeg", 0.88));
 }
 function tmpConv(conv) { const i = state.convs.findIndex((c) => c.id === conv.id); if (i >= 0) state.convs[i] = { ...conv, updatedAt: new Date().toISOString() }; else state.convs.push({ ...conv, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() }); }
 
@@ -1130,10 +1152,12 @@ document.addEventListener("click", async (e) => {
     case "renchat": { const c = state.convs.find((x) => x.id === id); modal("Rename conversation", `<form id="rnf"><input class="inp" id="rni" maxlength="120" value="${esc(c.title)}"><div class="row" style="justify-content:flex-end;margin-top:12px"><button class="btn">Save</button></div></form>`); $("#rnf").onsubmit = async (ev) => { ev.preventDefault(); await save("convs", { ...c, title: $("#rni").value.trim() || c.title }); closeModal(); render(); }; break; }
     case "clearchat": { const c = state.convs.find((x) => x.id === ui.conv); confirmBox("Clear all messages in this conversation?", async () => { await save("convs", { ...c, messages: [] }); render(); }, "Clear"); break; }
     case "sugg": sendChat(el.textContent); break;
+    case "pickimg": $("#chatimg")?.click(); break;
     case "copymsg": { const c = state.convs.find((x) => x.id === ui.conv); try { await navigator.clipboard.writeText(c.messages[+el.dataset.i].content); toast("Copied."); } catch (_) { toast("Copy isn't allowed here.", true); } break; }
     case "regen": sendChat("", true); break;
     case "savedraft": memoryEditor({ ...ui.saveDraft, source: "chat" }); ui.saveDraft = null; break;
     case "dropdraft": ui.saveDraft = null; render(); break;
+    case "rmimg": if (ui.img) URL.revokeObjectURL(ui.img.url); ui.img = null; render(); break;
     // study
     case "chopen": ui.openCh = ui.openCh === id ? null : id; render(); break;
     case "chstat": { const s = progOf(id)?.status || "not_started"; await setProgress(id, { status: s === "not_started" ? "in_progress" : s === "in_progress" ? "completed" : "not_started" }, s === "in_progress" ? "Chapter completed! 🎉" : null); break; }
