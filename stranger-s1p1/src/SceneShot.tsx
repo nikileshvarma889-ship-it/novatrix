@@ -2,7 +2,7 @@ import React from "react";
 import { AbsoluteFill, interpolate, random, useCurrentFrame, useVideoConfig } from "remotion";
 import timeline from "./timeline.json";
 import { Basement, Canvas3D, House, Lab, RainWoods, Road, Search } from "./Scenes3D";
-import { Glitch, Grade, Line, Rain, Subtitles } from "./Overlays";
+import { Glitch, Grade, Rain } from "./Overlays";
 
 type Sc = (typeof timeline.scenes)[number] & Record<string, unknown>;
 export const SCENES = timeline.scenes as unknown as Sc[];
@@ -60,7 +60,6 @@ export const SceneShot: React.FC<{ id: string }> = ({ id }) => {
   const { fps } = useVideoConfig();
   const t = frame / fps;
   const d = sc.dur as number;
-  const lines = sc.lines as unknown as Line[];
   const n = (k: string) => sc[k] as number;
   let shot: React.ReactNode = null;
   const inner: number[] = [];
@@ -104,7 +103,6 @@ export const SceneShot: React.FC<{ id: string }> = ({ id }) => {
         <Grade strength={grade} />
       </AbsoluteFill>
       {over.filter((o) => (o as React.ReactElement).key !== "r")}
-      {lines.length ? <Subtitles lines={lines} /> : null}
       <Glitch at={0} len={0.3} strength={0.6} />
       {inner.map((c) => <Glitch key={c} at={c} len={0.3} strength={0.9} />)}
     </AbsoluteFill>
