@@ -1,0 +1,212 @@
+{
+  "fps": 30,
+  "duration": 69.8,
+  "title": "S1 | PART 1 – THE DISAPPEARANCE",
+  "series": "STRANGER THINGS",
+  "scenes": [
+    {
+      "id": "s1",
+      "name": "Hawkins lab",
+      "lines": [
+        {
+          "key": "s1_0",
+          "who": "NARRATOR",
+          "text": "1983. Hawkins, Indiana.",
+          "sub": "1983… Hawkins, Indiana.",
+          "radio": false,
+          "fiction": false,
+          "label": "",
+          "dur": 3.066,
+          "start": 1.2
+        },
+        {
+          "key": "s1_1",
+          "who": "NARRATOR",
+          "text": "ఒక secret laboratory లో, something terrifying జరిగింది.",
+          "sub": "Oka secret laboratory lo… something terrifying jarigindi.",
+          "radio": false,
+          "fiction": false,
+          "label": "",
+          "dur": 4.191,
+          "start": 4.566
+        }
+      ],
+      "dur": 9.057,
+      "start": 0.0,
+      "doorsAt": 7.56
+    },
+    {
+      "id": "s2",
+      "name": "The game",
+      "lines": [
+        {
+          "key": "s2_0",
+          "who": "NARRATOR",
+          "text": "Meanwhile, Mike, Dustin, Lucas, and Will, Dungeons and Dragons ఆడుతున్నారు.",
+          "sub": "Meanwhile… Mike, Dustin, Lucas, and Will… Dungeons and Dragons aaduthunnaru.",
+          "radio": false,
+          "fiction": false,
+          "label": "",
+          "dur": 5.806,
+          "start": 0.3
+        }
+      ],
+      "dur": 6.506,
+      "start": 9.057,
+      "rollAt": 3.49
+    },
+    {
+      "id": "s3",
+      "name": "The ride home",
+      "lines": [
+        {
+          "key": "s3_0",
+          "who": "NARRATOR",
+          "text": "Game అయ్యాక, Will bicycle మీద ఇంటికి return అవుతున్నాడు.",
+          "sub": "Game ayyaka… Will bicycle meeda intiki return avuthunnadu.",
+          "radio": false,
+          "fiction": false,
+          "label": "",
+          "dur": 4.299,
+          "start": 0.3
+        },
+        {
+          "key": "s3_1",
+          "who": "NARRATOR",
+          "text": "But ఆ night, అతని life completely change అయ్యింది.",
+          "sub": "But aa night… athani life completely change ayyindi.",
+          "radio": false,
+          "fiction": false,
+          "label": "",
+          "dur": 4.363,
+          "start": 4.899
+        },
+        {
+          "key": "s3_2",
+          "who": "NARRATOR",
+          "text": "Dark forest లో, ఒక mysterious creature, Will ని chase చేసింది.",
+          "sub": "Dark forest lo… oka mysterious creature… Will ni chase chesindi.",
+          "radio": false,
+          "fiction": false,
+          "label": "",
+          "dur": 4.837,
+          "start": 9.612
+        }
+      ],
+      "dur": 16.349,
+      "start": 15.563,
+      "seeAt": 9.31,
+      "crashAt": 12.61,
+      "shedAt": 14.91
+    },
+    {
+      "id": "s4",
+      "name": "Joyce searches",
+      "lines": [
+        {
+          "key": "s4_0",
+          "who": "NARRATOR",
+          "text": "Next morning, Will Byers missing.",
+          "sub": "Next morning… Will Byers missing.",
+          "radio": false,
+          "fiction": false,
+          "label": "",
+          "dur": 3.128,
+          "start": 0.4
+        },
+        {
+          "key": "s4_1",
+          "who": "NARRATOR",
+          "text": "His mother Joyce, తన son కోసం desperate గా search చేస్తుంది.",
+          "sub": "His mother Joyce… tana son kosam desperate ga search chesthundi.",
+          "radio": false,
+          "fiction": false,
+          "label": "",
+          "dur": 4.967,
+          "start": 3.828
+        }
+      ],
+      "dur": 9.095,
+      "start": 31.912
+    },
+    {
+      "id": "s5",
+      "name": "Hopper investigates",
+      "lines": [
+        {
+          "key": "s5_0",
+          "who": "NARRATOR",
+          "text": "Chief Hopper, ఈ disappearance వెనక secret ఉందని suspect చేస్తాడు.",
+          "sub": "Chief Hopper… ee disappearance venaka secret undani suspect chesthadu.",
+          "radio": false,
+          "fiction": false,
+          "label": "",
+          "dur": 4.082,
+          "start": 0.3
+        }
+      ],
+      "dur": 5.5,
+      "start": 41.007
+    },
+    {
+      "id": "s6",
+      "name": "The girl in the rain",
+      "lines": [
+        {
+          "key": "s6_0",
+          "who": "NARRATOR",
+          "text": "Meanwhile, Will friends, forest లో ఒక mysterious girl ని discover చేస్తారు.",
+          "sub": "Meanwhile… Will friends… forest lo oka mysterious girl ni discover chestharu.",
+          "radio": false,
+          "fiction": false,
+          "label": "",
+          "dur": 5.939,
+          "start": 0.6
+        },
+        {
+          "key": "s6_1",
+          "who": "NARRATOR",
+          "text": "Her name, Eleven.",
+          "sub": "Her name… Eleven.",
+          "radio": false,
+          "fiction": false,
+          "label": "",
+          "dur": 1.846,
+          "start": 7.139
+        },
+        {
+          "key": "s6_2",
+          "who": "NARRATOR",
+          "text": "But, she knows something about Will.",
+          "sub": "But… she knows something about Will.",
+          "radio": false,
+          "fiction": false,
+          "label": "",
+          "dur": 3.427,
+          "start": 9.435
+        },
+        {
+          "key": "s6_3",
+          "who": "NARRATOR",
+          "text": "And Hawkins లో, real nightmare ఇప్పుడే start అయ్యింది.",
+          "sub": "And Hawkins lo… real nightmare ippude start ayyindi.",
+          "radio": false,
+          "fiction": false,
+          "label": "",
+          "dur": 4.282,
+          "start": 13.412
+        }
+      ],
+      "dur": 19.494,
+      "start": 46.507,
+      "girlAt": 6.14
+    },
+    {
+      "id": "s7",
+      "name": "End card",
+      "lines": [],
+      "dur": 3.8,
+      "start": 66.001
+    }
+  ]
+}
