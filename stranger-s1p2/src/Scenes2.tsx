@@ -1,6 +1,7 @@
 import React, { useMemo } from "react";
 import * as THREE from "three";
 import { Glow } from "./three/Lights";
+import { Monster } from "./Monster";
 import { Beam, Cam, clamp01, ease, Figure, flick, Ground, hash, lerp3, Limb, Shadow, sm, Trees, type V3 } from "./Scenes3D";
 
 /* Part 2 set pieces. Original designs only: people are anonymous silhouettes, the creature is the
@@ -306,7 +307,7 @@ export const Pool: React.FC<{ t: number; d: number; mode: "party" | "attack"; dr
       {/* fence and trees behind; the shadow among them */}
       {Array.from({ length: 30 }, (_, i) => <mesh key={i} material={m.fence} position={[8, 0.9, -6 + i * 0.5]}><boxGeometry args={[0.08, 1.8, 0.4]} /></mesh>)}
       <Trees seed={21} xMin={9} xMax={30} zMin={-20} zMax={12} gap={0} count={70} color="#0d100c" />
-      <Shadow pos={mode === "party" ? [6.6, 0, 3.2] : lerp3([2.4, 0, 2.4], [3.8, 0, 3.8], pulled)} rotY={-2.356} t={t} opacity={shadowIn} />
+      <Monster pos={mode === "party" ? [4.6, 0, -0.8] : lerp3([2.6, 0, 2.6], [3.8, 0, 3.8], pulled)} rotY={mode === "party" ? -1.75 : -2.356} t={t} opacity={shadowIn} scale={0.95} walk={mode === "party" ? 0.4 : 0} reach={mode === "attack" ? sm(grabAt - 0.9, grabAt, t) : 0} />
       {/* the girl sitting alone at the pool's edge, then dragged away */}
       {pulled < 0.98 ? (
         <group position={lerp3([1.5, 0, 1.5], [3.6, 0, 3.6], pulled)} rotation={[0, -2.356, 0]}>
@@ -333,7 +334,7 @@ export const OtherPool: React.FC<{ t: number; d: number }> = ({ t, d }) => {
       <Vines seed={9} count={70} spread={7} z0={-2} />
       <Trees seed={33} xMin={-25} xMax={25} zMin={-40} zMax={-4} gap={0} count={140} color="#15181d" />
       <Particles t={t} center={[0, 2, 0]} area={[10, 6, 10]} count={1200} />
-      <Shadow pos={lerp3([0.4, 0, -10], [0.2, 0, -3.2], sm(2.5, d, t))} t={t} opacity={sm(2.8, 4.2, t)} scale={1.25} />
+      <Monster pos={lerp3([0.4, 0, -10], [0.2, 0, -3.2], sm(2.5, d, t))} t={t} opacity={sm(2.8, 4.2, t)} scale={1.1} walk={1} reach={sm(d - 2.5, d - 0.5, t)} />
       {k > 2 ? null : null}
     </>
   );
