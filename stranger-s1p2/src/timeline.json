@@ -1,0 +1,197 @@
+{
+  "fps": 30,
+  "duration": 75.44,
+  "title": "S1 | PART 2 – THE WEIRDO ON MAPLE STREET",
+  "series": "STRANGER THINGS",
+  "scenes": [
+    {
+      "id": "s1",
+      "name": "Eleven in Mike's house",
+      "lines": [
+        {
+          "key": "s1_0",
+          "who": "NARRATOR",
+          "text": "Mike, ఆ mysterious girl ని తన ఇంటికి తీసుకొచ్చాడు. ఆమె పేరు, Eleven. But ఆమె hand మీద, 011 అనే tattoo ఉంది.",
+          "sub": "Mike, ఆ mysterious girl ని తన ఇంటికి తీసుకొచ్చాడు. ఆమె పేరు, Eleven. But ఆమె hand మీద, 011 అనే tattoo ఉంది.",
+          "radio": false,
+          "fiction": false,
+          "label": "",
+          "dur": 8.92,
+          "start": 0.5
+        }
+      ],
+      "dur": 9.62,
+      "start": 0.0,
+      "cutA": 3.8,
+      "cutB": 5.85
+    },
+    {
+      "id": "s2",
+      "name": "Eleven's powers",
+      "lines": [
+        {
+          "key": "s2_0",
+          "who": "NARRATOR",
+          "text": "మైక్ కి అప్పుడే అర్థమయ్యింది. ఈ అమ్మాయి normal కాదు. ఆమె mind తో, objects ని move చేయగలదు.",
+          "sub": "మైక్ కి అప్పుడే అర్థమయ్యింది. ఈ అమ్మాయి normal కాదు. ఆమె mind తో, objects ని move చేయగలదు.",
+          "radio": false,
+          "fiction": false,
+          "label": "",
+          "dur": 5.936,
+          "start": 0.2
+        }
+      ],
+      "dur": 6.536,
+      "start": 9.62,
+      "liftAt": 3.46
+    },
+    {
+      "id": "s3",
+      "name": "Will and Joyce",
+      "lines": [
+        {
+          "key": "s3_0",
+          "who": "NARRATOR",
+          "text": "Meanwhile, Joyce కి తన son Will, ఇంకా alive ఉన్నాడు అని feeling వస్తుంది. Telephone లో strange sounds. Christmas lights mysterious గా flicker అవుతున్నాయి.",
+          "sub": "Meanwhile, Joyce కి తన son Will, ఇంకా alive ఉన్నాడు అని feeling వస్తుంది. Telephone లో strange sounds. Christmas lights mysterious గా flicker అవుతున్నాయి.",
+          "radio": false,
+          "fiction": false,
+          "label": "",
+          "dur": 9.807,
+          "start": 0.2
+        }
+      ],
+      "dur": 10.207,
+      "start": 16.156,
+      "cut": 5.3
+    },
+    {
+      "id": "s4",
+      "name": "Hopper investigates",
+      "lines": [
+        {
+          "key": "s4_0",
+          "who": "NARRATOR",
+          "text": "Hopper, Hawkins లో జరుగుతున్న mystery ని investigate చేస్తున్నాడు.",
+          "sub": "Hopper, Hawkins లో జరుగుతున్న mystery ని investigate చేస్తున్నాడు.",
+          "radio": false,
+          "fiction": false,
+          "label": "",
+          "dur": 3.92,
+          "start": 0.2
+        }
+      ],
+      "dur": 4.32,
+      "start": 26.363
+    },
+    {
+      "id": "s5",
+      "name": "The party",
+      "lines": [
+        {
+          "key": "s5_0",
+          "who": "NARRATOR",
+          "text": "But ఆ night, Nancy party కి వెళ్ళింది. Barb, swimming pool దగ్గర alone గా ఉండిపోయింది.",
+          "sub": "But ఆ night, Nancy party కి వెళ్ళింది. Barb, swimming pool దగ్గర alone గా ఉండిపోయింది.",
+          "radio": false,
+          "fiction": false,
+          "label": "",
+          "dur": 5.83,
+          "start": 0.2
+        }
+      ],
+      "dur": 6.33,
+      "start": 30.683
+    },
+    {
+      "id": "s6",
+      "name": "Barb disappears",
+      "lines": [
+        {
+          "key": "s6_0",
+          "who": "NARRATOR",
+          "text": "Suddenly, ఒక mysterious creature, ఆమెని attack చేసింది.",
+          "sub": "Suddenly, ఒక mysterious creature, ఆమెని attack చేసింది.",
+          "radio": false,
+          "fiction": false,
+          "label": "",
+          "dur": 3.609,
+          "start": 1.1
+        }
+      ],
+      "dur": 6,
+      "start": 37.013,
+      "dropAt": 0.35,
+      "grabAt": 3.34
+    },
+    {
+      "id": "s7",
+      "name": "The Upside Down",
+      "lines": [
+        {
+          "key": "s7_0",
+          "who": "NARRATOR",
+          "text": "ఆమె eyes open చేసినప్పుడు, she was inside, The Upside Down. ఒక terrifying monster, ఆమె వైపు slowly approach అవుతుంది.",
+          "sub": "ఆమె eyes open చేసినప్పుడు, she was inside, The Upside Down. ఒక terrifying monster, ఆమె వైపు slowly approach అవుతుంది.",
+          "radio": false,
+          "fiction": false,
+          "label": "",
+          "dur": 9.209,
+          "start": 1.0
+        }
+      ],
+      "dur": 10.509,
+      "start": 43.013
+    },
+    {
+      "id": "s8",
+      "name": "The basement",
+      "lines": [
+        {
+          "key": "s8_0",
+          "who": "NARRATOR",
+          "text": "Meanwhile, Mike's basement లో, Eleven suddenly freezes. ఆమె eyes లో fear. And she whispers,",
+          "sub": "Meanwhile, Mike's basement లో, Eleven suddenly freezes. ఆమె eyes లో fear. And she whispers,",
+          "radio": false,
+          "fiction": false,
+          "label": "",
+          "dur": 6.568,
+          "start": 0.3
+        },
+        {
+          "key": "s8_1",
+          "who": "GIRL",
+          "text": "Demogorgon.",
+          "sub": "Demogorgon.",
+          "radio": false,
+          "fiction": false,
+          "label": "",
+          "dur": 1.289,
+          "start": 7.468
+        },
+        {
+          "key": "s8_2",
+          "who": "NARRATOR",
+          "text": "Next moment, lights completely explode. Because, that monster, is already coming.",
+          "sub": "Next moment, lights completely explode. Because, that monster, is already coming.",
+          "radio": false,
+          "fiction": false,
+          "label": "",
+          "dur": 6.858,
+          "start": 9.457
+        }
+      ],
+      "dur": 18.315,
+      "start": 53.522,
+      "whisperAt": 7.468,
+      "blastAt": 11.51
+    },
+    {
+      "id": "s9",
+      "name": "End card",
+      "lines": [],
+      "dur": 3.6,
+      "start": 71.837
+    }
+  ]
+}

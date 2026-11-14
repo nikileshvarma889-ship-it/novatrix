@@ -1,0 +1,121 @@
+{
+  "title": "S1 | PART 2 – THE WEIRDO ON MAPLE STREET",
+  "series": "STRANGER THINGS",
+  "duration": 74,
+  "voices": {
+    "NARRATOR": {
+      "voice": "Charon",
+      "model": "gemini-2.5-flash-preview-tts",
+      "say": "in a deep, low, suspenseful Telugu movie-trailer narrator voice at a steady pace, mixing Telugu and English naturally, with brief dramatic pauses"
+    },
+    "GIRL": {
+      "voice": "Leda",
+      "model": "gemini-3.1-flash-tts-preview",
+      "say": "as a terrified young girl, in a trembling, breathy whisper"
+    }
+  },
+  "scenes": [
+    {
+      "id": "s1",
+      "name": "Eleven in Mike's house",
+      "min": 9,
+      "lines": [
+        {
+          "who": "NARRATOR",
+          "text": "Mike, ఆ mysterious girl ని తన ఇంటికి తీసుకొచ్చాడు. ఆమె పేరు, Eleven. But ఆమె hand మీద, 011 అనే tattoo ఉంది."
+        }
+      ]
+    },
+    {
+      "id": "s2",
+      "name": "Eleven's powers",
+      "min": 6,
+      "lines": [
+        {
+          "who": "NARRATOR",
+          "text": "మైక్ కి అప్పుడే అర్థమయ్యింది. ఈ అమ్మాయి normal కాదు. ఆమె mind తో, objects ని move చేయగలదు."
+        }
+      ]
+    },
+    {
+      "id": "s3",
+      "name": "Will and Joyce",
+      "min": 9,
+      "lines": [
+        {
+          "who": "NARRATOR",
+          "text": "Meanwhile, Joyce కి తన son Will, ఇంకా alive ఉన్నాడు అని feeling వస్తుంది. Telephone లో strange sounds. Christmas lights mysterious గా flicker అవుతున్నాయి."
+        }
+      ]
+    },
+    {
+      "id": "s4",
+      "name": "Hopper investigates",
+      "min": 4,
+      "lines": [
+        {
+          "who": "NARRATOR",
+          "text": "Hopper, Hawkins లో జరుగుతున్న mystery ని investigate చేస్తున్నాడు."
+        }
+      ]
+    },
+    {
+      "id": "s5",
+      "name": "The party",
+      "min": 6,
+      "lines": [
+        {
+          "who": "NARRATOR",
+          "text": "But ఆ night, Nancy party కి వెళ్ళింది. Barb, swimming pool దగ్గర alone గా ఉండిపోయింది."
+        }
+      ]
+    },
+    {
+      "id": "s6",
+      "name": "Barb disappears",
+      "min": 6,
+      "lines": [
+        {
+          "who": "NARRATOR",
+          "text": "Suddenly, ఒక mysterious creature, ఆమెని attack చేసింది."
+        }
+      ]
+    },
+    {
+      "id": "s7",
+      "name": "The Upside Down",
+      "min": 9,
+      "lines": [
+        {
+          "who": "NARRATOR",
+          "text": "ఆమె eyes open చేసినప్పుడు, she was inside, The Upside Down. ఒక terrifying monster, ఆమె వైపు slowly approach అవుతుంది."
+        }
+      ]
+    },
+    {
+      "id": "s8",
+      "name": "The basement",
+      "min": 13,
+      "lines": [
+        {
+          "who": "NARRATOR",
+          "text": "Meanwhile, Mike's basement లో, Eleven suddenly freezes. ఆమె eyes లో fear. And she whispers,"
+        },
+        {
+          "who": "GIRL",
+          "text": "Demogorgon."
+        },
+        {
+          "who": "NARRATOR",
+          "text": "Next moment, lights completely explode. Because, that monster, is already coming."
+        }
+      ]
+    },
+    {
+      "id": "s9",
+      "name": "End card",
+      "min": 3.6,
+      "lines": []
+    }
+  ]
+}
