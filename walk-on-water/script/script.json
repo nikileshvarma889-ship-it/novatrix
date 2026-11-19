@@ -1,0 +1,15 @@
+{
+  "title": "JESUS WALKED ON WATER",
+  "duration": 35,
+  "voices": {
+    "NARRATOR": { "voice": "Charon", "model": "gemini-2.5-flash-preview-tts", "say": "in a deep, warm, reverent cinematic documentary narrator voice, slow and measured" }
+  },
+  "scenes": [
+    { "id": "s1", "name": "The storm", "min": 5, "lines": [ { "who": "NARRATOR", "text": "Midnight. A violent storm rages over the Sea of Galilee." } ] },
+    { "id": "s2", "name": "Jesus appears", "min": 7, "lines": [ { "who": "NARRATOR", "text": "Then, through the wind and the waves, a figure comes walking upon the water." } ] },
+    { "id": "s3", "name": "The disciples", "min": 7, "lines": [ { "who": "NARRATOR", "text": "The disciples cry out in fear. But He says: Be of good cheer; it is I; be not afraid." } ] },
+    { "id": "s4", "name": "Peter steps out", "min": 8, "lines": [ { "who": "NARRATOR", "text": "Peter steps out of the boat and walks toward Jesus. But when he sees the wind, he begins to sink." } ] },
+    { "id": "s5", "name": "The miracle", "min": 5, "lines": [ { "who": "NARRATOR", "text": "Immediately, Jesus stretches out His hand, and catches him." } ] },
+    { "id": "s6", "name": "Ending", "min": 3.5, "lines": [] }
+  ]
+}

@@ -1,0 +1,68 @@
+{
+ "fps": 30,
+ "duration": 35.5,
+ "title": "JESUS WALKED ON WATER",
+ "scenes": [
+  {
+   "id": "s1",
+   "name": "s1",
+   "start": 0,
+   "dur": 5.5,
+   "lines": [],
+   "bolts": [
+    0.35,
+    2.6,
+    4.3
+   ]
+  },
+  {
+   "id": "s2",
+   "name": "s2",
+   "start": 5.5,
+   "dur": 7,
+   "lines": [],
+   "bolts": [
+    2.0
+   ]
+  },
+  {
+   "id": "s3",
+   "name": "s3",
+   "start": 12.5,
+   "dur": 7,
+   "lines": [],
+   "speakAt": 3.5,
+   "bolts": [
+    0.6
+   ]
+  },
+  {
+   "id": "s4",
+   "name": "s4",
+   "start": 19.5,
+   "dur": 8,
+   "lines": [],
+   "stepAt": 0.3,
+   "windAt": 4.6,
+   "sinkAt": 6.4,
+   "bolts": [
+    4.7
+   ]
+  },
+  {
+   "id": "s5",
+   "name": "s5",
+   "start": 27.5,
+   "dur": 4.5,
+   "lines": [],
+   "grabAt": 2.8
+  },
+  {
+   "id": "s6",
+   "name": "s6",
+   "start": 32,
+   "dur": 3.5,
+   "lines": []
+  }
+ ]
+}
