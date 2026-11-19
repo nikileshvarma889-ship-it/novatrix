@@ -1,0 +1,29 @@
+{
+  "title": "SOLANA BAY",
+  "tagline": "REAL LIFE. NO RULES.",
+  "opening": "ONE CITY. NO LIMITS.",
+  "fps": 24,
+  "duration": 30,
+  "resolution": [3840, 2160],
+  "style": "Photorealistic live-action feature film footage shot on an ARRI Alexa with anamorphic-free spherical cinema lenses, natural film grain, realistic motion blur, filmic contrast, true-to-life skin texture, restrained natural colour grade. Not a video game, not CGI, not animation.",
+  "negative": "video game graphics, CGI look, cartoon, anime, plastic skin, oversaturated colours, heavy neon, text, subtitles, watermark, logos, brand badges, real car brand emblems, distorted faces, extra fingers, morphing",
+  "characters": {
+    "marco": "MARCO: a fictional 28-year-old man, short dark hair, light stubble, olive skin, athletic build, wearing a fitted black short-sleeve button shirt, dark slim jeans, black sunglasses, confident calm expression",
+    "elena": "ELENA: a fictional 26-year-old woman, shoulder-length wavy dark-brown hair, warm tan skin, natural minimal make-up, wearing a cream silk top and a light linen jacket, small gold hoop earrings, confident relaxed expression",
+    "car": "THE CAR: an original fictional two-door mid-engine supercar in gloss black with smoked-glass windows, sharp angular body lines, thin LED headlight strips, no logos or badges"
+  },
+  "shots": [
+    {"id": "01_aerial",    "scene": 1, "start": 0.0,  "len": 5.0, "refs": [],                 "prompt": "Aerial drone shot slowly descending toward a fictional Miami-style coastal city at golden-hour sunset: glass skyscrapers, palm-lined boulevards, art-deco luxury hotels, a wide white-sand beach, turquoise ocean with sun reflections, a few supercars on the beachfront road. 24mm wide lens, smooth continuous descent."},
+    {"id": "02_walk",      "scene": 2, "start": 5.0,  "len": 3.0, "refs": ["marco", "car"],   "prompt": "Low-angle tracking shot: MARCO walks confidently toward THE CAR parked under the palm-tree porte-cochère of a premium art-deco beach hotel at golden hour. Warm wind moves his shirt, sunlight glints across the car's bodywork. 35mm lens, smooth gimbal move, shallow depth of field."},
+    {"id": "03_shades",    "scene": 2, "start": 8.0,  "len": 2.0, "refs": ["marco"],          "prompt": "Cinematic close-up of MARCO's face as he lowers his black sunglasses slightly and looks off-camera, golden sunset reflected in the lenses, realistic skin pores and stubble. 50mm portrait lens, very shallow depth of field, gentle push-in."},
+    {"id": "04_ignition",  "scene": 3, "start": 10.0, "len": 2.0, "refs": ["car"],            "prompt": "Extreme close-up inside THE CAR's dark leather cockpit: a finger presses a glowing red engine start button, the digital dashboard lights up in sequence with soft amber and white glow. Macro detail, shallow depth of field."},
+    {"id": "05_shift",     "scene": 3, "start": 12.0, "len": 1.5, "refs": ["marco", "car"],   "prompt": "Close-up of MARCO's hand gripping the leather steering wheel and pulling the carbon paddle shifter, the cabin subtly vibrating from the engine. Warm evening light through the windshield."},
+    {"id": "06_coast",     "scene": 3, "start": 13.5, "len": 2.5, "refs": ["car"],            "prompt": "Exterior tracking shot from a camera car: THE CAR accelerates hard along a sunlit coastal road lined with palm trees, ocean on one side, golden-hour light, natural motion blur on the background."},
+    {"id": "07_police",    "scene": 4, "start": 16.0, "len": 2.5, "refs": ["car"],            "prompt": "Low-mounted bumper camera at night on wet city streets: THE CAR races ahead while two unmarked-style generic police SUVs with flashing red and blue light bars chase close behind, reflections of the lights streaking across the wet asphalt, city lights bokeh."},
+    {"id": "08_drift",     "scene": 4, "start": 18.5, "len": 3.0, "refs": ["car"],            "prompt": "Side tracking shot in slow motion at night: THE CAR drifts sideways around a wet downtown corner, thick white tire smoke curling into the red and blue police lights, pedestrians on the far sidewalk step back safely. 120fps slow-motion look."},
+    {"id": "09_drone",     "scene": 4, "start": 21.5, "len": 2.5, "refs": ["car"],            "prompt": "Fast aerial drone shot at night following THE CAR weaving through a grid of downtown streets, three police SUVs with flashing lights in pursuit far behind, skyscraper lights below, slight camera bank."},
+    {"id": "10_highway",   "scene": 5, "start": 24.0, "len": 2.0, "refs": ["car"],            "prompt": "Camera follows directly behind THE CAR as it escapes onto an elevated coastal highway over the ocean at sunset, tail lights glowing, police lights fading far in the distance."},
+    {"id": "11_passenger", "scene": 5, "start": 26.0, "len": 1.5, "refs": ["elena", "marco"], "prompt": "Inside THE CAR at sunset, side profile: ELENA in the passenger seat turns to MARCO and gives a small knowing smile, warm sunset light flaring through the window, MARCO driving in soft focus. 50mm lens."},
+    {"id": "12_finale",    "scene": 5, "start": 27.5, "len": 2.5, "refs": [],                 "prompt": "Massive slow aerial pull-back over the whole fictional coastal city skyline at the last moment of sunset, deep orange sky, ocean reflections, a tiny pair of tail lights crossing a long bridge."}
+  ]
+}

@@ -1,0 +1,7 @@
+.env
+clips/raw/
+output/_work/
+__pycache__/
+audio/*.wav
+output/
+clips/graded/
