@@ -49,7 +49,7 @@ export const SceneShot: React.FC<{ id: string }> = ({ id }) => {
     const k = ease(clamp01(t / d));
     cam = { pos: lerp3([-10, 5.2, 12], [-6.2, 3.4, 7.4], k), look: [0, 1.2, 0], fov: 40, roll: Math.sin(t * 0.8) * 0.02 };
     scene = <Boat t={T} storm={storm} pos={[0, 0, 0]} rotY={0.5} crew={crewIn(0)} />;
-    over.push(<Title key="tt" text={"A MIRACLE THAT\nDEFIED NATURE..."} from={0.6} to={d} top={1260} size={66} />);
+    over.push(<Title key="tt" text={"A MIRACLE THAT\nDEFIED NATURE..."} from={0.6} to={6.2} top={1260} size={66} />);
   } else if (id === "s2") {
     storm = 0.7;
     const k = ease(clamp01(t / d));
@@ -118,7 +118,7 @@ export const SceneShot: React.FC<{ id: string }> = ({ id }) => {
         <Robed pos={pp} rotY={-0.4} t={T} {...PETER} wind={0.6} />
       </>
     );
-    over.push(<Title key="tt" text={"HAVE FAITH.\nDO NOT FEAR."} from={0.3} to={d + 1} top={1250} size={74} />);
+    over.push(<Title key="tt" text={"HAVE FAITH.\nDO NOT FEAR."} from={d - 4.6} to={d + 1} top={1250} size={74} />);
   }
   const fadeIn = interpolate(t, [0, 0.35], [0, 1], { extrapolateRight: "clamp" });
   const fadeOut = id === "s6" ? interpolate(t, [d - 1.0, d], [1, 0], { extrapolateLeft: "clamp" }) : interpolate(t, [d - 0.3, d], [1, 0], { extrapolateLeft: "clamp" });

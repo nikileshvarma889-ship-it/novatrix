@@ -38,7 +38,7 @@
     {
       "id": "s3",
       "name": "The disciples",
-      "min": 3.5,
+      "min": 3,
       "lines": [
         {
           "who": "NARRATOR",

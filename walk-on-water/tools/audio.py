@@ -28,7 +28,7 @@ def ff(x, af):
     sf.write(a, x, SR, subtype="FLOAT"); subprocess.run(["ffmpeg", "-y", "-v", "error", "-i", str(a), "-af", af, "-ar", str(SR), str(b)], check=True)
     y, _ = sf.read(b); return y if y.ndim == 1 else y.mean(axis=1)
 def squeeze(x, mx):
-    hop = int(0.01 * SR); rms = np.sqrt(np.convolve(x ** 2, np.ones(hop * 3) / (hop * 3), mode="same")); q = rms < rms.max() * 0.08
+    hop = int(0.01 * SR); rms = np.sqrt(np.convolve(x ** 2, np.ones(hop * 3) / (hop * 3), mode="same")); q = rms < rms.max() * 0.13
     keep = np.ones(len(x), bool); i = 0
     while i < len(x):
         if q[i]:
@@ -43,10 +43,10 @@ def load(k):
     if sr != SR: x = resample_poly(x, SR, sr)
     return x / (np.abs(x).max() + 1e-9) * 0.7
 PITCH = 2 ** (-1.0 / 12)
-raw = {f"{sc['id']}_{n}": squeeze(load(f"{sc['id']}_{n}"), 0.4) for sc in script["scenes"] for n, _ in enumerate(sc["lines"])}
+raw = {f"{sc['id']}_{n}": squeeze(load(f"{sc['id']}_{n}"), 0.2) for sc in script["scenes"] for n, _ in enumerate(sc["lines"])}
 def dry_at(tempo): return {k: ff(x, f"asetrate={int(SR * PITCH)},aresample={SR},atempo={tempo / PITCH:.4f}") for k, x in raw.items()}
 LEAD = {"s1": 0.8, "s2": 0.3, "s3": 0.4, "s4": 0.3, "s5": 0.3, "s6": 0.4}
-TAIL = {"s1": 0.3, "s2": 0.3, "s3": 0.6, "s4": 0.3, "s5": 0.5, "s6": 1.4}
+TAIL = {"s1": 0.3, "s2": 0.3, "s3": 0.6, "s4": 0.3, "s5": 0.5, "s6": 1.1}
 def layout(dry):
     out = []
     for sc in script["scenes"]:
@@ -60,7 +60,7 @@ def layout(dry):
 tempo = 1.0; dry = dry_at(tempo); scenes = layout(dry); need = sum(s["dur"] for s in scenes)
 if need > TARGET + 0.5:
     narr = sum(l["dur"] for s in scenes for l in s["lines"])
-    tempo = min(1.15, narr / max(1.0, narr - (need - TARGET)))
+    tempo = min(1.22, narr / max(1.0, narr - (need - TARGET)))
     print(f"needs {need:.1f}s -> tempo x{tempo:.3f}"); dry = dry_at(tempo); scenes = layout(dry)
 TOTAL = round(sum(s["dur"] for s in scenes), 2); N = int(TOTAL * SR); t = np.arange(N) / SR
 start = 0.0

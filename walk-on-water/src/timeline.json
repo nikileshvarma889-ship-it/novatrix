@@ -1,68 +1,162 @@
 {
- "fps": 30,
- "duration": 35.5,
- "title": "JESUS WALKED ON WATER",
- "scenes": [
-  {
-   "id": "s1",
-   "name": "s1",
-   "start": 0,
-   "dur": 5.5,
-   "lines": [],
-   "bolts": [
-    0.35,
-    2.6,
-    4.3
-   ]
-  },
-  {
-   "id": "s2",
-   "name": "s2",
-   "start": 5.5,
-   "dur": 7,
-   "lines": [],
-   "bolts": [
-    2.0
-   ]
-  },
-  {
-   "id": "s3",
-   "name": "s3",
-   "start": 12.5,
-   "dur": 7,
-   "lines": [],
-   "speakAt": 3.5,
-   "bolts": [
-    0.6
-   ]
-  },
-  {
-   "id": "s4",
-   "name": "s4",
-   "start": 19.5,
-   "dur": 8,
-   "lines": [],
-   "stepAt": 0.3,
-   "windAt": 4.6,
-   "sinkAt": 6.4,
-   "bolts": [
-    4.7
-   ]
-  },
-  {
-   "id": "s5",
-   "name": "s5",
-   "start": 27.5,
-   "dur": 4.5,
-   "lines": [],
-   "grabAt": 2.8
-  },
-  {
-   "id": "s6",
-   "name": "s6",
-   "start": 32,
-   "dur": 3.5,
-   "lines": []
-  }
- ]
+  "fps": 30,
+  "duration": 45.6,
+  "title": "JESUS WALKED ON WATER",
+  "scenes": [
+    {
+      "id": "s1",
+      "name": "The storm",
+      "lines": [
+        {
+          "key": "s1_0",
+          "who": "NARRATOR",
+          "text": "Did you know…? Over 2,000 years ago, Jesus Christ did something that seemed impossible.",
+          "sub": "Did you know…? Over 2,000 years ago, Jesus Christ did something that seemed impossible.",
+          "radio": false,
+          "fiction": false,
+          "label": "",
+          "dur": 6.846,
+          "start": 0.8
+        },
+        {
+          "key": "s1_1",
+          "who": "NARRATOR",
+          "text": "One night, his disciples were struggling in a boat during a powerful storm.",
+          "sub": "One night, his disciples were struggling in a boat during a powerful storm.",
+          "radio": false,
+          "fiction": false,
+          "label": "",
+          "dur": 4.771,
+          "start": 8.046
+        }
+      ],
+      "dur": 13.117,
+      "start": 0.0,
+      "bolts": [
+        0.3,
+        8.05,
+        12.12
+      ]
+    },
+    {
+      "id": "s2",
+      "name": "Jesus appears",
+      "lines": [
+        {
+          "key": "s2_0",
+          "who": "NARRATOR",
+          "text": "Suddenly… they saw someone walking towards them… ON THE WATER!",
+          "sub": "Suddenly… they saw someone walking towards them… ON THE WATER!",
+          "radio": false,
+          "fiction": false,
+          "label": "",
+          "dur": 3.71,
+          "start": 0.3
+        }
+      ],
+      "dur": 5,
+      "start": 13.117,
+      "bolts": [
+        1.41
+      ]
+    },
+    {
+      "id": "s3",
+      "name": "The disciples",
+      "lines": [
+        {
+          "key": "s3_0",
+          "who": "NARRATOR",
+          "text": "It was Jesus!",
+          "sub": "It was Jesus!",
+          "radio": false,
+          "fiction": false,
+          "label": "",
+          "dur": 1.98,
+          "start": 0.4
+        }
+      ],
+      "dur": 3,
+      "start": 18.117,
+      "speakAt": 0.4,
+      "bolts": [
+        0.25
+      ]
+    },
+    {
+      "id": "s4",
+      "name": "Peter steps out",
+      "lines": [
+        {
+          "key": "s4_0",
+          "who": "NARRATOR",
+          "text": "Peter even stepped out of the boat and walked towards Him. But when Peter became afraid of the storm, he began to sink.",
+          "sub": "Peter even stepped out of the boat and walked towards Him. But when Peter became afraid of the storm, he began to sink.",
+          "radio": false,
+          "fiction": false,
+          "label": "",
+          "dur": 7.845,
+          "start": 0.3
+        }
+      ],
+      "dur": 8.445,
+      "start": 21.117,
+      "stepAt": 0.3,
+      "windAt": 4.85,
+      "sinkAt": 6.73,
+      "bolts": [
+        5.01
+      ]
+    },
+    {
+      "id": "s5",
+      "name": "The miracle",
+      "lines": [
+        {
+          "key": "s5_0",
+          "who": "NARRATOR",
+          "text": "Jesus immediately reached out and saved him.",
+          "sub": "Jesus immediately reached out and saved him.",
+          "radio": false,
+          "fiction": false,
+          "label": "",
+          "dur": 3.694,
+          "start": 0.3
+        }
+      ],
+      "dur": 4.494,
+      "start": 29.562,
+      "grabAt": 2.89
+    },
+    {
+      "id": "s6",
+      "name": "Ending",
+      "lines": [
+        {
+          "key": "s6_0",
+          "who": "NARRATOR",
+          "text": "This incredible event is recorded in Matthew chapter 14.",
+          "sub": "This incredible event is recorded in Matthew chapter 14.",
+          "radio": false,
+          "fiction": false,
+          "label": "",
+          "dur": 5.017,
+          "start": 0.4
+        },
+        {
+          "key": "s6_1",
+          "who": "NARRATOR",
+          "text": "But here's the question… Would you have stepped out of that boat?",
+          "sub": "But here's the question… Would you have stepped out of that boat?",
+          "radio": false,
+          "fiction": false,
+          "label": "",
+          "dur": 4.626,
+          "start": 5.817
+        }
+      ],
+      "dur": 11.543,
+      "start": 34.056
+    }
+  ]
 }
