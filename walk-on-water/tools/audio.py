@@ -45,20 +45,22 @@ def load(k):
 PITCH = 2 ** (-1.0 / 12)
 raw = {f"{sc['id']}_{n}": squeeze(load(f"{sc['id']}_{n}"), 0.4) for sc in script["scenes"] for n, _ in enumerate(sc["lines"])}
 def dry_at(tempo): return {k: ff(x, f"asetrate={int(SR * PITCH)},aresample={SR},atempo={tempo / PITCH:.4f}") for k, x in raw.items()}
-LEAD = {"s1": 1.2, "s2": 0.4, "s3": 0.3, "s4": 0.3, "s5": 0.5, "s6": 0}
-TAIL = {"s1": 0.3, "s2": 0.4, "s3": 0.3, "s4": 0.4, "s5": 0.6, "s6": 0}
+LEAD = {"s1": 0.8, "s2": 0.3, "s3": 0.4, "s4": 0.3, "s5": 0.3, "s6": 0.4}
+TAIL = {"s1": 0.3, "s2": 0.3, "s3": 0.6, "s4": 0.3, "s5": 0.5, "s6": 1.4}
 def layout(dry):
     out = []
     for sc in script["scenes"]:
         L = [{"key": f"{sc['id']}_{n}", "who": l["who"], "text": l["text"], "sub": l["text"], "radio": False, "fiction": False, "label": "", "dur": round(len(dry[f"{sc['id']}_{n}"]) / SR, 3)} for n, l in enumerate(sc["lines"])]
         cur = LEAD[sc["id"]]
-        for l in L: l["start"] = round(cur, 3); cur += l["dur"]
+        for i, l in enumerate(L):
+            if i: cur += 0.4
+            l["start"] = round(cur, 3); cur += l["dur"]
         out.append({"id": sc["id"], "name": sc["name"], "lines": L, "dur": round(max(sc["min"], cur + TAIL[sc["id"]]), 3)})
     return out
 tempo = 1.0; dry = dry_at(tempo); scenes = layout(dry); need = sum(s["dur"] for s in scenes)
 if need > TARGET + 0.5:
     narr = sum(l["dur"] for s in scenes for l in s["lines"])
-    tempo = min(1.18, narr / max(1.0, narr - (need - TARGET)))
+    tempo = min(1.15, narr / max(1.0, narr - (need - TARGET)))
     print(f"needs {need:.1f}s -> tempo x{tempo:.3f}"); dry = dry_at(tempo); scenes = layout(dry)
 TOTAL = round(sum(s["dur"] for s in scenes), 2); N = int(TOTAL * SR); t = np.arange(N) / SR
 start = 0.0
@@ -66,10 +68,10 @@ for s in scenes: s["start"] = round(start, 3); start += s["dur"]
 S = {s["id"]: s for s in scenes}; st = {k: v["start"] for k, v in S.items()}
 def frac(sid, f): l = S[sid]["lines"][0]; return round(l["start"] + l["dur"] * f, 2)
 # beats the picture follows (scene-local)
-S["s1"]["bolts"] = [0.35, 2.6, round(S["s1"]["dur"] - 1.2, 2)]
+S["s1"]["bolts"] = [0.3, round(S["s1"]["lines"][1]["start"], 2), round(S["s1"]["dur"] - 1.0, 2)]
 S["s2"]["bolts"] = [round(frac("s2", 0.3), 2)]
-S["s3"]["speakAt"] = frac("s3", 0.42)
-S["s3"]["bolts"] = [0.6]
+S["s3"]["speakAt"] = frac("s3", 0.0)
+S["s3"]["bolts"] = [0.25]
 S["s4"]["stepAt"] = 0.3; S["s4"]["windAt"] = frac("s4", 0.58); S["s4"]["sinkAt"] = frac("s4", 0.82)
 S["s4"]["bolts"] = [round(frac("s4", 0.6), 2)]
 S["s5"]["grabAt"] = frac("s5", 0.7)

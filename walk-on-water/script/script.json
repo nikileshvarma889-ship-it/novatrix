@@ -1,15 +1,87 @@
 {
   "title": "JESUS WALKED ON WATER",
-  "duration": 35,
+  "duration": 37,
   "voices": {
-    "NARRATOR": { "voice": "Charon", "model": "gemini-2.5-flash-preview-tts", "say": "in a deep, warm, reverent cinematic documentary narrator voice, slow and measured" }
+    "NARRATOR": {
+      "voice": "Charon",
+      "model": "gemini-3.1-flash-tts-preview",
+      "say": "in a deep, warm, cinematic documentary narrator voice, with dramatic pauses"
+    }
   },
   "scenes": [
-    { "id": "s1", "name": "The storm", "min": 5, "lines": [ { "who": "NARRATOR", "text": "Midnight. A violent storm rages over the Sea of Galilee." } ] },
-    { "id": "s2", "name": "Jesus appears", "min": 7, "lines": [ { "who": "NARRATOR", "text": "Then, through the wind and the waves, a figure comes walking upon the water." } ] },
-    { "id": "s3", "name": "The disciples", "min": 7, "lines": [ { "who": "NARRATOR", "text": "The disciples cry out in fear. But He says: Be of good cheer; it is I; be not afraid." } ] },
-    { "id": "s4", "name": "Peter steps out", "min": 8, "lines": [ { "who": "NARRATOR", "text": "Peter steps out of the boat and walks toward Jesus. But when he sees the wind, he begins to sink." } ] },
-    { "id": "s5", "name": "The miracle", "min": 5, "lines": [ { "who": "NARRATOR", "text": "Immediately, Jesus stretches out His hand, and catches him." } ] },
-    { "id": "s6", "name": "Ending", "min": 3.5, "lines": [] }
+    {
+      "id": "s1",
+      "name": "The storm",
+      "min": 5,
+      "lines": [
+        {
+          "who": "NARRATOR",
+          "text": "Did you know…? Over 2,000 years ago, Jesus Christ did something that seemed impossible."
+        },
+        {
+          "who": "NARRATOR",
+          "text": "One night, his disciples were struggling in a boat during a powerful storm."
+        }
+      ]
+    },
+    {
+      "id": "s2",
+      "name": "Jesus appears",
+      "min": 5,
+      "lines": [
+        {
+          "who": "NARRATOR",
+          "text": "Suddenly… they saw someone walking towards them… ON THE WATER!"
+        }
+      ]
+    },
+    {
+      "id": "s3",
+      "name": "The disciples",
+      "min": 3.5,
+      "lines": [
+        {
+          "who": "NARRATOR",
+          "text": "It was Jesus!"
+        }
+      ]
+    },
+    {
+      "id": "s4",
+      "name": "Peter steps out",
+      "min": 7,
+      "lines": [
+        {
+          "who": "NARRATOR",
+          "text": "Peter even stepped out of the boat and walked towards Him. But when Peter became afraid of the storm, he began to sink."
+        }
+      ]
+    },
+    {
+      "id": "s5",
+      "name": "The miracle",
+      "min": 4,
+      "lines": [
+        {
+          "who": "NARRATOR",
+          "text": "Jesus immediately reached out and saved him."
+        }
+      ]
+    },
+    {
+      "id": "s6",
+      "name": "Ending",
+      "min": 7,
+      "lines": [
+        {
+          "who": "NARRATOR",
+          "text": "This incredible event is recorded in Matthew chapter 14."
+        },
+        {
+          "who": "NARRATOR",
+          "text": "But here's the question… Would you have stepped out of that boat?"
+        }
+      ]
+    }
   ]
 }
