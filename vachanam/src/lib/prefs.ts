@@ -12,8 +12,11 @@ export type Prefs = {
   parallelLayout: ParallelLayout;
   uiLanguage: "en" | "te";
   guideLang: "en" | "te" | "both";
+  notifyEnabled: boolean;
+  notifyHour: number;
+  notifyMinute: number;
 };
-export const DEFAULT_PREFS: Prefs = { theme: "system", readerSize: 20, lineSpacing: 1.8, readingMode: "parallel", parallelLayout: "stacked", uiLanguage: "en", guideLang: "en" };
+export const DEFAULT_PREFS: Prefs = { theme: "system", readerSize: 20, lineSpacing: 1.8, readingMode: "parallel", parallelLayout: "stacked", uiLanguage: "en", guideLang: "en", notifyEnabled: false, notifyHour: 7, notifyMinute: 0 };
 const KEY = "vachanam.prefs.v1";
 
 export async function loadPrefs(): Promise<Prefs> {
