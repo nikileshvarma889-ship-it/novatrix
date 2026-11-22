@@ -36,6 +36,7 @@ function Navigator() {
         <Stack.Screen name="prayer/index" options={{ title: "Prayer Journal" }} />
         <Stack.Screen name="prayer/[id]" options={{ title: "Prayer" }} />
         <Stack.Screen name="history" options={{ title: "Reading History" }} />
+        <Stack.Screen name="calendar" options={{ title: "Christian Calendar" }} />
         <Stack.Screen name="about" options={{ title: "About Vachanam" }} />
         <Stack.Screen name="privacy" options={{ title: "Privacy Policy" }} />
       </Stack>

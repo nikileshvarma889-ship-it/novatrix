@@ -16,7 +16,9 @@ An offline-first Telugu and English Bible app, built with Expo (SDK 58), React N
 | 6 | Auth, Supabase sync, offline merge | Planned |
 | 7 | Search, devotional, plans, settings polish, testing | Planned |
 
-The prayer journal already works: create, autosave, mark answered, delete. Light/dark theme, text size, line spacing and default reading mode are saved too.
+The prayer journal already works: create, autosave, mark answered, delete.
+
+**Christian Calendar (2025–2030):** month view with Telugu and English month and weekday names. It shows church festivals for every year, including the moveable ones calculated from Easter (Ash Wednesday, Palm Sunday, Good Friday, Easter, Ascension, Pentecost, Advent). You can add your own events (church programmes, prayer meetings) to any day; they are saved on the device. The home screen shows the next festival. Light/dark theme, text size, line spacing and default reading mode are saved too.
 
 ## Run it
 
@@ -54,7 +56,7 @@ src/theme/              palette (ivory / deep green / gold, light + dark), fonts
 src/db/schema.ts        versioned SQLite migrations (content + user data + sync queue)
 src/data/books.ts       66-book canon: USFM codes, names, chapter counts
 src/lib/                stable verse refs, chapter navigation, prefs, ids, query hook
-tests/                  unit tests (canon, navigation, verse references)
+tests/                  unit tests (canon, navigation, verse references, calendar dates)
 ```
 
 ## Stable verse references

@@ -67,6 +67,14 @@ const MIGRATIONS: string[] = [
     seq INTEGER PRIMARY KEY AUTOINCREMENT, table_name TEXT NOT NULL, row_id TEXT NOT NULL, queued_at TEXT NOT NULL
   );
   `,
+  // v2: personal calendar events (church programmes, prayer meetings, birthdays…)
+  `
+  CREATE TABLE IF NOT EXISTS events (
+    id TEXT PRIMARY KEY, day TEXT NOT NULL, title TEXT NOT NULL, note TEXT NOT NULL DEFAULT '',
+    created_at TEXT NOT NULL, updated_at TEXT NOT NULL, deleted INTEGER NOT NULL DEFAULT 0
+  );
+  CREATE INDEX IF NOT EXISTS events_day ON events (day);
+  `,
 ];
 
 export async function migrate(db: SQLiteDatabase): Promise<void> {

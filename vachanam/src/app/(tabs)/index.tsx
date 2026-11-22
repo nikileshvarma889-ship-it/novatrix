@@ -8,6 +8,7 @@ import { useTheme } from "../../theme/ThemeProvider";
 import { fonts } from "../../theme/typography";
 import { useQuery } from "../../lib/userdata";
 import { BOOK_BY_CODE } from "../../data/books";
+import { MONTHS_EN, nextFeast, parseKey } from "../../lib/calendar";
 
 function greetingFor(h: number) {
   return h < 12 ? "Good morning" : h < 17 ? "Good afternoon" : "Good evening";
@@ -36,6 +37,7 @@ export default function Home() {
   const n = counts.rows?.[0];
   const lastRead = last.rows?.[0];
   const hasBible = (installed.rows?.[0]?.n ?? 0) > 0;
+  const upcoming = nextFeast(new Date());
   const plural = (k: number, w: string) => `${k} ${w}${k === 1 ? "" : "s"}`;
 
   return (
@@ -108,6 +110,16 @@ export default function Home() {
 
       {/* devotional & prayer */}
       <SectionHeader title="Grow in faith" />
+      <Card onPress={() => router.push("/calendar")} label="Christian Calendar" style={{ marginBottom: 12 }}>
+        <View style={{ flexDirection: "row", alignItems: "center", gap: 14 }}>
+          <View style={{ width: 46, height: 46, borderRadius: 14, backgroundColor: c.goldSoft, alignItems: "center", justifyContent: "center" }}><Icon name="calendar" color={c.gold} size={24} /></View>
+          <View style={{ flex: 1 }}>
+            <Text style={{ fontFamily: fonts.uiBold, fontSize: 16, color: c.text }}>Christian Calendar</Text>
+            <Text style={{ fontFamily: fonts.ui, fontSize: 13, color: c.textMuted, marginTop: 2 }}>{upcoming ? `${upcoming.en}${upcoming.days === 0 ? " is today" : upcoming.days === 1 ? " is tomorrow" : ` in ${upcoming.days} days · ${parseKey(upcoming.key).getDate()} ${MONTHS_EN[parseKey(upcoming.key).getMonth()]}`}` : "Festivals and your church events, 2025–2030"}</Text>
+          </View>
+          <Icon name="chevron" color={c.textMuted} size={18} />
+        </View>
+      </Card>
       <Card onPress={() => router.push("/prayer")} label="Prayer Journal" style={{ marginBottom: 12 }}>
         <View style={{ flexDirection: "row", alignItems: "center", gap: 14 }}>
           <View style={{ width: 46, height: 46, borderRadius: 14, backgroundColor: c.surfaceAlt, alignItems: "center", justifyContent: "center" }}><Icon name="pray" color={c.primary} size={24} /></View>
