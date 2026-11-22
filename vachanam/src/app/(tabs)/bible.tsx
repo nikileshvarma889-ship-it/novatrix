@@ -7,6 +7,8 @@ import { useTheme } from "../../theme/ThemeProvider";
 import { fonts } from "../../theme/typography";
 import { Icon } from "../../components/Icon";
 import type { ReadingMode } from "../../lib/prefs";
+import { useBibleDb } from "../../bible/BibleProvider";
+import { loadBookNames, TE, type BookNames } from "../../bible/repo";
 
 const MODES: { key: ReadingMode; label: string }[] = [{ key: "parallel", label: "Parallel" }, { key: "telugu", label: "తెలుగు" }, { key: "english", label: "English" }];
 
@@ -18,6 +20,9 @@ export default function Bible() {
   const [testament, setTestament] = useState<Testament>("OT");
   const [open, setOpen] = useState<string | null>(null);
   const books = useMemo(() => BOOKS.filter((b) => b.testament === testament), [testament]);
+  const { db } = useBibleDb();
+  const [names, setNames] = useState<BookNames | null>(null);
+  React.useEffect(() => { if (db) loadBookNames(db).then(setNames).catch(() => {}); }, [db]);
 
   const Segment = ({ items, value, onChange }: { items: { key: string; label: string }[]; value: string; onChange: (k: any) => void }) => (
     <View style={{ flexDirection: "row", backgroundColor: c.surfaceAlt, borderRadius: 12, padding: 3 }} accessibilityRole="tablist">
@@ -40,7 +45,10 @@ export default function Bible() {
         <Pressable onPress={() => setOpen(expanded ? null : item.code)} accessibilityRole="button" accessibilityLabel={`${item.name}, ${item.chapters} chapters`} accessibilityState={{ expanded }}
           style={({ pressed }) => ({ flexDirection: "row", alignItems: "center", paddingVertical: 14, opacity: pressed ? 0.6 : 1 })}>
           <Text style={{ width: 34, fontFamily: fonts.ui, fontSize: 12.5, color: c.textMuted }}>{item.order}</Text>
-          <Text style={{ flex: 1, fontFamily: fonts.uiMedium, fontSize: 16.5, color: c.text }}>{item.name}</Text>
+          <View style={{ flex: 1 }}>
+            {prefs.readingMode !== "english" && names?.[TE]?.[item.code] ? <Text style={{ fontFamily: fonts.teluguUiBold, fontSize: 16, color: c.text, lineHeight: 26 }}>{names[TE][item.code].name}</Text> : null}
+            <Text style={{ fontFamily: prefs.readingMode === "english" ? fonts.uiMedium : fonts.ui, fontSize: prefs.readingMode === "english" ? 16.5 : 13, color: prefs.readingMode === "english" ? c.text : c.textMuted }}>{item.name}</Text>
+          </View>
           <Text style={{ fontFamily: fonts.ui, fontSize: 13, color: c.textMuted, marginRight: 8 }}>{item.chapters}</Text>
           <View style={{ transform: [{ rotate: expanded ? "90deg" : "0deg" }] }}><Icon name="chevron" color={c.textMuted} size={16} /></View>
         </Pressable>

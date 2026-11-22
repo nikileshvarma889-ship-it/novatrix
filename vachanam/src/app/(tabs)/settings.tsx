@@ -41,6 +41,9 @@ export default function Settings() {
         <Label>Default reading mode</Label>
         <Choice<ReadingMode> label="Reading mode" value={prefs.readingMode} onChange={(readingMode) => setPrefs({ readingMode })} items={[{ key: "parallel", label: "Parallel" }, { key: "telugu", label: "తెలుగు" }, { key: "english", label: "English" }]} />
         <View style={{ height: 16 }} />
+        <Label>Parallel layout</Label>
+        <Choice<"stacked" | "side"> label="Parallel layout" value={prefs.parallelLayout} onChange={(parallelLayout) => setPrefs({ parallelLayout })} items={[{ key: "stacked", label: "Stacked" }, { key: "side", label: "Side by side" }]} />
+        <View style={{ height: 16 }} />
         <Label>Text size</Label>
         <Choice<number> label="Text size" value={prefs.readerSize} onChange={(readerSize) => setPrefs({ readerSize })} items={READER_SIZES.map((s) => ({ key: s, label: String(s) }))} />
         <View style={{ height: 16 }} />
@@ -55,7 +58,9 @@ export default function Settings() {
 
       <SectionHeader title="Bible translations" />
       <Card>
-        <Row icon="globe" title="Telugu and English texts" subtitle="Not installed yet: licensed texts are imported in Phase 2" badge={<PhaseBadge phase={2} />} />
+        <Row icon="globe" title="Telugu: Indian Revised Version (IRV) 2019" subtitle="CC BY-SA 4.0 · installed, works offline" onPress={() => router.push("/about")} />
+        <Divider />
+        <Row icon="globe" title="English: Berean Standard Bible (BSB)" subtitle="Public domain · installed, works offline" onPress={() => router.push("/about")} />
       </Card>
 
       <SectionHeader title="Daily verse" />

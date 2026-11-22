@@ -9,8 +9,8 @@ An offline-first Telugu and English Bible app, built with Expo (SDK 58), React N
 | Phase | Scope | Status |
 |---|---|---|
 | 1 | Project setup, branding, navigation, home screen | **Done** |
-| 2 | Bible database and import, book/chapter navigation, reader | Next (book/chapter navigation already works) |
-| 3 | Telugu + English parallel reading | Planned |
+| 2 | Bible database and import, book/chapter navigation, reader | **Done**: Telugu IRV + English BSB bundled, offline |
+| 3 | Telugu + English parallel reading | **Done**: stacked, side by side, single language |
 | 4 | Underline, highlight, notes, bookmarks, collections | Planned (database tables already exist) |
 | 5 | Daily verse and notifications | Planned |
 | 6 | Auth, Supabase sync, offline merge | Planned |
@@ -19,6 +19,29 @@ An offline-first Telugu and English Bible app, built with Expo (SDK 58), React N
 The prayer journal already works: create, autosave, mark answered, delete.
 
 **Christian Calendar (2025–2030):** month view with Telugu and English month and weekday names. It shows church festivals for every year, including the moveable ones calculated from Easter (Ash Wednesday, Palm Sunday, Good Friday, Easter, Ascension, Pentecost, Advent). You can add your own events (church programmes, prayer meetings) to any day; they are saved on the device. The home screen shows the next festival. Light/dark theme, text size, line spacing and default reading mode are saved too.
+
+## Bible text
+
+`assets/bible/bible.db` is a read-only SQLite database built from the licensed USFM sources. It holds 31,004 Telugu IRV verses, 31,086 English BSB verses, section headings, Psalm titles, paragraph breaks and Telugu and English book names. It is opened separately from the user's own data, and imported once on first launch.
+
+To rebuild it, then validate it:
+
+```bash
+npm run build:bible
+```
+
+```bash
+node tools/check-bible.mjs
+```
+
+The script downloads the sources from eBible.org. Verse text is kept exactly as published; footnotes and word-tag markup are left out, as the in-app licence notice states.
+
+Verses are aligned across translations by their stable reference. Telugu verse ranges (88 of them, such as "1-2") are paired with each English verse they cover, so parallel reading never drifts.
+
+**Licence duties (CC BY-SA 4.0, IRV):**
+- The notice is shown in About and under every chapter.
+- The database itself stays under CC BY-SA 4.0.
+- The app's own code is not affected.
 
 ## Bible Guide (AI, powered by Claude)
 

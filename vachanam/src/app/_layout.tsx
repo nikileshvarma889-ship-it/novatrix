@@ -11,6 +11,7 @@ import { Inter_400Regular, Inter_500Medium, Inter_600SemiBold } from "@expo-goog
 import { NotoSerifTelugu_400Regular, NotoSerifTelugu_600SemiBold } from "@expo-google-fonts/noto-serif-telugu";
 import { NotoSansTelugu_400Regular, NotoSansTelugu_600SemiBold } from "@expo-google-fonts/noto-sans-telugu";
 import { ThemeProvider, useTheme } from "../theme/ThemeProvider";
+import { BibleProvider } from "../bible/BibleProvider";
 import { DB_NAME, migrate } from "../db/schema";
 import { fonts } from "../theme/typography";
 
@@ -57,7 +58,9 @@ export default function RootLayout() {
       <ThemeProvider>
         <Suspense fallback={<Loading />}>
           <SQLiteProvider databaseName={DB_NAME} onInit={migrate} useSuspense>
-            <Navigator />
+            <BibleProvider>
+              <Navigator />
+            </BibleProvider>
           </SQLiteProvider>
         </Suspense>
       </ThemeProvider>

@@ -13,7 +13,7 @@ export default function History() {
   return (
     <Screen padTop={false}>
       {error ? <Text style={{ color: c.danger }}>Couldn't load history: {error}</Text> : null}
-      {rows && rows.length === 0 ? <EmptyState icon="history" title="No reading history yet" body="Chapters you read are listed here, newest first, so you can return to them. Recording starts once Bible text is installed in Phase 2." /> : null}
+      {rows && rows.length === 0 ? <EmptyState icon="history" title="No reading history yet" body="Chapters you read are listed here, newest first, so you can return to them." /> : null}
       {rows?.map((h) => (
         <Card key={h.id} onPress={() => router.push(`/read/${h.book}/${h.chapter}`)} label={`${BOOK_BY_CODE[h.book]?.name} ${h.chapter}`} style={{ marginBottom: 10 }}>
           <Text style={{ fontFamily: fonts.uiBold, fontSize: 16, color: c.text }}>{BOOK_BY_CODE[h.book]?.name} {h.chapter}</Text>

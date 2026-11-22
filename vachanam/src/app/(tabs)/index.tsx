@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, View } from "react-native";
+import { Pressable, Text, View } from "react-native";
 import { router } from "expo-router";
 import { Logo } from "../../components/Logo";
 import { Icon, type IconName } from "../../components/Icon";
@@ -9,6 +9,10 @@ import { fonts } from "../../theme/typography";
 import { useQuery } from "../../lib/userdata";
 import { BOOK_BY_CODE } from "../../data/books";
 import { MONTHS_EN, nextFeast, parseKey } from "../../lib/calendar";
+import { useBibleDb } from "../../bible/BibleProvider";
+import { loadBookNames, loadVerse, TE } from "../../bible/repo";
+import { dailyRef } from "../../bible/daily";
+import { makeVid, parseRef } from "../../lib/ref";
 
 function greetingFor(h: number) {
   return h < 12 ? "Good morning" : h < 17 ? "Good afternoon" : "Good evening";
@@ -33,10 +37,16 @@ export default function Home() {
     `SELECT (SELECT COUNT(*) FROM notes WHERE deleted = 0) AS notes, (SELECT COUNT(*) FROM bookmarks WHERE deleted = 0) AS bookmarks,
             (SELECT COUNT(*) FROM reading_history) AS history, (SELECT COUNT(*) FROM prayers WHERE deleted = 0) AS prayers`);
   const last = useQuery<{ book: string; chapter: number }>("SELECT book, chapter FROM reading_history ORDER BY read_at DESC LIMIT 1");
-  const installed = useQuery<{ n: number }>("SELECT COUNT(*) AS n FROM translations WHERE installed_at IS NOT NULL");
   const n = counts.rows?.[0];
   const lastRead = last.rows?.[0];
-  const hasBible = (installed.rows?.[0]?.n ?? 0) > 0;
+  const { db: bible } = useBibleDb();
+  const today = parseRef(dailyRef())!;
+  const [verse, setVerse] = React.useState<{ te: string | null; en: string | null; teBook?: string } | null>(null);
+  React.useEffect(() => {
+    if (!bible) return;
+    Promise.all([loadVerse(bible, makeVid(today.book, today.chapter, today.verse)), loadBookNames(bible)])
+      .then(([v, names]) => setVerse({ ...v, teBook: names[TE]?.[today.book]?.short_name })).catch(() => setVerse({ te: null, en: null }));
+  }, [bible]);
   const upcoming = nextFeast(new Date());
   const plural = (k: number, w: string) => `${k} ${w}${k === 1 ? "" : "s"}`;
 
@@ -75,14 +85,14 @@ export default function Home() {
       <View style={{ backgroundColor: c.primary === "#86BFA0" ? "#173B2D" : c.primary, borderRadius: 22, padding: 20, overflow: "hidden" }}>
         <View style={{ position: "absolute", right: -30, top: -30, opacity: 0.12 }}><Logo size={150} bg="transparent" gold="#F3E7C9" /></View>
         <Text style={{ fontFamily: fonts.uiBold, fontSize: 11.5, letterSpacing: 1.6, color: "#E6CF94" }}>తెలుగు · ENGLISH</Text>
-        {hasBible ? null : (
-          <>
-            <Text style={{ fontFamily: fonts.display, fontSize: 24, color: "#FFFDF8", marginTop: 10, lineHeight: 30 }}>Your daily verse will appear here</Text>
-            <Text style={{ fontFamily: fonts.ui, fontSize: 14, lineHeight: 21, color: "#DCE6DF", marginTop: 8 }}>
-              Each morning Vachanam shows one verse in Telugu and English together. It starts once the licensed Bible texts are installed.
-            </Text>
-            <View style={{ marginTop: 14 }}><PhaseBadge phase={2} text="Bible text arrives in Phase 2" /></View>
-          </>
+        {verse?.te || verse?.en ? (
+          <Pressable onPress={() => router.push(`/read/${today.book}/${today.chapter}?v=${today.verse}`)} accessibilityRole="button" accessibilityLabel={`Verse of the day, ${BOOK_BY_CODE[today.book].name} ${today.chapter}:${today.verse}. Open chapter`}>
+            {verse.te ? <Text style={{ fontFamily: fonts.teluguScripture, fontSize: 18, lineHeight: 32, color: "#FFFDF8", marginTop: 12 }}>{verse.te}</Text> : null}
+            {verse.en ? <Text style={{ fontFamily: fonts.englishScripture, fontSize: 19.5, lineHeight: 27, color: "#DCE6DF", marginTop: 10 }}>{verse.en}</Text> : null}
+            <Text style={{ fontFamily: fonts.uiBold, fontSize: 13, color: "#E6CF94", marginTop: 12 }}>{verse.teBook ? `${verse.teBook} ${today.chapter}:${today.verse} · ` : ""}{BOOK_BY_CODE[today.book].name} {today.chapter}:{today.verse}</Text>
+          </Pressable>
+        ) : (
+          <Text style={{ fontFamily: fonts.ui, fontSize: 14, color: "#DCE6DF", marginTop: 12 }}>{bible ? "Couldn't load today's verse." : "Opening the Bible…"}</Text>
         )}
       </View>
 
