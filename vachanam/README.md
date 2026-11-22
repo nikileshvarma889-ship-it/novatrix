@@ -20,6 +20,28 @@ The prayer journal already works: create, autosave, mark answered, delete.
 
 **Christian Calendar (2025–2030):** month view with Telugu and English month and weekday names. It shows church festivals for every year, including the moveable ones calculated from Easter (Ash Wednesday, Palm Sunday, Good Friday, Easter, Ascension, Pentecost, Advent). You can add your own events (church programmes, prayer meetings) to any day; they are saved on the device. The home screen shows the next festival. Light/dark theme, text size, line spacing and default reading mode are saved too.
 
+## Bible Guide (AI, powered by Claude)
+
+An in-app assistant that **only** discusses the Bible and the Christian faith: verse meanings, characters, history, faith questions, prayers and devotional thoughts. It answers in English, Telugu or both, and politely declines anything off-topic. Citations such as "(John 3:16)" become links into the reader. The conversation is stored only on the device.
+
+How it's built:
+- `supabase/functions/bible-guide/`: a Supabase Edge Function that holds the Anthropic API key (never in the app). It calls **Claude Opus 5.5** with medium effort and streaming, a cached system prompt that sets the Bible-only scope, and automatic refusal fallback (`fallbacks: "default"`). It also validates input and rate-limits to 20 questions per 10 minutes per IP.
+- `src/app/guide.tsx` (chat UI), `src/lib/guideClient.ts` (streaming client), `src/lib/refparse.ts` (citation links).
+
+Turn it on:
+
+```bash
+supabase functions deploy bible-guide
+```
+
+```bash
+supabase secrets set ANTHROPIC_API_KEY=sk-ant-...
+```
+
+Then copy `.env.example` to `.env`, fill in your Supabase URL and anon key, and restart `npx expo start`.
+
+Cost: Claude Opus 5.5 is $4 per million input tokens and $20 per million output tokens. A typical question and answer costs roughly ₹0.5–2. Set a monthly spend limit in the Anthropic Console before publishing.
+
 ## Run it
 
 ```bash

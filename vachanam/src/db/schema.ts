@@ -75,6 +75,12 @@ const MIGRATIONS: string[] = [
   );
   CREATE INDEX IF NOT EXISTS events_day ON events (day);
   `,
+  // v3: Bible Guide (AI) conversation, kept on the device
+  `
+  CREATE TABLE IF NOT EXISTS guide_messages (
+    id TEXT PRIMARY KEY, role TEXT NOT NULL CHECK (role IN ('user','assistant')), content TEXT NOT NULL, created_at TEXT NOT NULL
+  );
+  `,
 ];
 
 export async function migrate(db: SQLiteDatabase): Promise<void> {

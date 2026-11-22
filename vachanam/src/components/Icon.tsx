@@ -2,7 +2,7 @@ import React from "react";
 import Svg, { Circle, Path, Rect } from "react-native-svg";
 
 /** Hand-drawn line icons (24px grid) so the app carries no icon-font dependency. */
-export type IconName = "home" | "book" | "note" | "bookmark" | "settings" | "sun" | "history" | "pray" | "devotional" | "chevron" | "back" | "plus" | "check" | "trash" | "info" | "shield" | "bell" | "user" | "search" | "text" | "moon" | "globe" | "calendar";
+export type IconName = "home" | "book" | "note" | "bookmark" | "settings" | "sun" | "history" | "pray" | "devotional" | "chevron" | "back" | "plus" | "check" | "trash" | "info" | "shield" | "bell" | "user" | "search" | "text" | "moon" | "globe" | "calendar" | "spark" | "send" | "stop";
 const P: Record<IconName, (c: string) => React.ReactNode> = {
   home: (c) => <Path d="M3.5 10.5 12 4l8.5 6.5V20a1 1 0 0 1-1 1H15v-6h-6v6H4.5a1 1 0 0 1-1-1z" stroke={c} />,
   book: (c) => <Path d="M12 6.5C9.5 4.8 6.5 4.5 3.5 5v13c3-.5 6-.2 8.5 1.5 2.5-1.7 5.5-2 8.5-1.5V5c-3-.5-6-.2-8.5 1.5zM12 6.5v13" stroke={c} />,
@@ -25,6 +25,9 @@ const P: Record<IconName, (c: string) => React.ReactNode> = {
   user: (c) => <><Circle cx="12" cy="8.5" r="3.8" stroke={c} /><Path d="M4.5 20c1-4 4-5.8 7.5-5.8s6.5 1.8 7.5 5.8" stroke={c} /></>,
   search: (c) => <><Circle cx="10.8" cy="10.8" r="6.3" stroke={c} /><Path d="M15.5 15.5l4.5 4.5" stroke={c} /></>,
   text: (c) => <Path d="M4.5 18.5L9 5.5l4.5 13M6 14.5h6M15 18.5l2.8-7.5 2.7 7.5M15.9 16.3h3.9" stroke={c} />,
+  spark: (c) => <Path d="M12 3.5l1.9 5.1 5.1 1.9-5.1 1.9L12 17.5l-1.9-5.1L5 10.5l5.1-1.9zM18.5 15.5l.8 2.2 2.2.8-2.2.8-.8 2.2-.8-2.2-2.2-.8 2.2-.8z" stroke={c} />,
+  send: (c) => <Path d="M4.5 12l15-7.5-5 15-2.5-6zM12 13.5l7.5-9" stroke={c} />,
+  stop: (c) => <Rect x="7" y="7" width="10" height="10" rx="2" stroke={c} />,
   calendar: (c) => <><Path d="M5 5.5h14a1 1 0 0 1 1 1V19a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6.5a1 1 0 0 1 1-1zM4 10h16M8.5 3.5v4M15.5 3.5v4" stroke={c} /><Path d="M12 12.5v5M9.5 14.5h5" stroke={c} /></>,
   globe: (c) => <><Circle cx="12" cy="12" r="8.5" stroke={c} /><Path d="M3.5 12h17M12 3.5c2.5 2.5 3.5 5.5 3.5 8.5s-1 6-3.5 8.5c-2.5-2.5-3.5-5.5-3.5-8.5s1-6 3.5-8.5z" stroke={c} /></>,
 };

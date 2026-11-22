@@ -58,6 +58,18 @@ export default function Home() {
         <Text style={{ fontFamily: fonts.displayItalic, fontSize: 18, color: c.textMuted }}>Read. Understand. Live the Word.</Text>
       </View>
 
+      {/* AI guide */}
+      <Card onPress={() => router.push("/guide")} label="Ask the Bible Guide" style={{ marginTop: 22, borderColor: c.gold, borderWidth: 1 }}>
+        <View style={{ flexDirection: "row", alignItems: "center", gap: 14 }}>
+          <View style={{ width: 46, height: 46, borderRadius: 14, backgroundColor: c.goldSoft, alignItems: "center", justifyContent: "center" }}><Icon name="spark" color={c.gold} size={24} /></View>
+          <View style={{ flex: 1 }}>
+            <Text style={{ fontFamily: fonts.uiBold, fontSize: 16, color: c.text }}>Ask the Bible Guide</Text>
+            <Text style={{ fontFamily: fonts.ui, fontSize: 13, color: c.textMuted, marginTop: 2 }}>Questions about verses and faith, answered in Telugu or English</Text>
+          </View>
+          <Icon name="chevron" color={c.textMuted} size={18} />
+        </View>
+      </Card>
+
       {/* daily verse */}
       <SectionHeader title="Verse of the day" />
       <View style={{ backgroundColor: c.primary === "#86BFA0" ? "#173B2D" : c.primary, borderRadius: 22, padding: 20, overflow: "hidden" }}>

@@ -1,0 +1,4 @@
+# Minimal Supabase project config for the Vachanam functions.
+[functions.bible-guide]
+# Guests can use the guide without an account; the function still requires the project's anon key.
+verify_jwt = true

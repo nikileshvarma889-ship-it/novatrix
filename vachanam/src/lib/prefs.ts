@@ -11,8 +11,9 @@ export type Prefs = {
   readingMode: ReadingMode;
   parallelLayout: ParallelLayout;
   uiLanguage: "en" | "te";
+  guideLang: "en" | "te" | "both";
 };
-export const DEFAULT_PREFS: Prefs = { theme: "system", readerSize: 20, lineSpacing: 1.8, readingMode: "parallel", parallelLayout: "stacked", uiLanguage: "en" };
+export const DEFAULT_PREFS: Prefs = { theme: "system", readerSize: 20, lineSpacing: 1.8, readingMode: "parallel", parallelLayout: "stacked", uiLanguage: "en", guideLang: "en" };
 const KEY = "vachanam.prefs.v1";
 
 export async function loadPrefs(): Promise<Prefs> {
