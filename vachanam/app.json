@@ -1,0 +1,54 @@
+{
+  "expo": {
+    "name": "Vachanam",
+    "slug": "vachanam",
+    "scheme": "vachanam",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "automatic",
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#FBF7EF"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "app.vachanam.bible"
+    },
+    "android": {
+      "package": "app.vachanam.bible",
+      "adaptiveIcon": {
+        "backgroundColor": "#1F4D3A",
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png"
+      },
+      "predictiveBackGestureEnabled": false
+    },
+    "web": {
+      "favicon": "./assets/favicon.png",
+      "bundler": "metro",
+      "output": "single"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-status-bar",
+      "expo-sqlite",
+      "expo-font",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/splash-icon.png",
+          "imageWidth": 180,
+          "backgroundColor": "#FBF7EF",
+          "dark": {
+            "backgroundColor": "#0E1512"
+          }
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": false
+    }
+  }
+}
