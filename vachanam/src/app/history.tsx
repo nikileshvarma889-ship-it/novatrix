@@ -12,7 +12,7 @@ export default function History() {
   const { rows, error } = useQuery<{ id: string; book: string; chapter: number; read_at: string }>("SELECT id, book, chapter, read_at FROM reading_history ORDER BY read_at DESC LIMIT 200");
   return (
     <Screen padTop={false}>
-      {error ? <Text style={{ color: c.danger }}>Couldn't load history: {error}</Text> : null}
+      {error ? <Text style={{ color: c.danger }}>Couldn’t load history: {error}</Text> : null}
       {rows && rows.length === 0 ? <EmptyState icon="history" title="No reading history yet" body="Chapters you read are listed here, newest first, so you can return to them." /> : null}
       {rows?.map((h) => (
         <Card key={h.id} onPress={() => router.push(`/read/${h.book}/${h.chapter}`)} label={`${BOOK_BY_CODE[h.book]?.name} ${h.chapter}`} style={{ marginBottom: 10 }}>

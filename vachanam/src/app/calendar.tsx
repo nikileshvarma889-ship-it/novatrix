@@ -12,6 +12,16 @@ import { nowIso, uuid } from "../lib/id";
 type Ev = { id: string; day: string; title: string; note: string };
 const FEASTS = feastIndex();
 
+function Arrow({ dir, enabled, onPress }: { dir: 1 | -1; enabled: boolean; onPress: () => void }) {
+  const { c } = useTheme();
+  return (
+    <Pressable disabled={!enabled} onPress={onPress} accessibilityRole="button" accessibilityLabel={dir === 1 ? "Next month" : "Previous month"}
+      style={({ pressed }) => ({ width: 40, height: 40, borderRadius: 20, alignItems: "center", justifyContent: "center", backgroundColor: c.surface, borderWidth: 0.5, borderColor: c.border, opacity: !enabled ? 0.3 : pressed ? 0.6 : 1 })}>
+      <Icon name={dir === 1 ? "chevron" : "back"} color={c.primary} size={18} />
+    </Pressable>
+  );
+}
+
 export default function CalendarScreen() {
   const { c } = useTheme();
   const db = useSQLiteContext();
@@ -53,13 +63,6 @@ export default function CalendarScreen() {
   };
   const isTe = (s: string) => /[ఀ-౿]/.test(s);
 
-  const Arrow = ({ dir, enabled }: { dir: 1 | -1; enabled: boolean }) => (
-    <Pressable disabled={!enabled} onPress={() => shift(dir)} accessibilityRole="button" accessibilityLabel={dir === 1 ? "Next month" : "Previous month"}
-      style={({ pressed }) => ({ width: 40, height: 40, borderRadius: 20, alignItems: "center", justifyContent: "center", backgroundColor: c.surface, borderWidth: 0.5, borderColor: c.border, opacity: !enabled ? 0.3 : pressed ? 0.6 : 1 })}>
-      <Icon name={dir === 1 ? "chevron" : "back"} color={c.primary} size={18} />
-    </Pressable>
-  );
-
   return (
     <Screen padTop={false}>
       {/* year chips */}
@@ -77,12 +80,12 @@ export default function CalendarScreen() {
 
       {/* month header */}
       <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
-        <Arrow dir={-1} enabled={canPrev} />
+        <Arrow dir={-1} enabled={canPrev} onPress={() => shift(-1)} />
         <View style={{ alignItems: "center" }}>
           <Text accessibilityRole="header" style={{ fontFamily: fonts.display, fontSize: 28, color: c.text }}>{MONTHS_EN[month]} {year}</Text>
           <Text style={{ fontFamily: fonts.teluguUi, fontSize: 13.5, color: c.gold }}>{MONTHS_TE[month]} {year}</Text>
         </View>
-        <Arrow dir={1} enabled={canNext} />
+        <Arrow dir={1} enabled={canNext} onPress={() => shift(1)} />
       </View>
 
       {/* grid */}

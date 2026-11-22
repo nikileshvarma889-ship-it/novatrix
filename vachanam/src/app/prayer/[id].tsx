@@ -15,7 +15,8 @@ export default function PrayerEditor() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const [title, setTitle] = useState(""); const [body, setBody] = useState(""); const [answered, setAnswered] = useState(false);
   const [state, setState] = useState<"loading" | "saved" | "saving" | "missing" | "error">("loading");
-  const latest = useRef({ title, body, answered }); latest.current = { title, body, answered };
+  const latest = useRef({ title, body, answered });
+  useEffect(() => { latest.current = { title, body, answered }; });
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const loaded = useRef(false);
 

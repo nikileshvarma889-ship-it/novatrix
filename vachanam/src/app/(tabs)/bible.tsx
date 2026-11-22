@@ -12,6 +12,23 @@ import { loadBookNames, TE, type BookNames } from "../../bible/repo";
 
 const MODES: { key: ReadingMode; label: string }[] = [{ key: "parallel", label: "Parallel" }, { key: "telugu", label: "తెలుగు" }, { key: "english", label: "English" }];
 
+function Segment({ items, value, onChange }: { items: { key: string; label: string }[]; value: string; onChange: (k: any) => void }) {
+  const { c } = useTheme();
+  return (
+    <View style={{ flexDirection: "row", backgroundColor: c.surfaceAlt, borderRadius: 12, padding: 3 }} accessibilityRole="tablist">
+      {items.map((it) => {
+        const on = it.key === value;
+        return (
+          <Pressable key={it.key} onPress={() => onChange(it.key)} accessibilityRole="tab" accessibilityState={{ selected: on }}
+            style={{ flex: 1, paddingVertical: 8, borderRadius: 10, alignItems: "center", backgroundColor: on ? c.surface : "transparent" }}>
+            <Text style={{ fontFamily: /[\u0C00-\u0C7F]/.test(it.label) ? fonts.teluguUiBold : fonts.uiBold, fontSize: 13.5, color: on ? c.primary : c.textMuted }}>{it.label}</Text>
+          </Pressable>
+        );
+      })}
+    </View>
+  );
+}
+
 export default function Bible() {
   const { c, prefs, setPrefs } = useTheme();
   const insets = useSafeAreaInsets();
@@ -23,20 +40,6 @@ export default function Bible() {
   const { db } = useBibleDb();
   const [names, setNames] = useState<BookNames | null>(null);
   React.useEffect(() => { if (db) loadBookNames(db).then(setNames).catch(() => {}); }, [db]);
-
-  const Segment = ({ items, value, onChange }: { items: { key: string; label: string }[]; value: string; onChange: (k: any) => void }) => (
-    <View style={{ flexDirection: "row", backgroundColor: c.surfaceAlt, borderRadius: 12, padding: 3 }} accessibilityRole="tablist">
-      {items.map((it) => {
-        const on = it.key === value;
-        return (
-          <Pressable key={it.key} onPress={() => onChange(it.key)} accessibilityRole="tab" accessibilityState={{ selected: on }}
-            style={{ flex: 1, paddingVertical: 8, borderRadius: 10, alignItems: "center", backgroundColor: on ? c.surface : "transparent" }}>
-            <Text style={{ fontFamily: /[ఀ-౿]/.test(it.label) ? fonts.teluguUiBold : fonts.uiBold, fontSize: 13.5, color: on ? c.primary : c.textMuted }}>{it.label}</Text>
-          </Pressable>
-        );
-      })}
-    </View>
-  );
 
   const renderBook = ({ item }: { item: BookMeta }) => {
     const expanded = open === item.code;

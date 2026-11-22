@@ -7,12 +7,16 @@ import { fonts } from "../theme/typography";
 import { useBibleDb } from "../bible/BibleProvider";
 import { loadTranslations, type Translation } from "../bible/repo";
 
+function P({ children }: { children: React.ReactNode }) {
+  const { c } = useTheme();
+  return <Text style={{ fontFamily: fonts.ui, fontSize: 14.5, lineHeight: 22, color: c.text, marginBottom: 8 }}>{children}</Text>;
+}
+
 export default function About() {
   const { c } = useTheme();
   const { db } = useBibleDb();
   const [tr, setTr] = React.useState<Translation[] | null>(null);
   React.useEffect(() => { if (db) loadTranslations(db).then(setTr).catch(() => setTr([])); }, [db]);
-  const P = ({ children }: { children: React.ReactNode }) => <Text style={{ fontFamily: fonts.ui, fontSize: 14.5, lineHeight: 22, color: c.text, marginBottom: 8 }}>{children}</Text>;
   return (
     <Screen padTop={false}>
       <View style={{ alignItems: "center", marginVertical: 18 }}>

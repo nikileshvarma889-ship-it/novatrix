@@ -23,9 +23,13 @@ function Choice<T extends string | number>({ items, value, onChange, label }: { 
   );
 }
 
+function Label({ children }: { children: string }) {
+  const { c } = useTheme();
+  return <Text style={{ fontFamily: fonts.uiMedium, fontSize: 14.5, color: c.text, marginBottom: 10, marginTop: 4 }}>{children}</Text>;
+}
+
 export default function Settings() {
   const { c, prefs, setPrefs } = useTheme();
-  const Label = ({ children }: { children: string }) => <Text style={{ fontFamily: fonts.uiMedium, fontSize: 14.5, color: c.text, marginBottom: 10, marginTop: 4 }}>{children}</Text>;
   return (
     <Screen>
       <Title sub="Make Vachanam yours">Settings</Title>

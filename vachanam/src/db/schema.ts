@@ -81,6 +81,18 @@ const MIGRATIONS: string[] = [
     id TEXT PRIMARY KEY, role TEXT NOT NULL CHECK (role IN ('user','assistant')), content TEXT NOT NULL, created_at TEXT NOT NULL
   );
   `,
+  // v4: starter collections, and indexes for chapter-level lookups of marks
+  `
+  INSERT OR IGNORE INTO collections (id, name, created_at, updated_at) VALUES
+    ('col-faith', 'Faith', datetime('now'), datetime('now')),
+    ('col-prayer', 'Prayer', datetime('now'), datetime('now')),
+    ('col-hope', 'Hope', datetime('now'), datetime('now')),
+    ('col-love', 'Love', datetime('now'), datetime('now')),
+    ('col-promises', 'Promises of God', datetime('now'), datetime('now'));
+  CREATE INDEX IF NOT EXISTS highlights_vid ON highlights (vid);
+  CREATE INDEX IF NOT EXISTS underlines_vid ON underlines (vid);
+  CREATE INDEX IF NOT EXISTS bookmarks_vid ON bookmarks (vid);
+  `,
 ];
 
 export async function migrate(db: SQLiteDatabase): Promise<void> {

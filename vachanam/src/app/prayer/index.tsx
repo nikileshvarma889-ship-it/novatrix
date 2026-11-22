@@ -23,7 +23,7 @@ export default function PrayerList() {
     <Screen padTop={false}>
       <Text style={{ fontFamily: fonts.displayItalic, fontSize: 18, color: c.textMuted, marginBottom: 14 }}>Pour out your heart. Return and give thanks.</Text>
       <Button label="New prayer" onPress={create} style={{ marginBottom: 16 }} />
-      {error ? <Text style={{ color: c.danger }}>Couldn't load prayers: {error}</Text> : null}
+      {error ? <Text style={{ color: c.danger }}>Couldn’t load prayers: {error}</Text> : null}
       {rows && rows.length === 0 ? <EmptyState icon="pray" title="Your journal is empty" body="Write a prayer, come back to it, and mark it answered. Prayers stay private on this device." /> : null}
       {rows?.map((p) => (
         <Card key={p.id} onPress={() => router.push(`/prayer/${p.id}`)} label={p.title || "Untitled prayer"} style={{ marginBottom: 10 }}>

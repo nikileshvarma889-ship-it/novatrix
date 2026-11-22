@@ -2,7 +2,7 @@ import React from "react";
 import Svg, { Circle, Path, Rect } from "react-native-svg";
 
 /** Hand-drawn line icons (24px grid) so the app carries no icon-font dependency. */
-export type IconName = "home" | "book" | "note" | "bookmark" | "settings" | "sun" | "history" | "pray" | "devotional" | "chevron" | "back" | "plus" | "check" | "trash" | "info" | "shield" | "bell" | "user" | "search" | "text" | "moon" | "globe" | "calendar" | "spark" | "send" | "stop";
+export type IconName = "home" | "book" | "note" | "bookmark" | "settings" | "sun" | "history" | "pray" | "devotional" | "chevron" | "back" | "plus" | "check" | "trash" | "info" | "shield" | "bell" | "user" | "search" | "text" | "moon" | "globe" | "calendar" | "spark" | "send" | "stop" | "underline" | "copy" | "share" | "star" | "folder" | "close" | "bookmarkFilled";
 const P: Record<IconName, (c: string) => React.ReactNode> = {
   home: (c) => <Path d="M3.5 10.5 12 4l8.5 6.5V20a1 1 0 0 1-1 1H15v-6h-6v6H4.5a1 1 0 0 1-1-1z" stroke={c} />,
   book: (c) => <Path d="M12 6.5C9.5 4.8 6.5 4.5 3.5 5v13c3-.5 6-.2 8.5 1.5 2.5-1.7 5.5-2 8.5-1.5V5c-3-.5-6-.2-8.5 1.5zM12 6.5v13" stroke={c} />,
@@ -25,6 +25,13 @@ const P: Record<IconName, (c: string) => React.ReactNode> = {
   user: (c) => <><Circle cx="12" cy="8.5" r="3.8" stroke={c} /><Path d="M4.5 20c1-4 4-5.8 7.5-5.8s6.5 1.8 7.5 5.8" stroke={c} /></>,
   search: (c) => <><Circle cx="10.8" cy="10.8" r="6.3" stroke={c} /><Path d="M15.5 15.5l4.5 4.5" stroke={c} /></>,
   text: (c) => <Path d="M4.5 18.5L9 5.5l4.5 13M6 14.5h6M15 18.5l2.8-7.5 2.7 7.5M15.9 16.3h3.9" stroke={c} />,
+  underline: (c) => <Path d="M7 4.5v6.5a5 5 0 0 0 10 0V4.5M5.5 20h13" stroke={c} />,
+  copy: (c) => <><Rect x="8.5" y="8.5" width="11" height="11" rx="2" stroke={c} /><Path d="M15.5 8.5V6a1.5 1.5 0 0 0-1.5-1.5H6A1.5 1.5 0 0 0 4.5 6v8A1.5 1.5 0 0 0 6 15.5h2.5" stroke={c} /></>,
+  share: (c) => <><Circle cx="17.5" cy="5.5" r="2.5" stroke={c} /><Circle cx="6.5" cy="12" r="2.5" stroke={c} /><Circle cx="17.5" cy="18.5" r="2.5" stroke={c} /><Path d="M8.7 10.8l6.6-4M8.7 13.2l6.6 4" stroke={c} /></>,
+  star: (c) => <Path d="M12 3.8l2.5 5.2 5.7.8-4.1 4 1 5.7-5.1-2.7-5.1 2.7 1-5.7-4.1-4 5.7-.8z" stroke={c} />,
+  folder: (c) => <Path d="M3.5 7a1.5 1.5 0 0 1 1.5-1.5h4.5l2 2.5H19a1.5 1.5 0 0 1 1.5 1.5V18a1.5 1.5 0 0 1-1.5 1.5H5A1.5 1.5 0 0 1 3.5 18zM12 11.5v5M9.5 14h5" stroke={c} />,
+  close: (c) => <Path d="M6 6l12 12M18 6L6 18" stroke={c} />,
+  bookmarkFilled: (c) => <Path d="M6.5 3.5h11a.5.5 0 0 1 .5.5v16.5l-6-4-6 4V4a.5.5 0 0 1 .5-.5z" stroke={c} fill={c} />,
   spark: (c) => <Path d="M12 3.5l1.9 5.1 5.1 1.9-5.1 1.9L12 17.5l-1.9-5.1L5 10.5l5.1-1.9zM18.5 15.5l.8 2.2 2.2.8-2.2.8-.8 2.2-.8-2.2-2.2-.8 2.2-.8z" stroke={c} />,
   send: (c) => <Path d="M4.5 12l15-7.5-5 15-2.5-6zM12 13.5l7.5-9" stroke={c} />,
   stop: (c) => <Rect x="7" y="7" width="10" height="10" rx="2" stroke={c} />,

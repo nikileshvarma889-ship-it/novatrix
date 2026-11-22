@@ -39,6 +39,9 @@ function Navigator() {
         <Stack.Screen name="history" options={{ title: "Reading History" }} />
         <Stack.Screen name="calendar" options={{ title: "Christian Calendar" }} />
         <Stack.Screen name="guide" options={{ title: "Bible Guide" }} />
+        <Stack.Screen name="note/[id]" options={{ title: "Note" }} />
+        <Stack.Screen name="collection/[id]" options={{ title: "Collection" }} />
+        <Stack.Screen name="highlights" options={{ title: "Highlights" }} />
         <Stack.Screen name="about" options={{ title: "About Vachanam" }} />
         <Stack.Screen name="privacy" options={{ title: "Privacy Policy" }} />
       </Stack>

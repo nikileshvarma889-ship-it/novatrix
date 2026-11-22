@@ -11,7 +11,7 @@ An offline-first Telugu and English Bible app, built with Expo (SDK 58), React N
 | 1 | Project setup, branding, navigation, home screen | **Done** |
 | 2 | Bible database and import, book/chapter navigation, reader | **Done**: Telugu IRV + English BSB bundled, offline |
 | 3 | Telugu + English parallel reading | **Done**: stacked, side by side, single language |
-| 4 | Underline, highlight, notes, bookmarks, collections | Planned (database tables already exist) |
+| 4 | Underline, highlight, notes, bookmarks, collections | **Done** |
 | 5 | Daily verse and notifications | Planned |
 | 6 | Auth, Supabase sync, offline merge | Planned |
 | 7 | Search, devotional, plans, settings polish, testing | Planned |
@@ -19,6 +19,25 @@ An offline-first Telugu and English Bible app, built with Expo (SDK 58), React N
 The prayer journal already works: create, autosave, mark answered, delete.
 
 **Christian Calendar (2025–2030):** month view with Telugu and English month and weekday names. It shows church festivals for every year, including the moveable ones calculated from Easter (Ash Wednesday, Palm Sunday, Good Friday, Easter, Ascension, Pentecost, Advent). You can add your own events (church programmes, prayer meetings) to any day; they are saved on the device. The home screen shows the next festival. Light/dark theme, text size, line spacing and default reading mode are saved too.
+
+## Verse tools (Phase 4)
+
+Tap one or more verses in the reader to open the action bar:
+
+| Action | What it does |
+|---|---|
+| Highlight | Five colours (yellow, green, blue, pink, purple); tap the current colour or Remove to clear. |
+| Underline | In parallel mode it marks Telugu and English together (one linked record). In Telugu-only or English-only mode it marks just that language. |
+| Add Note | Opens a note for the verse, which autosaves. The chapter's note button (top bar) writes a chapter note. |
+| Bookmark | Saves the verse. The top-bar bookmark saves the whole chapter. |
+| Collection | Adds the verses to a collection: the starters (Faith, Prayer, Hope, Love, Promises of God) or a new one. |
+| Copy / Share | Telugu and English text, the reference, and translation credits. |
+
+Everything is stored in SQLite against stable verse references, so it survives restarts and shows in every reading mode. Deletes are soft, and changes go into `sync_queue` ready for cloud sync in Phase 6.
+
+Where to manage them:
+- **Bookmarks tab:** favourites (★), saved verses, saved chapters, collections (rename, delete, remove verses) and highlights (filter by colour, remove).
+- **Notes tab:** every note, with search across titles, text and references.
 
 ## Bible text
 
@@ -107,6 +126,25 @@ tests/                  unit tests (canon, navigation, verse references, calenda
 ## Stable verse references
 
 Every note, highlight, underline, bookmark and history entry is stored against a reference like `JHN.3.16` (USFM book code, chapter, verse), plus a sortable number (`43003016`). Both are the same in every translation, so Telugu and English stay linked and user data never depends on screen positions.
+
+## Verse tools (Phase 4)
+
+Tap one or more verses in the reader to open the action bar:
+
+| Action | What it does |
+|---|---|
+| Highlight | Five colours (yellow, green, blue, pink, purple); tap the current colour or Remove to clear. |
+| Underline | In parallel mode it marks Telugu and English together (one linked record). In Telugu-only or English-only mode it marks just that language. |
+| Add Note | Opens a note for the verse, which autosaves. The chapter's note button (top bar) writes a chapter note. |
+| Bookmark | Saves the verse. The top-bar bookmark saves the whole chapter. |
+| Collection | Adds the verses to a collection: the starters (Faith, Prayer, Hope, Love, Promises of God) or a new one. |
+| Copy / Share | Telugu and English text, the reference, and translation credits. |
+
+Everything is stored in SQLite against stable verse references, so it survives restarts and shows in every reading mode. Deletes are soft, and changes go into `sync_queue` ready for cloud sync in Phase 6.
+
+Where to manage them:
+- **Bookmarks tab:** favourites (★), saved verses, saved chapters, collections (rename, delete, remove verses) and highlights (filter by colour, remove).
+- **Notes tab:** every note, with search across titles, text and references.
 
 ## Bible texts: verified licences
 
