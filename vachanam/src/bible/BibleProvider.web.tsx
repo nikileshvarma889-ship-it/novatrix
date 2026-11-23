@@ -4,8 +4,8 @@ import { openDatabaseAsync, type SQLiteDatabase } from "expo-sqlite";
 /** Web build: browsers (and claude.ai pages) can't be handed a .db file, so the Bible ships as JSON
  *  (public/bible/, made by tools/export-bible-json.mjs) and is written into the browser's SQLite once. */
 export const BIBLE_DB = "bible-v3.db";
-type Ctx = { db: SQLiteDatabase | null; error: string | null };
-const BibleCtx = createContext<Ctx>({ db: null, error: null });
+type Ctx = { db: SQLiteDatabase | null; error: string | null; refresh: () => void };
+const BibleCtx = createContext<Ctx>({ db: null, error: null, refresh: () => {} });
 const base = () => ((globalThis as { __VB?: string }).__VB ?? "") + "/bible/";
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
@@ -51,12 +51,15 @@ async function openBible(): Promise<SQLiteDatabase> {
 }
 
 export function BibleProvider({ children }: { children: React.ReactNode }) {
-  const [state, setState] = useState<Ctx>({ db: null, error: null });
+  const [state, setState] = useState<{ db: SQLiteDatabase | null; error: string | null }>({ db: null, error: null });
+  const [rev, setRev] = useState(0);
   useEffect(() => {
     let live = true;
     openBible().then((db) => live && setState({ db, error: null })).catch((e) => live && setState({ db: null, error: String(e?.message ?? e) }));
     return () => { live = false; };
-  }, []);
-  return <BibleCtx.Provider value={state}>{children}</BibleCtx.Provider>;
+  }, [rev]);
+  /** After the Bible text changes (e.g. an import), reopen so every screen reloads. */
+  const refresh = React.useCallback(() => { setState({ db: null, error: null }); setRev((r) => r + 1); }, []);
+  return <BibleCtx.Provider value={{ ...state, refresh }}>{children}</BibleCtx.Provider>;
 }
 export const useBibleDb = () => useContext(BibleCtx);

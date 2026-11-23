@@ -1,5 +1,6 @@
 import { Platform } from "react-native";
 import * as Notifications from "expo-notifications";
+import { AndroidImportance } from "expo-notifications";
 import type { SQLiteDatabase } from "expo-sqlite";
 import { BOOK_BY_CODE } from "../data/books";
 import { loadBookNames, loadVerse, TE } from "../bible/repo";
@@ -31,7 +32,7 @@ async function ensureChannel() {
   if (Platform.OS !== "android") return;
   await Notifications.setNotificationChannelAsync(CHANNEL, {
     name: "Daily verse", description: "One Bible verse each morning in Telugu and English",
-    importance: Notifications.AndroidImportance.DEFAULT, lightColor: "#B08A36", vibrationPattern: [0, 120],
+    importance: AndroidImportance.DEFAULT, lightColor: "#B08A36", vibrationPattern: [0, 120],
   });
 }
 

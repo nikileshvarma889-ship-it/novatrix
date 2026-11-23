@@ -5,8 +5,8 @@ import { importDatabaseFromAssetAsync, openDatabaseAsync, type SQLiteDatabase } 
  *  separate from the user's own data. Bump the file name when the bundled text changes. */
 export const BIBLE_DB = "bible-v1.db";
 
-type Ctx = { db: SQLiteDatabase | null; error: string | null };
-const BibleCtx = createContext<Ctx>({ db: null, error: null });
+type Ctx = { db: SQLiteDatabase | null; error: string | null; refresh: () => void };
+const BibleCtx = createContext<Ctx>({ db: null, error: null, refresh: () => {} });
 
 const ASSET = require("../../assets/bible/bible.db");
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
@@ -34,12 +34,15 @@ async function openBible(): Promise<SQLiteDatabase> {
 }
 
 export function BibleProvider({ children }: { children: React.ReactNode }) {
-  const [state, setState] = useState<Ctx>({ db: null, error: null });
+  const [state, setState] = useState<{ db: SQLiteDatabase | null; error: string | null }>({ db: null, error: null });
+  const [rev, setRev] = useState(0);
   useEffect(() => {
     let live = true;
     openBible().then((db) => live && setState({ db, error: null })).catch((e) => live && setState({ db: null, error: String(e?.message ?? e) }));
     return () => { live = false; };
-  }, []);
-  return <BibleCtx.Provider value={state}>{children}</BibleCtx.Provider>;
+  }, [rev]);
+  /** After the Bible text changes (e.g. an import), reopen so every screen reloads. */
+  const refresh = React.useCallback(() => { setState({ db: null, error: null }); setRev((r) => r + 1); }, []);
+  return <BibleCtx.Provider value={{ ...state, refresh }}>{children}</BibleCtx.Provider>;
 }
 export const useBibleDb = () => useContext(BibleCtx);

@@ -7,6 +7,8 @@ import { fonts, LINE_SPACINGS, READER_SIZES } from "../../theme/typography";
 import type { ReadingMode, ThemeChoice } from "../../lib/prefs";
 import { useBibleDb } from "../../bible/BibleProvider";
 import { loadTranslations, type Translation } from "../../bible/repo";
+import { installTelugu, parseZip } from "../../bible/importWordproject";
+import { Platform } from "react-native";
 
 function Choice<T extends string | number>({ items, value, onChange, label }: { items: { key: T; label: string }[]; value: T; onChange: (v: T) => void; label: string }) {
   const { c } = useTheme();
@@ -32,9 +34,31 @@ function Label({ children }: { children: string }) {
 
 export default function Settings() {
   const { c, prefs, setPrefs } = useTheme();
-  const { db: bible } = useBibleDb();
+  const { db: bible, refresh } = useBibleDb();
   const [installed, setInstalled] = React.useState<Translation[]>([]);
+  const [importing, setImporting] = React.useState<string | null>(null);
   React.useEffect(() => { if (bible) loadTranslations(bible).then(setInstalled).catch(() => {}); }, [bible]);
+  const importTelugu = () => {
+    if (Platform.OS !== "web" || !bible) return;
+    const input = document.createElement("input");
+    input.type = "file"; input.accept = ".zip,application/zip";
+    input.onchange = async () => {
+      const file = input.files?.[0];
+      if (!file) return;
+      try {
+        setImporting("Reading the file…");
+        const parsed = await parseZip(await file.arrayBuffer(), (d, t) => setImporting(`Reading chapters… ${Math.round((d / t) * 100)}%`));
+        if (parsed.verses.length < 30000) throw new Error(parsed.problems[0]);
+        setImporting(`Installing ${parsed.verses.length.toLocaleString()} verses…`);
+        await installTelugu(bible, parsed);
+        setImporting(`Done: ${parsed.verses.length.toLocaleString()} verses imported${parsed.problems.length ? ` (${parsed.problems.length} chapters missing)` : ""}.`);
+        refresh();
+      } catch (e: any) {
+        setImporting(`Couldn't import: ${e?.message ?? e}`);
+      }
+    };
+    input.click();
+  };
   return (
     <Screen>
       <Title sub="Make Vachanam yours">Settings</Title>
@@ -73,6 +97,12 @@ export default function Settings() {
             <Row icon="globe" title={`${t.language === "te" ? "Telugu" : "English"}: ${t.name}`} subtitle={`${t.license} · installed, works offline`} onPress={() => router.push("/about")} />
           </React.Fragment>
         )) : <Row icon="globe" title="Opening the Bible…" />}
+        {Platform.OS === "web" ? (
+          <>
+            <Divider />
+            <Row icon="book" title="Import Telugu Bible (wordproject.org)" subtitle={importing ?? "Choose the tel.zip you downloaded. It's read and stored only on this device."} onPress={importTelugu} />
+          </>
+        ) : null}
       </Card>
 
       <SectionHeader title="Daily verse" />
