@@ -9,7 +9,7 @@ export async function loadTexts(db: SQLiteDatabase, vids: number[]): Promise<Rec
   for (let i = 0; i < vids.length; i += 400) {
     const chunk = vids.slice(i, i + 400);
     const rows = await db.getAllAsync<{ vid: number; translation_id: string; text: string }>(
-      `SELECT vid, translation_id, text FROM verses WHERE translation_id IN (?, ?) AND vid IN (${chunk.map(() => "?").join(",")})`, [TE, EN, ...chunk]);
+      `SELECT v.vid, t.language AS translation_id, v.text FROM verses v JOIN translations t ON t.id = v.translation_id WHERE t.language IN (?, ?) AND v.vid IN (${chunk.map(() => "?").join(",")})`, [TE, EN, ...chunk]);
     for (const r of rows) (out[r.vid] ??= {})[r.translation_id === TE ? "te" : "en"] = r.text;
   }
   return out;

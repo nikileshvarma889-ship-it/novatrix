@@ -45,3 +45,4 @@ yarn-error.*
 .env.local
 dist-artifact/
 public/bible/
+assets/bible/personal/

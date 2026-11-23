@@ -10,7 +10,7 @@ import { fonts, READER_SIZES } from "../../../theme/typography";
 import { Icon } from "../../../components/Icon";
 import { EmptyState } from "../../../components/ui";
 import { useBibleDb } from "../../../bible/BibleProvider";
-import { alignChapter, loadBookNames, loadChapter, TE, type BookNames, type Chapter, type Heading, type VerseRow } from "../../../bible/repo";
+import { alignChapter, loadBookNames, loadChapter, loadPair, TE, type Translation, type BookNames, type Chapter, type Heading, type VerseRow } from "../../../bible/repo";
 import { nowIso, uuid } from "../../../lib/id";
 import type { ReadingMode } from "../../../lib/prefs";
 import { HIGHLIGHTS, type HighlightColor } from "../../../theme/colors";
@@ -49,6 +49,7 @@ function Reader() {
   const target = p.v ? Number(p.v) : undefined;
   const [data, setData] = useState<Chapter | null>(null);
   const [names, setNames] = useState<BookNames | null>(null);
+  const [pair, setPair] = useState<{ te?: Translation; en?: Translation }>({});
   const [err, setErr] = useState<string | null>(null);
   const [marks, setMarks] = useState<M.ChapterMarks | null>(null);
   const [sel, setSel] = useState<Set<number>>(new Set());
@@ -58,7 +59,7 @@ function Reader() {
   const [targetY, setTargetY] = useState<number | null>(null);
   const valid = !!book && Number.isInteger(chapter) && chapter >= 1 && chapter <= book.chapters;
 
-  useEffect(() => { if (db && !names) loadBookNames(db).then(setNames).catch(() => {}); }, [db]);
+  useEffect(() => { if (db && !names) { loadBookNames(db).then(setNames).catch(() => {}); loadPair(db).then(setPair).catch(() => {}); } }, [db]);
   useEffect(() => {
     if (!db || !valid) return;
     let live = true;
@@ -193,7 +194,7 @@ function Reader() {
     if (a === "note") { const id = await M.createNote(userDb, selKeys[0]); setSel(new Set()); return router.push(`/note/${id}`); }
     if (a === "collection") return setPicker(true);
     const text = M.shareText({
-      teBookName: names?.[TE]?.[book.code]?.short_name, enBookName: book.name, chapter, mode,
+      teBookName: names?.[TE]?.[book.code]?.short_name, enBookName: book.name, chapter, mode, teLabel: pair.te?.short_name, enLabel: pair.en?.short_name,
       verses: selKeys.map((k) => ({ verse: k.verse, te: data?.te.find((v) => v.verse === k.verse)?.text, en: data?.en.find((v) => v.verse === k.verse)?.text })),
     });
     if (a === "copy") { await Clipboard.setStringAsync(text); return after("Copied"); }
@@ -252,7 +253,7 @@ function Reader() {
         {data ? (mode === "telugu" ? single(data.te, data.headTe, true) : mode === "english" ? single(data.en, data.headEn, false) : parallel(data)) : null}
         {data ? (
           <Text style={{ fontFamily: fonts.ui, fontSize: 11.5, color: c.textMuted, textAlign: "center", marginTop: 28, lineHeight: 17 }}>
-            {mode !== "english" ? "IRV Telugu © 2017, 2019 Bridge Connectivity Solutions · CC BY-SA 4.0" : ""}{mode === "parallel" ? "\n" : ""}{mode !== "telugu" ? "Berean Standard Bible · Public domain" : ""}
+            {mode !== "english" && pair.te ? `${pair.te.name} · ${pair.te.license}` : ""}{mode === "parallel" ? "\n" : ""}{mode !== "telugu" && pair.en ? `${pair.en.name} · ${pair.en.license}` : ""}
           </Text>
         ) : null}
       </ScrollView>

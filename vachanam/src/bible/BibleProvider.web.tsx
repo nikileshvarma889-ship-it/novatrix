@@ -3,7 +3,7 @@ import { openDatabaseAsync, type SQLiteDatabase } from "expo-sqlite";
 
 /** Web build: browsers (and claude.ai pages) can't be handed a .db file, so the Bible ships as JSON
  *  (public/bible/, made by tools/export-bible-json.mjs) and is written into the browser's SQLite once. */
-export const BIBLE_DB = "bible-v1.db";
+export const BIBLE_DB = "bible-v3.db";
 type Ctx = { db: SQLiteDatabase | null; error: string | null };
 const BibleCtx = createContext<Ctx>({ db: null, error: null });
 const base = () => ((globalThis as { __VB?: string }).__VB ?? "") + "/bible/";

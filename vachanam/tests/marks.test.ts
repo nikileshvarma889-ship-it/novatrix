@@ -87,8 +87,8 @@ test("collections: create, add (no duplicates), remove, rename, delete", async (
 });
 
 test("share text includes both languages, the reference and credits", () => {
-  const s = M.shareText({ teBookName: "యోహాను", enBookName: "John", chapter: 3, mode: "parallel", verses: [{ verse: 16, te: "TE16", en: "EN16" }, { verse: 17, te: "TE17", en: "EN17" }] });
+  const s = M.shareText({ teBookName: "యోహాను", enBookName: "John", chapter: 3, mode: "parallel", teLabel: "IRV", enLabel: "BSB", verses: [{ verse: 16, te: "TE16", en: "EN16" }, { verse: 17, te: "TE17", en: "EN17" }] });
   assert.match(s, /TE16 TE17/); assert.match(s, /EN16 EN17/); assert.match(s, /యోహాను 3:16-17 \(IRV\) · John 3:16-17 \(BSB\)/);
-  const en = M.shareText({ enBookName: "John", chapter: 3, mode: "english", verses: [{ verse: 16, en: "EN16" }, { verse: 18, en: "EN18" }] });
+  const en = M.shareText({ enBookName: "John", chapter: 3, mode: "english", enLabel: "BSB", verses: [{ verse: 16, en: "EN16" }, { verse: 18, en: "EN18" }] });
   assert.doesNotMatch(en, /IRV/); assert.match(en, /John 3:16,18 \(BSB\)/);
 });

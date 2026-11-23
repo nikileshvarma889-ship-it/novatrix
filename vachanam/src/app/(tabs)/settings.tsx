@@ -5,6 +5,8 @@ import { Card, Divider, PhaseBadge, Row, Screen, SectionHeader, Title } from "..
 import { useTheme } from "../../theme/ThemeProvider";
 import { fonts, LINE_SPACINGS, READER_SIZES } from "../../theme/typography";
 import type { ReadingMode, ThemeChoice } from "../../lib/prefs";
+import { useBibleDb } from "../../bible/BibleProvider";
+import { loadTranslations, type Translation } from "../../bible/repo";
 
 function Choice<T extends string | number>({ items, value, onChange, label }: { items: { key: T; label: string }[]; value: T; onChange: (v: T) => void; label: string }) {
   const { c } = useTheme();
@@ -30,6 +32,9 @@ function Label({ children }: { children: string }) {
 
 export default function Settings() {
   const { c, prefs, setPrefs } = useTheme();
+  const { db: bible } = useBibleDb();
+  const [installed, setInstalled] = React.useState<Translation[]>([]);
+  React.useEffect(() => { if (bible) loadTranslations(bible).then(setInstalled).catch(() => {}); }, [bible]);
   return (
     <Screen>
       <Title sub="Make Vachanam yours">Settings</Title>
@@ -62,9 +67,12 @@ export default function Settings() {
 
       <SectionHeader title="Bible translations" />
       <Card>
-        <Row icon="globe" title="Telugu: Indian Revised Version (IRV) 2019" subtitle="CC BY-SA 4.0 · installed, works offline" onPress={() => router.push("/about")} />
-        <Divider />
-        <Row icon="globe" title="English: Berean Standard Bible (BSB)" subtitle="Public domain · installed, works offline" onPress={() => router.push("/about")} />
+        {installed.length ? installed.map((t, i) => (
+          <React.Fragment key={t.id}>
+            {i ? <Divider /> : null}
+            <Row icon="globe" title={`${t.language === "te" ? "Telugu" : "English"}: ${t.name}`} subtitle={`${t.license} · installed, works offline`} onPress={() => router.push("/about")} />
+          </React.Fragment>
+        )) : <Row icon="globe" title="Opening the Bible…" />}
       </Card>
 
       <SectionHeader title="Daily verse" />

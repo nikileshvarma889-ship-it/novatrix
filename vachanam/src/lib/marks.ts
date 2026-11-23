@@ -169,11 +169,11 @@ export async function removeFromCollection(db: Db, collectionId: string, ref: st
 }
 
 /** Text for Copy / Share: both languages (as shown), the reference and the translation credits. */
-export function shareText(opts: { teBookName?: string; enBookName: string; chapter: number; verses: { verse: number; te?: string; en?: string }[]; mode: "telugu" | "english" | "parallel" }): string {
+export function shareText(opts: { teBookName?: string; enBookName: string; chapter: number; verses: { verse: number; te?: string; en?: string }[]; mode: "telugu" | "english" | "parallel"; teLabel?: string; enLabel?: string }): string {
   const nums = opts.verses.map((v) => v.verse);
   const span = nums.length > 1 && nums[nums.length - 1] - nums[0] === nums.length - 1 ? `${nums[0]}-${nums[nums.length - 1]}` : nums.join(",");
   const te = opts.mode !== "english" ? opts.verses.map((v) => v.te).filter(Boolean).join(" ") : "";
   const en = opts.mode !== "telugu" ? opts.verses.map((v) => v.en).filter(Boolean).join(" ") : "";
-  const refs = [opts.mode !== "english" && opts.teBookName ? `${opts.teBookName} ${opts.chapter}:${span} (IRV)` : null, opts.mode !== "telugu" ? `${opts.enBookName} ${opts.chapter}:${span} (BSB)` : null].filter(Boolean).join(" · ");
+  const refs = [opts.mode !== "english" && opts.teBookName ? `${opts.teBookName} ${opts.chapter}:${span}${opts.teLabel ? ` (${opts.teLabel})` : ""}` : null, opts.mode !== "telugu" ? `${opts.enBookName} ${opts.chapter}:${span}${opts.enLabel ? ` (${opts.enLabel})` : ""}` : null].filter(Boolean).join(" · ");
   return [te, en, `— ${refs}`, "Shared from Vachanam"].filter(Boolean).join("\n\n");
 }
